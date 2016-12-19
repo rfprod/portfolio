@@ -1,0 +1,62 @@
+## Portfolio
+
+A portfolio microservice based on `AngularJS`, `GitHub API`, `Codewars API` (codewars server does not allow CORS for now, integration should be probably done using server-side script or not at all), and `CodePen API`.
+
+### User stories
+
+* User can see a page divided in sections representing precence of portfolio's subject on networks: Codewars, GitHub, CodePen.
+* Each section contains a logo of the respective network along with some basic public data available over respective API if any.
+* Each section is clickable and opens a new browser tab with portfolio subject's profile on the selected network.
+
+#### Project structure
+
+* `./app` - application
+  * `./app/components` - viewless components and respective unit-tests
+  * `./app/css` - stylesheets
+  * `./app/data/config.json` - configuration file containing portfolio subject's `Codewars`, `GitHub`, `Codepen` usernames (used for httpServices urls formation)
+  * `./app/js` - bundled application components
+  * `./app/img` - Codewars, GitHub, Codepen svg logos
+  * `./app/views` - view components and respective unit-test
+* `./e2e-tests` - protractor configuration and scenarios
+
+### Installation
+
+```
+npm install
+```
+
+### Startup
+
+**development mode** (installs dependencies, runs gulp default task `gulp.task('default', ['server','lint','concat-and-uglify-js','autoprefix-and-minify-css','client-unit-test','client-e2e-test','watch']);`)
+
+```
+npm start
+```
+
+**production mode** (installs dependencies, runs `http-server`)
+
+```
+npm run production-start
+```
+
+### Testing
+
+#### Unit
+
+continuous
+
+```
+npm test
+```
+
+single run
+
+```
+npm run test-single-run
+```
+
+#### End to End
+
+```
+npm run protractor
+```

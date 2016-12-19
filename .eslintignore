@@ -1,0 +1,8 @@
+node_modules/**
+app/bower_components/**
+*.ico
+*.svg
+*.css
+*.scss
+*.html
+*.min.js

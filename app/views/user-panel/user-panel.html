@@ -1,0 +1,76 @@
+<div class="flex-container">
+	<a class="flex-item" id="codewars" href="{{links.codewars}}" target=_blank>
+		<img src="img/codewars-logo.svg">
+		<img id="badge" src="{{'https://www.codewars.com/users/'+userConfig.username.codewars+'/badges/large'}}">
+	</a>
+	<a class="flex-item" id="github" href="{{links.github}}" target=_blank>
+		<img src="img/github-logo.svg">
+		<table class="table table-condensed">
+			<thead>
+				<tr>
+					<td colspan="2" ng-class="{'success': data.github.hireable, 'danger': !data.github.hireable}">
+						{{data.github.login}} is 
+						<span ng-if="data.github.hireable">HIREABLE</span>
+						<span ng-if="!data.github.hireable">NOT HIREABLE</span>
+					</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Location</td>
+					<td>{{data.github.location}}</td>
+				</tr>
+				<tr ng-if="data.github.email">
+					<td>Email</td>
+					<td>{{data.github.email}}</td>
+				</tr>
+				<tr ng-if="data.github.company">
+					<td>Company</td>
+					<td>{{data.github.company}}</td>
+				</tr>
+				<tr>
+					<td>Gists</td>
+					<td>{{data.github.public_gists}}</td>
+				</tr>
+				<tr>
+					<td>Repos</td>
+					<td>{{data.github.public_repos}}</td>
+				</tr>
+				<tr ng-if="data.github.bio">
+					<td colspan="2">{{data.github.bio}}</td>
+				</tr>
+				<tr>
+					<td>
+						<span class="text-label">Created</span>
+					</td>
+					<td>{{data.github.created_at | date}}</td>
+				</tr>
+				<tr>
+					<td>
+						<span class="text-label">Updated</span>
+					</td>
+					<td>{{data.github.updated_at | date}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</a>
+	<a class="flex-item" id="codepen" href="{{links.codepen}}" target=_blank>
+		<img src="img/codepen-logo.svg">
+		<table class="table table-condensed">
+			<thead>
+				<tr>
+					<td colspan="2">{{data.github.login}}</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Location</td>
+					<td>{{data.codepen.location}}</td>
+				</tr>
+				<tr ng-if="data.codepen.bio">
+					<td colspan="2">{{data.codepen.bio}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</a>
+</div>

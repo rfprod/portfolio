@@ -6,3 +6,4 @@ app/bower_components/**
 *.scss
 *.html
 *.min.js
+*.json

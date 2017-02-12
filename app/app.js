@@ -2,12 +2,14 @@
 
 var app = angular.module('portfolio', [ // eslint-disable-line no-unused-vars
 	'ngRoute',
+	'ngAnimate',
 	'ui.bootstrap',
 	'angularSpinner',
 	'ngSanitize',
 
 	'portfolio.userPanel',
-	'portfolio.httpServices'
+	'portfolio.httpServices',
+	'portfolio.UIDirectives'
 ]).
 config(['$routeProvider', '$sceDelegateProvider', 'usSpinnerConfigProvider', function($routeProvider, $sceDelegateProvider, usSpinnerConfigProvider) {
 	$routeProvider.otherwise({redirectTo: '/'});
@@ -39,4 +41,7 @@ config(['$routeProvider', '$sceDelegateProvider', 'usSpinnerConfigProvider', fun
 		hwaccel: false, // Whether to use hardware acceleration
 		position: 'fixed' // Element positioning
 	});
+}]).
+run(['$animate', function($animate) {
+	$animate.enabled(true); // enable animations on app start
 }]);

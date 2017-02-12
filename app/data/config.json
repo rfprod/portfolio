@@ -3,5 +3,23 @@
 		"github": "rfprod",
 		"codewars": "rfprod",
 		"codepen": "rfprod"
-	}
+	},
+	"apps": [
+		{
+			"name": "WhoAmI microservice",
+			"logo": "img/openshift-logo.svg",
+			"urls": {
+				"repo": "https://github.com/rfprod/whoami",
+				"deployment": "http://whoami-ecapseman.rhcloud.com"
+			}
+		},
+		{
+			"name": "SPAMT",
+			"logo": "img/openshift-logo.svg",
+			"urls": {
+				"repo": "https://github.com/rfprod/whoami",
+				"deployment": "http://smapt-ecapseman.rhcloud.com"
+			}
+		}
+	]
 }

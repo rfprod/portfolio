@@ -29,6 +29,16 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 			codewars: {},
 			codepen: {}
 		};
+		$scope.show = {
+			codepen: {
+				badge: false
+			},
+			apps: false
+		};
+		$scope.toggleApps = function() {
+			$scope.show.apps = ($scope.show.apps) ? false : true;
+			console.log('toggleApps', $scope.show.apps);
+		};
 
 		$scope.getUserConfig = function() {
 			$scope.loading = true;
@@ -38,6 +48,7 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 					$scope.displayError = undefined;
 					$scope.loading = false;
 					$scope.userConfig = response;
+					console.log('use config', $scope.userConfig);
 					$scope.links.codewars += $scope.userConfig.username.codewars;
 					$scope.links.github += $scope.userConfig.username.github;
 					$scope.links.codepen += $scope.userConfig.username.codepen;

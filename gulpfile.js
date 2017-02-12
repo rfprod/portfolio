@@ -8,6 +8,7 @@ const gulp = require('gulp'),
 	plumber = require('gulp-plumber'),
 	uglify = require('gulp-uglify'),
 	karmaServer = require('karma').Server,
+	sass = require('gulp-sass'),
 	cssnano = require('gulp-cssnano'),
 	autoprefixer = require('gulp-autoprefixer'),
 	spawn = require('child_process').spawn,
@@ -67,9 +68,11 @@ gulp.task('concat-and-uglify-js', () => {
 		.pipe(gulp.dest('./app/js'));
 });
 
-gulp.task('autoprefix-and-minify-css', () => {
-	return gulp.src('./app/css/app.css')
+gulp.task('sass-autoprefix-and-minify-css', () => {
+	return gulp.src('./app/css/app.scss')
 		.pipe(plumber())
+		.pipe(concat('packed-app.css'))
+		.pipe(sass())
 		.pipe(autoprefixer({
 			browsers: ['last 2 versions']
 		}))
@@ -91,12 +94,12 @@ gulp.task('watch-and-lint', () => {
 
 gulp.task('watch', () => {
 	gulp.watch(['./app/*.js','./app/components/**/*.js','!./app/components/**/*_test.js','./app/views/**/*.js','!./app/views/**/*_test.js'], ['concat-and-uglify-js']);
-	gulp.watch('./app/css/app.css', ['autoprefix-and-minify-css']);
+	gulp.watch('./app/css/app.scss', ['sass-autoprefix-and-minify-css']);
 	gulp.watch(['./app/*.js', './app/components/**/*.js','./app/views/**/*.js','./karma.conf.js'], ['client-unit-test']);
 	gulp.watch(['./app/*.js', './app/components/**/*.js','!./app/components/**/*_test.js','./app/views/**/*.js','!./app/views/**/*_test.js','./e2e-tests/*.js'], ['client-e2e-test']);
 });
 
-gulp.task('default', ['server','lint','concat-and-uglify-js','autoprefix-and-minify-css','client-unit-test','client-e2e-test','watch']);
+gulp.task('default', ['server','lint','concat-and-uglify-js','sass-autoprefix-and-minify-css','client-unit-test','client-e2e-test','watch']);
 
 process.on('exit', () => {
 	if (httpServer) httpServer.kill();

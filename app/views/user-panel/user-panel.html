@@ -1,7 +1,7 @@
 <div class="flex-container">
 	<a class="flex-item" id="codewars" href="{{links.codewars}}" target=_blank>
 		<img src="img/codewars-logo.svg">
-		<img id="badge" src="{{'https://www.codewars.com/users/'+userConfig.username.codewars+'/badges/large'}}">
+		<img id="badge" src="{{'https://www.codewars.com/users/'+userConfig.username.codewars+'/badges/large'}}" image-on-load ng-show="show.codepen.badge" class="hidable hidable-animate">
 	</a>
 	<a class="flex-item" id="github" href="{{links.github}}" target=_blank>
 		<img src="img/github-logo.svg">
@@ -15,7 +15,7 @@
 					</td>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody ng-show="data.github.bio" class="hidable animate-hidable">
 				<tr>
 					<td>Location</td>
 					<td>{{data.github.location}}</td>
@@ -62,8 +62,8 @@
 					<td colspan="2">{{data.github.login}}</td>
 				</tr>
 			</thead>
-			<tbody>
-				<tr>
+			<tbody ng-show="data.codepan.location || data.codepen.bio" class="hidable animate-hidable">
+				<tr ng-if="data.codepen.location">
 					<td>Location</td>
 					<td>{{data.codepen.location}}</td>
 				</tr>
@@ -73,4 +73,33 @@
 			</tbody>
 		</table>
 	</a>
+</div>
+<div id="apps-reference" ng-show="userConfig.apps.length > 0" class="hidable animate-hidable">
+	<a id="apps-toggler" href="" ng-click="toggleApps()" ng-class="{'apps-in': show.apps}">
+		<i class="fa fa-arrow-up fa-3x transparent hidable animate-hidable" ng-show="!show.apps"></i>
+		<i class="fa fa-arrow-up fa-3x transparent hidable animate-hidable" ng-show="!show.apps"></i>
+		<i class="fa fa-arrow-down fa-3x transparent hidable animate-hidable" ng-show="show.apps"></i>
+		<i class="fa fa-arrow-down fa-3x transparent hidable animate-hidable" ng-show="show.apps"></i>
+		<i class="fa fa-cogs fa-3x"></i> 
+		<i class="fa fa-arrow-up fa-3x transparent hidable animate-hidable" ng-show="!show.apps"></i>
+		<i class="fa fa-arrow-up fa-3x transparent hidable animate-hidable" ng-show="!show.apps"></i>
+		<i class="fa fa-arrow-down fa-3x transparent hidable animate-hidable" ng-show="show.apps"></i>
+		<i class="fa fa-arrow-down fa-3x transparent hidable animate-hidable" ng-show="show.apps"></i>
+	</a>
+	<div id="apps-flex-container" ng-show="show.apps" class="hidable animate-hidable">
+		<span class="flex-item" ng-repeat="app in userConfig.apps">
+			<div class="media">
+				<div class="media-left">
+					<a href="{{app.urls.deployment}}" target=_blank>
+						<img class="media-object" src="{{app.logo}}" title="{{app.name}}, powered by Openshift">
+					</a>
+				</div>
+				<div class="media-body">
+					<h4 class="media-heading">{{app.name}}</h4>
+					<a class="btn btn-default" href="{{app.urls.deployment}}" target=_blank><i class="fa fa-globe fa-3x" title="deployment"></i></a>
+					<a class="btn btn-default" href="{{app.urls.repo}}" target=_blank><i class="fa fa-github fa-3x" title="repo"></i></a>
+				</div>
+			</div>
+		</span>
+	</div>
 </div>

@@ -1,0 +1,161 @@
+// bootstrap colors
+$primary: #007ab7;
+$success: #5cb85c;
+$info: #5bc0de;
+$warning: #f0ad4e;
+$danger: #d9534f;
+
+$black: #000000;
+$white: #ffffff;
+$grey: #949494;
+$lightgrey: #f0f0f0;
+
+/* USER-PANEL */ 
+
+h1, h2, h3, h4, h5, p {
+	&:hover {
+		cursor: default;
+	}
+}
+
+a {
+	text-decoration: none;
+	&:hover, &:focus {
+		text-decoration: none;
+	}
+}
+
+body {
+	font-family: monospace;
+}
+
+.hidable {
+	opacity: 1;
+}
+.animate-hidable {
+	&.ng-hide {
+		opacity: 0;
+	}
+	&.ng-hide-add, &.ng-hide-remove {
+		transition: all linear 0.75s;
+	}
+}
+
+.flex-container {
+	display: flex;
+	height: 97vh;
+	justify-content: center;
+	align-items: stretch;
+}
+
+.flex-item {
+	flex: 1;
+	text-align: center;
+	vertical-align: center;
+	opacity: 0.75;
+	transition: all linear 0.3s;
+
+	&:hover, &:focus {
+		opacity: 1;
+	}
+
+	$imgNormal: 30vw;
+	$imgMax: 40vh;
+	img {
+		width: $imgNormal;
+		max-width: $imgMax;
+		height: $imgNormal;
+		max-height: $imgMax;
+	}
+
+	#badge {
+		width: $imgNormal;
+		max-width: $imgMax;
+		height: auto !important;
+	}
+
+	$avatarDim: 25px;
+	.avatar {
+		width: $avatarDim;
+		height: $avatarDim;
+	}
+
+	table {
+		color: $black;
+	}
+
+	tbody {
+		text-align: left;
+	}
+}
+
+@media (max-width: 550px) {
+	#codewars, #codepen {
+		display: none;
+	}
+}
+
+@media (min-width: 551px) {
+	#codewars, #codepen {
+		display: block;
+	}
+}
+
+#apps-reference {
+	position: absolute;
+	bottom: 0;
+	display: block;
+	width: 100vw;
+	height: auto!important;
+	text-align: center;
+
+	#apps-toggler {
+		z-index: 1000;
+		width: 100%;
+		height: auto!important;
+		display: flex;
+		justify-content: center;
+		align-items: stretch;
+		color: $grey;
+		&.apps-in {
+			color: $info;
+			background-color: $lightgrey;
+		}
+		&:hover {
+			cursor: pointer;
+			color: $info;
+			background-color: $lightgrey;
+		}
+
+		i {
+			flex: 1;
+		}
+	}
+	
+	.transparent {
+		color: $white;
+	}
+
+	#apps-flex-container {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: stretch;
+
+		.flex-item {
+			&:hover {
+				cursor: pointer;
+				background-color: $lightgrey;
+			}
+		}
+
+		$appImgNormal: 135px;
+		$appImgMax: 250px;
+		img {
+			width: $appImgNormal;
+			max-width: $appImgMax;
+			height: $appImgNormal;
+			max-height: $appImgMax;
+		}
+	}
+}

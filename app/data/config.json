@@ -18,7 +18,7 @@
 			"logo": "img/openshift-logo.svg",
 			"urls": {
 				"repo": "https://github.com/rfprod/whoami",
-				"deployment": "http://smapt-ecapseman.rhcloud.com"
+				"deployment": "http://spamt-ecapseman.rhcloud.com"
 			}
 		}
 	]

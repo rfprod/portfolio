@@ -16,7 +16,7 @@ module.exports = function(config) {
 			'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
 			'bower_components/angular-sanitize/angular-sanitize.js',
 			'bower_components/spin.js/spin.js',
-			'bower_components/angular-spinner/angular-spinner.js',
+			'bower_components/angular-spinner/dist/angular-spinner.js',
 			'app.js',
 			'components/**/*.js',
 			'views/**/*.js'

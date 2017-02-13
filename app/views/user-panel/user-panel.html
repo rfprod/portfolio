@@ -96,8 +96,9 @@
 				</div>
 				<div class="media-body">
 					<h4 class="media-heading">{{app.name}}</h4>
-					<a class="btn btn-default" href="{{app.urls.deployment}}" target=_blank><i class="fa fa-globe fa-3x" title="deployment"></i></a>
-					<a class="btn btn-default" href="{{app.urls.repo}}" target=_blank><i class="fa fa-github fa-3x" title="repo"></i></a>
+					<a class="btn btn-default" ng-if="app.urls.web" href="{{app.urls.web}}" target=_blank><i class="fa fa-globe fa-3x" title="web"></i></a>
+					<a class="btn btn-default" ng-if="app.urls.android" href="{{app.urls.android}}" target=_blank><i class="fa fa-android fa-3x" title="download apk"></i></a>
+					<a class="btn btn-default" ng-if="app.urls.repo" href="{{app.urls.repo}}" target=_blank><i class="fa fa-github fa-3x" title="repo"></i></a>
 				</div>
 			</div>
 		</span>

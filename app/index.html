@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html lang="en" ng-app="grim" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html lang="en" ng-app="grim" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html lang="en" ng-app="grim" class="no-js lt-ie9"> <![endif]-->
+<!--[if lt IE 7]>      <html lang="en" ng-app="portfolio" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="portfolio" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="portfolio" class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html lang="en" ng-app="portfolio" class="no-js"> <!--<![endif]-->
 <head>
@@ -10,12 +10,14 @@
 	<title>Portfolio</title>
 	<meta name="description" content="Coder's portfolio">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--
 	<link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
 	<link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
-	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="bower_components/bootstrap-css/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+-->
 
-	<!--<link rel="stylesheet" href="css/app.css">-->
+	<link rel="stylesheet" href="css/vendor-pack.min.css">
 	<link rel="stylesheet" href="css/packed-app.min.css">
 </head>
 <body>
@@ -26,10 +28,10 @@
 	<div class="output" ng-view></div>
 
 	<span class="spinner" us-spinner spinner-key="root-spinner"></span>
-
+<!--
 	<script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 	<script src="bower_components/jquery/dist/jquery.min.js"></script>
-	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="bower_components/bootstrap-css/js/bootstrap.min.js"></script>
 
 	<script src="bower_components/angular/angular.js"></script>
 	<script src="bower_components/angular-route/angular-route.min.js"></script>
@@ -38,9 +40,10 @@
 	<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 	<script src="bower_components/angular-animate/angular-animate.min.js"></script>
 	<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-	<script src="bower_components/spin.js/spin.js"></script>
     <script src="bower_components/angular-spinner/dist/angular-spinner.js"></script>
+-->
 
+    <script src="js/vendor-pack.min.js"></script>
     <script src="js/packed-app.min.js"></script>
 </body>
 </html>

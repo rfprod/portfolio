@@ -9,8 +9,8 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 	});
 }])
 
-.controller('UserPanelController', ['$scope', 'usSpinnerService', 'UserConfigService', 'GetGithubProfileService', 'GetCodewarsProfileService', 'GetCodepenProfileService',
-	function($scope, usSpinnerService, UserConfigService, GetGithubProfileService, GetCodewarsProfileService, GetCodepenProfileService) {
+.controller('UserPanelController', ['$scope', '$timeout', 'usSpinnerService', 'UserConfigService', 'GetGithubProfileService', 'GetCodewarsProfileService', 'GetCodepenProfileService',
+	function($scope, $timeout, usSpinnerService, UserConfigService, GetGithubProfileService, GetCodewarsProfileService, GetCodepenProfileService) {
 		$scope.displayError = undefined;
 		$scope.loading = false;
 		$scope.$watch('loading',function(newValue){
@@ -33,11 +33,45 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 			codepen: {
 				badge: false
 			},
-			apps: false
+			apps: false,
+			email_form: false
+		};
+		$scope.emailFormData = {
+			email: '',
+			text: '',
+			successMessage: '',
+			errorMessage: ''
+		};
+		$scope.emailFormDataKeys = Object.keys($scope.emailFormData);
+		$scope.emailFormPlaceholders = {
+			email: 'your@email.tld',
+			text: 'Your message text'
 		};
 		$scope.toggleApps = function() {
 			$scope.show.apps = ($scope.show.apps) ? false : true;
-			console.log('toggleApps', $scope.show.apps);
+			console.log('toggleApps:', $scope.show.apps);
+		};
+		$scope.toggleEmailForm = function() {
+			$scope.show.email_form = ($scope.show.email_form) ? false : true;
+			console.log('toggleEmailForm:', $scope.show.email_form);
+		};
+		$scope.sendMessage = function(isFormValid) {
+			$scope.emailFormData.errorMessage = '';
+			if (isFormValid) {
+				/*
+				*	TODO
+				*	send message
+				*/
+				$scope.emailFormData.successMessage = 'Your message was successfully sent. You will get a reply to the provided email address shortly.';
+				$timeout(function() {
+					$scope.toggleEmailForm();
+					for (var i = 0, max = $scope.emailFormDataKeys.length; i < max; i++) {
+						$scope.emailFormData[$scope.emailFormDataKeys[i]] = '';
+					}
+				}, 3000);
+			} else {
+				$scope.emailFormData.errorMessage = 'The form fields\' values are not valid. Correct mistakes and resubmit your message, please.';
+			}
 		};
 
 		$scope.getUserConfig = function() {

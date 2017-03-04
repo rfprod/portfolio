@@ -1,7 +1,7 @@
 <div class="flex-container">
 	<a class="flex-item" id="codewars" href="{{links.codewars}}" target=_blank>
 		<img src="img/codewars-logo.svg">
-		<img id="badge" src="{{'https://www.codewars.com/users/'+userConfig.username.codewars+'/badges/large'}}" image-on-load ng-show="show.codepen.badge" class="hidable hidable-animate">
+		<img id="badge" ng-src="{{'https://www.codewars.com/users/'+userConfig.username.codewars+'/badges/large'}}" image-on-load ng-show="show.codepen.badge" class="hidable hidable-animate">
 	</a>
 	<a class="flex-item" id="github" href="{{links.github}}" target=_blank>
 		<img src="img/github-logo.svg">
@@ -90,8 +90,8 @@
 		<span class="flex-item" ng-repeat="app in userConfig.apps">
 			<div class="media">
 				<div class="media-left">
-					<a href="{{app.urls.deployment}}" target=_blank>
-						<img class="media-object" src="{{app.logo}}" title="{{app.name}}, powered by Openshift">
+					<a href="{{app.urls.web}}" target=_blank>
+						<img class="media-object" ng-src="{{app.logo}}" title="{{app.name}}, powered by Openshift">
 					</a>
 				</div>
 				<div class="media-body">
@@ -104,3 +104,31 @@
 		</span>
 	</div>
 </div>
+
+<i id="email-form-toggler" class="btn btn-default fa fa-envelope fa-2x" ng-click="toggleEmailForm()" ng-class="{ 'active': show.email_form }"></i>
+<span id="email-form" ng-show="show.email_form" class="hidable animate-hidable">
+
+	<div ng-if="emailFormData.successMessage || emailFormData.errorMessage" class="alert alert-dismissible" ng-class="{ 'alert-success': emailFormData.successMessage,'alert-danger': emailFormData.errorMessage}" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		{{emailFormData.successMessage}}
+		{{emailFormData.errorMessage}}
+	</div>
+
+	<form name="form" ng-submit="sendMessage(form.$valid)" novalidate>
+		<div class="form-group has-feedback" ng-class="{ 'has-error': form.email.$invalid }">
+			<input type="email" id="email" class="form-control" placeholder="{{emailFormPlaceholders.email}}" ng-pattern="/^[a-zA-Z0-9._%+_-]+@[a-zA-Z0-9.-]/" name="email" ng-model="emailFormData.email" novalidate>
+			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+			<p ng-show="form.email.$invalid || form.email.$pristine" class="help-block">Enter a valid email address, please.</p>
+		</div>
+
+		<div class="form-group has-feedback" ng-class="{ 'has-error': form.text.$invalid }">
+			<textarea type="text" id="text" class="form-control" placeholder="{{emailFormPlaceholders.text}}" ng-pattern="/\w{75,}/" name="text" ng-model="emailFormData.text" rows="6" novalidate>
+			</textarea>
+			<span class="glyphicon glyphicon-file form-control-feedback"></span>
+			<p ng-show="form.text.$invalid || form.text.$pristine" class="help-block">Message text should be at least 75 characters long: {{form.text.$viewValue.length}}/75</p>
+		</div>
+
+		<input class="btn btn-lg btn-primary btn-wide" type="submit" ng-disabled="!emailFormData.email || form.$invalid" value="Send Message"/>
+	</form>
+
+</span>

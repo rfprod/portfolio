@@ -7,7 +7,7 @@ module.exports = function(config) {
 		files: [
 				'bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js', // eslint-disable-line indent
 			'bower_components/jquery/dist/jquery.min.js',
-				'bower_components/bootstrap/dist/js/bootstrap.min.js', // eslint-disable-line indent
+				'bower_components/bootstrap-css/js/bootstrap.min.js', // eslint-disable-line indent
 			'bower_components/angular/angular.js',
 			'bower_components/angular-route/angular-route.js',
 			'bower_components/angular-resource/angular-resource.min.js',
@@ -15,7 +15,6 @@ module.exports = function(config) {
 			'bower_components/angular-bootstrap/ui-bootstrap.js',
 			'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
 			'bower_components/angular-sanitize/angular-sanitize.js',
-			'bower_components/spin.js/spin.js',
 			'bower_components/angular-spinner/dist/angular-spinner.js',
 			'app.js',
 			'components/**/*.js',

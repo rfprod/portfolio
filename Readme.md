@@ -13,7 +13,7 @@ A portfolio microservice based on `AngularJS`, `GitHub API`, `Codewars API` (cod
 * `./app` - application
   * `./app/components` - viewless components and respective unit-tests
   * `./app/css` - stylesheets
-  * `./app/data/config.json` - configuration file containing portfolio subject's `Codewars`, `GitHub`, `Codepen` usernames (used for httpServices urls formation)
+  * `./app/data/config.json` - configuration file containing portfolio subject's `Codewars`, `GitHub`, `Codepen`, and `email` usernames (first three are used for httpServices urls formation, email username is used for email sending; it is required to have an email address with this name and in the website's domain configured, e.g. if website is available on domain `website.tld` and `email` is set to `connect`, there should be an email address `connect@website.tld`)
   * `./app/js` - bundled application components
   * `./app/img` - Codewars, GitHub, Codepen svg logos
   * `./app/views` - view components and respective unit-test

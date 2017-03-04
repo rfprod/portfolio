@@ -1,5 +1,6 @@
 node_modules/**
 app/bower_components/**
+app/fonts/**
 *.ico
 *.svg
 *.css

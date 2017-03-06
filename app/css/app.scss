@@ -192,6 +192,11 @@ body {
 	right: 0;
 	z-index: 1001;
 	padding: 5em 3em 5em 3em;
+
+	#message {
+		resize: vertical;
+		max-height: 40vh;
+	}
 }
 
 .btn-wide {

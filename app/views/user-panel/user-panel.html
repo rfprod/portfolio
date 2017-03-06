@@ -108,24 +108,37 @@
 <i id="email-form-toggler" class="btn btn-default fa fa-envelope fa-2x" ng-click="toggleEmailForm()" ng-class="{ 'active': show.email_form }"></i>
 <span id="email-form" ng-show="show.email_form" class="hidable animate-hidable">
 
-	<div ng-if="emailFormData.successMessage || emailFormData.errorMessage" class="alert alert-dismissible" ng-class="{ 'alert-success': emailFormData.successMessage,'alert-danger': emailFormData.errorMessage}" role="alert">
+	<div ng-if="emailFormSuccessMessage || emailFormErrorMessage" class="alert alert-dismissible" ng-class="{ 'alert-success': emailFormSuccessMessage,'alert-danger': emailFormErrorMessage}" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		{{emailFormData.successMessage}}
-		{{emailFormData.errorMessage}}
+		{{emailFormSuccessMessage}}
+		{{emailFormErrorMessage}}
 	</div>
 
 	<form name="form" ng-submit="sendMessage(form.$valid)" novalidate>
+
+		<div class="form-group has-feedback" ng-class="{ 'has-error': form.name.$invalid }">
+			<input type="name" id="name" class="form-control" placeholder="{{emailFormPlaceholders.name}}" ng-pattern="/^[a-zA-Z]{2,}(\s)?[a-zA-Z]*/" name="name" ng-model="emailFormData.name" novalidate>
+			<span class="glyphicon glyphicon-user form-control-feedback"></span>
+			<p ng-show="form.name.$invalid || form.name.$pristine || form.name.$viewValue.length === 0" class="help-block">Name should be at least 2 characters long: {{form.name.$viewValue.length}}/2</p>
+		</div>
+
 		<div class="form-group has-feedback" ng-class="{ 'has-error': form.email.$invalid }">
 			<input type="email" id="email" class="form-control" placeholder="{{emailFormPlaceholders.email}}" ng-pattern="/^[a-zA-Z0-9._%+_-]+@[a-zA-Z0-9.-]/" name="email" ng-model="emailFormData.email" novalidate>
 			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-			<p ng-show="form.email.$invalid || form.email.$pristine" class="help-block">Enter a valid email address, please.</p>
+			<p ng-show="form.email.$invalid || form.email.$pristine || form.email.$viewValue.length === 0" class="help-block">Enter a valid email address, please.</p>
 		</div>
 
-		<div class="form-group has-feedback" ng-class="{ 'has-error': form.text.$invalid }">
-			<textarea type="text" id="text" class="form-control" placeholder="{{emailFormPlaceholders.text}}" ng-pattern="/\w{75,}/" name="text" ng-model="emailFormData.text" rows="6" novalidate>
+		<div class="form-group has-feedback" ng-class="{ 'has-error': form.header.$invalid }">
+			<input type="header" id="header" class="form-control" placeholder="{{emailFormPlaceholders.header}}" ng-pattern="/^[a-zA-Z\s]{5,}/" name="header" ng-model="emailFormData.header" novalidate>
+			<span class="glyphicon glyphicon-header form-control-feedback"></span>
+			<p ng-show="form.header.$invalid || form.header.$pristine || form.header.$viewValue.length === 0" class="help-block">Header should be at least 5 characters long: {{form.header.$viewValue.length}}/5</p>
+		</div>
+
+		<div class="form-group has-feedback" ng-class="{ 'has-error': form.message.$invalid }">
+			<textarea type="text" id="message" class="form-control" placeholder="{{emailFormPlaceholders.message}}" ng-pattern="/(.|\n){75,}/" name="message" ng-model="emailFormData.message" novalidate>
 			</textarea>
 			<span class="glyphicon glyphicon-file form-control-feedback"></span>
-			<p ng-show="form.text.$invalid || form.text.$pristine" class="help-block">Message text should be at least 75 characters long: {{form.text.$viewValue.length}}/75</p>
+			<p ng-show="form.message.$invalid || form.message.$pristine || form.message.$viewValue.length === 0" class="help-block">Message should be at least 75 characters long: {{form.message.$viewValue.length}}/75</p>
 		</div>
 
 		<input class="btn btn-lg btn-primary btn-wide" type="submit" ng-disabled="!emailFormData.email || form.$invalid" value="Send Message"/>

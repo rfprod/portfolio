@@ -9,8 +9,8 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 	});
 }])
 
-.controller('UserPanelController', ['$scope', '$timeout', 'usSpinnerService', 'UserConfigService', 'GetGithubProfileService', 'GetCodewarsProfileService', 'GetCodepenProfileService',
-	function($scope, $timeout, usSpinnerService, UserConfigService, GetGithubProfileService, GetCodewarsProfileService, GetCodepenProfileService) {
+.controller('UserPanelController', ['$scope', '$location', '$timeout', 'usSpinnerService', 'UserConfigService', 'SendEmailService', 'GetGithubProfileService', 'GetCodewarsProfileService', 'GetCodepenProfileService',
+	function($scope, $location, $timeout, usSpinnerService, UserConfigService, SendEmailService, GetGithubProfileService, GetCodewarsProfileService, GetCodepenProfileService) {
 		$scope.displayError = undefined;
 		$scope.loading = false;
 		$scope.$watch('loading',function(newValue){
@@ -37,15 +37,21 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 			email_form: false
 		};
 		$scope.emailFormData = {
+			name: '',
 			email: '',
-			text: '',
-			successMessage: '',
-			errorMessage: ''
+			header: '',
+			message: '',
+			domain: $location.$$host
 		};
+		$scope.emailPostBody = '';
+		$scope.emailFormSuccessMessage = '';
+		$scope.emailFormErrorMessage = '';
 		$scope.emailFormDataKeys = Object.keys($scope.emailFormData);
 		$scope.emailFormPlaceholders = {
+			name: 'You name',
 			email: 'your@email.tld',
-			text: 'Your message text'
+			header: 'Your message header',
+			message: 'Your message text'
 		};
 		$scope.toggleApps = function() {
 			$scope.show.apps = ($scope.show.apps) ? false : true;
@@ -56,21 +62,47 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 			console.log('toggleEmailForm:', $scope.show.email_form);
 		};
 		$scope.sendMessage = function(isFormValid) {
-			$scope.emailFormData.errorMessage = '';
+			$scope.loading = true;
+			$scope.emailFormErrorMessage = '';
+			$scope.emailFormSuccessMessage = '';
 			if (isFormValid) {
-				/*
-				*	TODO
-				*	send message
-				*/
-				$scope.emailFormData.successMessage = 'Your message was successfully sent. You will get a reply to the provided email address shortly.';
-				$timeout(function() {
-					$scope.toggleEmailForm();
-					for (var i = 0, max = $scope.emailFormDataKeys.length; i < max; i++) {
-						$scope.emailFormData[$scope.emailFormDataKeys[i]] = '';
+				$scope.emailPostBody = '';
+				for (var i = 0, max = $scope.emailFormDataKeys.length; i < max; i++) {
+					var key = $scope.emailFormDataKeys[i];
+					$scope.emailPostBody += key + '=' + $scope.emailFormData[key] + '&';
+				}
+				$scope.emailPostBody = $scope.emailPostBody.substring(0, $scope.emailPostBody.length - 1);
+				SendEmailService.save($scope.emailPostBody).$promise.then(
+					function(response) {
+						console.log('sendMessage response: ', response);
+						if (response.success) {
+							$scope.emailFormErrorMessage = '';
+							$scope.emailFormSuccessMessage = 'Your message was successfully sent. You will get a reply to the provided email address shortly.';
+							$timeout(function() {
+								$scope.toggleEmailForm();
+								for (var i = 0, max = $scope.emailFormDataKeys.length; i < max; i++) {
+									var key = $scope.emailFormDataKeys[i];
+									$scope.emailFormData[key] = (key !== 'domain') ? '' : $scope.emailFormData[key];
+								}
+							}, 3000);
+						} else if (response.error) {
+							$scope.emailFormErrorMessage = response.error;
+							$scope.emailFormSuccessMessage = '';
+						} else {
+							$scope.emailFormErrorMessage = 'Unknown error';
+							$scope.emailFormSuccessMessage = '';
+						}
+						$scope.loading = false;
+					},
+					function(error) {
+						console.log('sendMessage error: ', error);
+						$scope.emailFormSuccessMessage = '';
+						$scope.emailFormErrorMessage = error.status + ' : ' + error.statusText;
+						$scope.loading = false;
 					}
-				}, 3000);
+				);
 			} else {
-				$scope.emailFormData.errorMessage = 'The form fields\' values are not valid. Correct mistakes and resubmit your message, please.';
+				$scope.emailFormErrorMessage = 'The form fields\' values are not valid. Correct mistakes and resubmit your message, please.';
 			}
 		};
 
@@ -152,6 +184,7 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 		$scope.$on('$viewContentLoaded', function() {
 			console.log('User Panel Controller content loaded');
 			$scope.getUserConfig();
+			console.log('>> WTF: ',$scope.emailFormData);
 		});
 		$scope.$on('$destroy', function() {
 			console.log('User Panel Controller destroyed');

@@ -32,6 +32,20 @@ httpServices.factory('UserConfigService', ['$resource', '$location', function($r
 	});
 }]);
 
+httpServices.factory('SendEmailService', ['$resource', '$location', function($resource, $location) {
+	baseUrl.portfolio = setBaseUrl($location.$$host, $location.$$absUrl);
+	return $resource(baseUrl.portfolio + '/php/contact.php', {}, {
+		save: {method: 'POST', params: {}, headers: {'Content-type': 'application/x-www-form-urlencoded'},
+			interceptor: {
+				response: function(response) {
+					response.resource.$httpHeaders = response.headers;
+					return response.resource;
+				}
+			}
+		}
+	});
+}]);
+
 httpServices.factory('GetGithubProfileService', ['$resource', function($resource) {
 	return $resource(baseUrl.github + 'users/:user', {user: '@user'}, {
 		query: {method: 'GET', params: {}, isArray: false,

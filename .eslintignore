@@ -8,3 +8,4 @@ app/fonts/**
 *.html
 *.min.js
 *.json
+*.php

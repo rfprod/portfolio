@@ -43,7 +43,8 @@ gulp.task('server', () => {
 	httpServer = gulp.src('./app').pipe(webserver({
 		host: 'localhost',
 		port: 7070,
-		livereload: true
+		livereload: true,
+		open: 'http://localhost:7070'
 	}));
 });
 

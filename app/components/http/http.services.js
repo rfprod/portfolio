@@ -10,16 +10,16 @@ var baseUrl = {
 };
 
 /*
-*	dynamically set base url
+*	dynamically set backend base url for backend requests
 */
-function setBaseUrl(host,absUrl){
-	var root = absUrl.substring(0,absUrl.indexOf('#')-1);
-	if (host == 'localhost') return 'http://localhost:7070'; // development
-	else return root; // deployment
+function setBaseUrl(absUrl) {
+	//console.log('absUrl:', absUrl);
+	//console.log(' >> set base URL. match', absUrl.match(new RegExp('http(s)?:\/\/[^/]+'), 'ig'));
+	return absUrl.match(new RegExp('http(s)?:\/\/[^/]+'))[0];
 }
 
 httpServices.factory('UserConfigService', ['$resource', '$location', function($resource, $location) {
-	baseUrl.portfolio = setBaseUrl($location.$$host, $location.$$absUrl);
+	baseUrl.portfolio = setBaseUrl($location.$$absUrl);
 	return $resource(baseUrl.portfolio + '/data/config.json', {}, {
 		query: {method: 'GET', params: {}, isArray: false,
 			interceptor: {
@@ -33,7 +33,7 @@ httpServices.factory('UserConfigService', ['$resource', '$location', function($r
 }]);
 
 httpServices.factory('SendEmailService', ['$resource', '$location', function($resource, $location) {
-	baseUrl.portfolio = setBaseUrl($location.$$host, $location.$$absUrl);
+	baseUrl.portfolio = setBaseUrl($location.$$absUrl);
 	return $resource(baseUrl.portfolio + '/php/contact.php', {}, {
 		save: {method: 'POST', params: {}, headers: {'Content-type': 'application/x-www-form-urlencoded'},
 			interceptor: {

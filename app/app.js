@@ -3,6 +3,7 @@
 var app = angular.module('portfolio', [ // eslint-disable-line no-unused-vars
 	'ngRoute',
 	'ngAnimate',
+	'ngTouch',
 	'ui.bootstrap',
 	'angularSpinner',
 	'ngSanitize',

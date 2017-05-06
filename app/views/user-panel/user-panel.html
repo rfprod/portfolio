@@ -20,6 +20,9 @@
 					<td>Location</td>
 					<td>{{data.github.location}}</td>
 				</tr>
+				<tr ng-if="data.github.bio">
+					<td colspan="2">{{data.github.bio}}</td>
+				</tr>
 				<tr ng-if="data.github.email">
 					<td>Email</td>
 					<td>{{data.github.email}}</td>
@@ -29,6 +32,14 @@
 					<td>{{data.github.company}}</td>
 				</tr>
 				<tr>
+					<td>Created</td>
+					<td>{{data.github.created_at | date}}</td>
+				</tr>
+				<tr>
+					<td>Updated</td>
+					<td>{{data.github.updated_at | date}}</td>
+				</tr>
+				<tr>
 					<td>Gists</td>
 					<td>{{data.github.public_gists}}</td>
 				</tr>
@@ -36,23 +47,15 @@
 					<td>Repos</td>
 					<td>{{data.github.public_repos}}</td>
 				</tr>
-				<tr ng-if="data.github.bio">
-					<td colspan="2">{{data.github.bio}}</td>
-				</tr>
-				<tr>
-					<td>
-						<span class="text-label">Created</span>
-					</td>
-					<td>{{data.github.created_at | date}}</td>
-				</tr>
-				<tr>
-					<td>
-						<span class="text-label">Updated</span>
-					</td>
-					<td>{{data.github.updated_at | date}}</td>
-				</tr>
 			</tbody>
 		</table>
+		<span id="repos-languages">
+			<span ng-repeat="(lang, counter) in data.githubLanguages">
+				{{lang}}
+				</br>
+				{{counter}}
+			</span>
+		</span>
 	</a>
 	<a class="flex-item" id="codepen" href="{{links.codepen}}" target=_blank>
 		<img src="img/codepen-logo.svg">

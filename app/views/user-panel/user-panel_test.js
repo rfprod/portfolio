@@ -7,9 +7,9 @@ describe('portfolio.userPanel module', function() {
 	beforeEach(module('portfolio.httpServices'));
 
 	describe('UserPanelController', function(){
-		var scope, ctrl, httpBackend, usSpinnerService, UserConfigService, GetGithubProfileService, GetCodepenProfileService, GetCodewarsProfileService;
+		var scope, ctrl, httpBackend, usSpinnerService, UserConfigService, GetGithubProfileService, GetGithubUserReposService, GetGithubRepoLanguagesService, GetCodepenProfileService, GetCodewarsProfileService;
 
-		beforeEach(inject(function($rootScope, $controller, $httpBackend, _usSpinnerService_, _UserConfigService_, _GetGithubProfileService_, _GetCodepenProfileService_, _GetCodewarsProfileService_) {
+		beforeEach(inject(function($rootScope, $controller, $httpBackend, _usSpinnerService_, _UserConfigService_, _GetGithubProfileService_, _GetGithubUserReposService_, _GetGithubRepoLanguagesService_, _GetCodepenProfileService_, _GetCodewarsProfileService_) {
 			scope = $rootScope.$new();
 			httpBackend = $httpBackend;
 			usSpinnerService = _usSpinnerService_;
@@ -19,11 +19,15 @@ describe('portfolio.userPanel module', function() {
 			spyOn(UserConfigService, 'query').and.callThrough();
 			GetGithubProfileService = _GetGithubProfileService_;
 			spyOn(GetGithubProfileService, 'query').and.callThrough();
+			GetGithubUserReposService = _GetGithubUserReposService_;
+			spyOn(GetGithubUserReposService, 'query').and.callThrough();
+			GetGithubRepoLanguagesService = _GetGithubRepoLanguagesService_;
+			spyOn(GetGithubRepoLanguagesService, 'query').and.callThrough();
 			GetCodewarsProfileService = _GetCodewarsProfileService_;
 			spyOn(GetCodewarsProfileService, 'query').and.callThrough();
 			GetCodepenProfileService = _GetCodepenProfileService_;
 			spyOn(GetCodepenProfileService, 'query').and.callThrough();
-			ctrl = $controller('UserPanelController', {$scope:scope, usSpinnerService:_usSpinnerService_, UserConfigService:_UserConfigService_, GetGithubProfileService:_GetGithubProfileService_, GetCodewarsProfileService:_GetCodewarsProfileService_, GetCodepenProfileService:_GetCodepenProfileService_});
+			ctrl = $controller('UserPanelController', {$scope:scope, usSpinnerService:_usSpinnerService_, UserConfigService:_UserConfigService_, GetGithubProfileService:_GetGithubProfileService_, GetGithubUserReposService:_GetGithubUserReposService_, GetCodewarsProfileService:_GetCodewarsProfileService_, GetCodepenProfileService:_GetCodepenProfileService_});
 			spyOn(scope, 'getUserConfig').and.callThrough();
 			spyOn(scope, 'getGithubProfile').and.callThrough();
 			spyOn(scope, 'getCodepenProfile').and.callThrough();
@@ -58,11 +62,17 @@ describe('portfolio.userPanel module', function() {
 			expect(scope.links.codewars).toEqual(jasmine.any(String));
 			expect(scope.links.codepen).toEqual(jasmine.any(String));
 			expect(scope.data).toEqual(jasmine.any(Object));
-			expect(scope.data.github).toEqual(jasmine.any(Object));
-			expect(scope.data.codewars).toEqual(jasmine.any(Object));
-			expect(scope.data.codepen).toEqual(jasmine.any(Object));
+			expect(scope.data).toEqual(jasmine.objectContaining({
+				github: jasmine.any(Object),
+				githubRepos: jasmine.any(Array),
+				githubLanguages: jasmine.any(Object),
+				codewars: jasmine.any(Object),
+				codepen: jasmine.any(Object)
+			}));
 			expect(scope.getUserConfig).toBeDefined();
 			expect(scope.getGithubProfile).toBeDefined();
+			expect(scope.getGithubRepos).toBeDefined();
+			expect(scope.getGithubRepoLanguages).toBeDefined();
 			expect(scope.getCodepenProfile).toBeDefined();
 			expect(scope.getCodewarsProfile).toBeDefined();
 		});

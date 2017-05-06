@@ -9,8 +9,8 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 	});
 }])
 
-.controller('UserPanelController', ['$scope', '$location', '$timeout', 'usSpinnerService', 'UserConfigService', 'SendEmailService', 'GetGithubProfileService', 'GetCodewarsProfileService', 'GetCodepenProfileService',
-	function($scope, $location, $timeout, usSpinnerService, UserConfigService, SendEmailService, GetGithubProfileService, GetCodewarsProfileService, GetCodepenProfileService) {
+.controller('UserPanelController', ['$scope', '$location', '$timeout', 'usSpinnerService', 'UserConfigService', 'SendEmailService', 'GetGithubProfileService', 'GetGithubUserReposService', 'GetGithubRepoLanguagesService', 'GetCodewarsProfileService', 'GetCodepenProfileService',
+	function($scope, $location, $timeout, usSpinnerService, UserConfigService, SendEmailService, GetGithubProfileService, GetGithubUserReposService, GetGithubRepoLanguagesService, GetCodewarsProfileService, GetCodepenProfileService) {
 		$scope.displayError = undefined;
 		$scope.loading = false;
 		$scope.$watch('loading',function(newValue){
@@ -26,6 +26,8 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 		};
 		$scope.data = {
 			github: {},
+			githubRepos: [],
+			githubLanguages: {},
 			codewars: {},
 			codepen: {}
 		};
@@ -119,6 +121,8 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 					$scope.links.github += $scope.userConfig.username.github;
 					$scope.links.codepen += $scope.userConfig.username.codepen;
 					$scope.getGithubProfile();
+					$scope.getCodepenProfile();
+					$scope.getCodewarsProfile();
 				},
 				function(error) {
 					console.log('getUserConfig error: ', error);
@@ -136,10 +140,60 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 					$scope.displayError = undefined;
 					$scope.loading = false;
 					$scope.data.github = response;
-					$scope.getCodepenProfile();
+					$scope.getGithubRepos();
 				},
 				function(error) {
 					console.log('getGithubProfile error: ', error);
+					$scope.displayError = error.status + ' : ' + error.statusText;
+					$scope.loading = false;
+				}
+			);
+		};
+		$scope.getGithubRepos = function() {
+			$scope.loading = true;
+			GetGithubUserReposService.query({ user: $scope.userConfig.username.github }).$promise.then(
+				function(response) {
+					console.log('getGithubRepos success: ', response);
+					$scope.displayError = undefined;
+					$scope.loading = false;
+					$scope.data.githubRepos = response;
+					for (var i in $scope.data.githubRepos) {
+						if ($scope.data.githubRepos[i]) {
+							$scope.getGithubRepoLanguages($scope.data.githubRepos[i].name);
+						}
+					}
+				},
+				function(error) {
+					console.log('getGithubRepos error: ', error);
+					$scope.displayError = error.status + ' : ' + error.statusText;
+					$scope.loading = false;
+				}
+			);
+		};
+		$scope.getGithubRepoLanguages = function(repoName) {
+			$scope.loading = true;
+			GetGithubRepoLanguagesService.query({ user: $scope.userConfig.username.github, repo: repoName }).$promise.then(
+				function(response) {
+					console.log('getGithubRepoLanguages success: ', response);
+					$scope.displayError = undefined;
+					$scope.loading = false;
+					loop:
+					for (var key in response) {
+						if (key.indexOf('$') !== -1) {
+							console.log('don\'t copy object properties other than languages');
+							break loop;
+						}
+						console.log('key:', key);
+						console.log('response[key]:', response[key]);
+						if ($scope.data.githubLanguages.hasOwnProperty(key)) {
+							$scope.data.githubLanguages[key] += response[key];
+						} else {
+							$scope.data.githubLanguages[key] = response[key];
+						}
+					}
+				},
+				function(error) {
+					console.log('getGithubRepoLanguages error: ', error);
 					$scope.displayError = error.status + ' : ' + error.statusText;
 					$scope.loading = false;
 				}
@@ -153,8 +207,6 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 					$scope.displayError = undefined;
 					$scope.loading = false;
 					$scope.data.codepen = response.data;
-					$scope.getCodewarsProfile();
-					console.log($scope.data);
 				},
 				function(error) {
 					console.log('getCodepenProfile error: ', error);

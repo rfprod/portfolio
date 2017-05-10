@@ -55,16 +55,23 @@ body {
 	justify-content: center;
 	align-items: stretch;
 }
-.flex-item {
-	flex: 1;
-	text-align: center;
-	vertical-align: center;
+.vertical-flex-container {
+	display: flex;
+	justify-content: center;
+	align-items: stretch;	
+	flex-direction: column;
+}
+a.flex-item { // flex-item containing particular content, shuld not be stacked with vertical-flex-container
 	opacity: 0.75;
-	transition: all linear 0.3s;
-
 	&:hover, &:focus {
 		opacity: 1;
 	}
+}
+.flex-item { // general flex item, may be stacked with vertical-flex-container
+	flex: 1;
+	text-align: center;
+	vertical-align: center;
+	transition: all linear 0.3s;
 
 	$imgNormal: 30vw;
 	$imgMax: 40vh;
@@ -113,13 +120,13 @@ body {
 }
 
 @media (max-width: 550px) {
-	#codewars, #codepen {
+	#training, #codewars, #hackerrank, #codepen {
 		display: none;
 	}
 }
 
 @media (min-width: 551px) {
-	#codewars, #codepen {
+	#training, #codewars, #hackerrank, #codepen {
 		display: block;
 	}
 }

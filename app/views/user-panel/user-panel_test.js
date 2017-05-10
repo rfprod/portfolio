@@ -57,10 +57,12 @@ describe('portfolio.userPanel module', function() {
 			expect(scope.loading).toBeDefined();
 			expect(scope.loading).toBeFalsy();
 			expect(scope.userConfig).toEqual(jasmine.any(Object));
-			expect(scope.links).toEqual(jasmine.any(Object));
-			expect(scope.links.github).toEqual(jasmine.any(String));
-			expect(scope.links.codewars).toEqual(jasmine.any(String));
-			expect(scope.links.codepen).toEqual(jasmine.any(String));
+			expect(scope.links).toEqual(jasmine.objectContaining({
+				github: jasmine.any(String),
+				hackerrank: jasmine.any(String),
+				codewars: jasmine.any(String),
+				codepen: jasmine.any(String)
+			}));
 			expect(scope.data).toEqual(jasmine.any(Object));
 			expect(scope.data).toEqual(jasmine.objectContaining({
 				github: jasmine.any(Object),

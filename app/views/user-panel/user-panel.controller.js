@@ -21,6 +21,7 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 		$scope.userConfig = {};
 		$scope.links = {
 			codewars: 'https://www.codewars.com/users/',
+			hackerrank: 'https://www.hackerrank.com/',
 			github: 'https://github.com/',
 			codepen: 'https://codepen.io/'
 		};
@@ -118,6 +119,7 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 					$scope.userConfig = response;
 					console.log('use config', $scope.userConfig);
 					$scope.links.codewars += $scope.userConfig.username.codewars;
+					$scope.links.hackerrank += $scope.userConfig.username.hackerrank;
 					$scope.links.github += $scope.userConfig.username.github;
 					$scope.links.codepen += $scope.userConfig.username.codepen;
 					$scope.getGithubProfile();

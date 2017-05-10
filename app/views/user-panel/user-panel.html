@@ -1,8 +1,13 @@
 <div class="flex-container">
-	<a class="flex-item" id="codewars" href="{{links.codewars}}" target=_blank>
-		<img src="img/codewars-logo.svg">
-		<img id="badge" ng-src="{{'https://www.codewars.com/users/'+userConfig.username.codewars+'/badges/large'}}" image-on-load ng-show="show.codepen.badge" class="hidable hidable-animate">
-	</a>
+	<span class="flex-item vertical-flex-container" id="training">
+		<a class="flex-item" id="codewars" href="{{links.codewars}}" target=_blank>
+			<img src="img/codewars-logo.svg">
+			<img id="badge" ng-src="{{'https://www.codewars.com/users/'+userConfig.username.codewars+'/badges/large'}}" image-on-load ng-show="show.codepen.badge" class="hidable hidable-animate">
+		</a>
+		<a class="flex-item" id="hackerrank" href="{{links.hackerrank}}" target=_blank>
+			<img src="img/hackerrank-logo.svg">
+		</a>
+	</span>
 	<a class="flex-item" id="github" href="{{links.github}}" target=_blank>
 		<img src="img/github-logo.svg">
 		<table class="table table-condensed">

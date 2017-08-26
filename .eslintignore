@@ -1,11 +1,10 @@
 node_modules/**
-app/bower_components/**
 app/fonts/**
-*.ico
 *.svg
+*.ico
 *.css
 *.scss
 *.html
 *.min.js
-*.json
 *.php
+*.json

@@ -10,20 +10,15 @@ insert_final_newline = true
 
 # Matches multiple files with brace expansion notation
 # Default charset
-[*.{js,html,css,json}]
+[*.{js,html,css,json,sh,php}]
 charset = utf-8
 
 # 4 space indentation for markup and css
-[*.{html,css}]
+[*.{html,css,scss}]
 indent_style = tab
 indent_size = 4
 
 # 2 space indentation for code
-[*.{js,json,sh}]
-indent_style = tab
-indent_size = 2
-
-# Matches the exact files: .bowerrc
-[{.bowerrc}]
+[*.{js,json,sh,php,bowerrc}]
 indent_style = tab
 indent_size = 2

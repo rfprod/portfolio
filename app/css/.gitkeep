@@ -4,4 +4,3 @@ app/js/*.*
 app/fonts/*.*
 !app/fonts/.gitkeep
 app/css/*.css
-*.log

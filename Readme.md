@@ -1,6 +1,6 @@
 ## Portfolio
 
-A portfolio microservice based on `AngularJS`, `GitHub API`, `Codewars API` (codewars server does not allow CORS for now, integration should be probably done using server-side script or not at all), and `CodePen API`.
+A portfolio microapp based on `AngularJS`, `GitHub API`, `Codewars API` (codewars server does not allow CORS for now, integration should be probably done using server-side script or not at all), and `CodePen API`.
 
 ### User stories
 

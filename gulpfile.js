@@ -79,7 +79,7 @@ gulp.task('pack-app-css', () => {
 	return gulp.src('./app/css/*.scss')
 		.pipe(plumber())
 		.pipe(concat('packed-app.css'))
-		.pipe(sass())
+		.pipe(sass().on('error', sass.logError))
 		.pipe(autoprefixer({
 			browsers: ['last 2 versions']
 		}))

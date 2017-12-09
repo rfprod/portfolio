@@ -159,10 +159,8 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 						$scope.displayError = undefined;
 						$scope.loading = false;
 						$scope.data.githubRepos = response;
-						for (var i in $scope.data.githubRepos) {
-							if ($scope.data.githubRepos[i]) {
-								$scope.getGithubRepoLanguages($scope.data.githubRepos[i].name);
-							}
+						for (var i = 0, max = $scope.data.githubRepos.length; i < max; i++) {
+							$scope.getGithubRepoLanguages($scope.data.githubRepos[i].name);
 						}
 					},
 					function(error) {

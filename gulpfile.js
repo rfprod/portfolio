@@ -19,14 +19,16 @@ let httpServer,
 	protractor;
 
 function killProcessByName(name){
-	exec('ps -e | grep '+name, (error, stdout, stderr) => {
-		if (error) throw error;
+	exec('pgrep ' + name, (error, stdout, stderr) => {
+		if (error) {
+			// throw error;
+			console.log('killProcessByName, error', error);
+		}
 		if (stderr) console.log('stderr: ',stderr);
 		if (stdout) {
-			//console.log('killing running processes:', stdout);
-			const runningProcessesIDs = stdout.match(/\d{3,6}/);
+			const runningProcessesIDs = stdout.match(/\d+/);
 			runningProcessesIDs.forEach((id) => {
-				exec('kill -9 '+id, (error, stdout, stderr) => {
+				exec('kill -9 ' + id, (error, stdout, stderr) => {
 					if (error) throw error;
 					if (stderr) console.log('stdout: ', stdout);
 					if (stdout) console.log('stderr: ', stderr);
@@ -36,14 +38,49 @@ function killProcessByName(name){
 	});
 }
 
-gulp.task('server', () => {
-	if (httpServer) httpServer.kill();
+gulp.task('dev-server', (done) => {
+	if (httpServer) httpServer.emit('kill');
 	httpServer = gulp.src('./app').pipe(webserver({
 		host: 'localhost',
 		port: 7070,
 		livereload: true,
-		open: 'http://localhost:7070'
+		open: 'http://localhost:7070',
+		middleware: function(req, res, next) {
+			/*
+			*	config for SPA
+			*	returns index.html if condition is met
+			*	this ignores all requests to api endpoint, and to files with extensions
+			*/
+			if (req.url.match(/^\/(?!api)[^.]*$/)) {
+				console.log('httpServer middleware SPA config:', req.url);
+				req.url = '/index.html';
+			}
+			next();
+		}
 	}));
+	done();
+});
+
+gulp.task('server', (done) => {
+	if (httpServer) httpServer.emit('kill');
+	httpServer = gulp.src('./app').pipe(webserver({
+		host: 'localhost',
+		port: 7070,
+		livereload: false,
+		middleware: function(req, res, next) {
+			/*
+			*	config for SPA
+			*	returns index.html if condition is met
+			*	this ignores all requests to api endpoint, and to files with extensions
+			*/
+			if (req.url.match(/^\/(?!api)[^.]*$/)) {
+				console.log('httpServer middleware SPA config:', req.url);
+				req.url = '/index.html';
+			}
+			next();
+		}
+	}));
+	done();
 });
 
 gulp.task('client-unit-test', (done) => {
@@ -56,12 +93,16 @@ gulp.task('client-unit-test', (done) => {
 	}).start();
 });
 
-gulp.task('client-e2e-test', () => {
+gulp.task('client-e2e-test', (done) => {
 	if (protractor) protractor.kill();
 	protractor = spawn('npm', ['run', 'protractor'], {stdio: 'inherit'});
+	protractor.on('exit', (exitCode) => {
+		console.log('Protractor done, exited with code', exitCode);
+		done();
+	});
 });
 
-gulp.task('clean-build', () => { // clean old files before a new build
+gulp.task('clean-build', () => {
 	return del(['./app/css/*.css', './app/js/*.js', './app/fonts/*.otf', './app/fonts/*.eot', './app/fonts/*.svg', './app/fonts/*.ttf', './app/fonts/*.woff', './app/fonts/*.woff2']);
 });
 
@@ -169,13 +210,17 @@ gulp.task('watch', () => {
 });
 
 gulp.task('build', (done) => {
-	runSequence('clean-build', 'lint', 'pack-app-js', 'pack-app-css', 'pack-vendor-js', 'pack-vendor-css', 'move-vendor-fonts', 'client-unit-test', 'client-e2e-test', done);
+	runSequence('clean-build', 'lint', 'pack-app-js', 'pack-app-css', 'pack-vendor-js', 'pack-vendor-css', 'move-vendor-fonts', done);
 });
 
-gulp.task('default', ['build','server','watch']);
+gulp.task('run-tests', (done) => {
+	runSequence('client-unit-test', 'client-e2e-test', done);
+});
+
+gulp.task('default', ['build', 'dev-server', 'run-tests', 'watch']);
 
 process.on('exit', () => {
-	if (httpServer) httpServer.kill();
+	if (httpServer) httpServer.emit('kill');
 	if (protractor) protractor.kill();
 });
 

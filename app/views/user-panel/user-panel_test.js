@@ -3,6 +3,7 @@
 describe('portfolio.userPanel module', function() {
 
 	beforeEach(module('angularSpinner'));
+	beforeEach(module('ngTemplates'));
 	beforeEach(module('portfolio.userPanel'));
 	beforeEach(module('portfolio.httpServices'));
 

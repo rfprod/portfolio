@@ -171,11 +171,14 @@ a.flex-item { // flex-item containing particular content, shuld not be stacked w
 		flex-wrap: wrap;
 		justify-content: center;
 		align-items: stretch;
+		&:hover {
+			cursor: default;
+		}
 
 		.flex-item {
 			background-color: $lightgreyBG;
 			&:hover {
-				cursor: pointer;
+				// cursor: pointer;
 				background-color: $lightgrey;
 			}
 		}

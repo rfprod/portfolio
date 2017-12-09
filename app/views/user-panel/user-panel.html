@@ -98,7 +98,10 @@
 		<span class="flex-item" ng-repeat="app in userConfig.apps">
 			<div class="media">
 				<div class="media-left">
-					<a href="{{app.urls.web}}" target=_blank>
+					<a ng-if="app.urls.web" href="{{app.urls.web}}" target=_blank>
+						<img class="media-object" ng-src="{{app.logo}}" title="{{app.name}}, powered by Openshift">
+					</a>
+					<a ng-if="!app.urls.web">
 						<img class="media-object" ng-src="{{app.logo}}" title="{{app.name}}, powered by Openshift">
 					</a>
 				</div>

@@ -11,7 +11,7 @@
 			"logo": "img/openshift-logo.svg",
 			"urls": {
 				"repo": "https://github.com/rfprod/whoami",
-				"web": "http://whoami-ecapseman.rhcloud.com",
+				"web": "",
 				"android": ""
 			}
 		},
@@ -20,7 +20,7 @@
 			"logo": "img/openshift-logo.svg",
 			"urls": {
 				"repo": "https://github.com/rfprod/whoami",
-				"web": "http://spamt-ecapseman.rhcloud.com",
+				"web": "",
 				"android": ""
 			}
 		}

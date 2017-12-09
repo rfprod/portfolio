@@ -75,7 +75,7 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 						$scope.emailPostBody += key + '=' + $scope.emailFormData[key] + '&';
 					}
 					$scope.emailPostBody = $scope.emailPostBody.substring(0, $scope.emailPostBody.length - 1);
-					SendEmailService.save($scope.emailPostBody).$promise.then(
+					SendEmailService.save({}, $scope.emailPostBody).$promise.then(
 						function(response) {
 							console.log('sendMessage response: ', response);
 							if (response.success) {

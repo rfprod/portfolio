@@ -6,7 +6,7 @@ var baseUrl = {
 	portfolio: '',
 	github: 'https://api.github.com/',
 	codewars: 'https://www.codewars.com/api/v1/',
-	codepen: 'http://cpv2api.com/'
+	codepen: 'https://cpv2api.com/'
 };
 
 /*
@@ -34,8 +34,10 @@ httpServices.factory('UserConfigService', ['$resource', '$location', function($r
 
 httpServices.factory('SendEmailService', ['$resource', '$location', function($resource, $location) {
 	baseUrl.portfolio = setBaseUrl($location.$$absUrl);
-	return $resource(baseUrl.portfolio + '/php/contact.php', {}, {
-		save: {method: 'POST', params: {}, headers: {'Content-type': 'application/x-www-form-urlencoded'},
+	// return $resource(baseUrl.portfolio + '/php/contact.php', {}, { // TODO: remove this line as well as php script after migration to firebase is complete
+	// return $resource('https://us-central1-rfprod-2cda1.cloudfunctions.net/sendEmail', {}, {
+	return $resource( baseUrl.portfolio + '/sendEmail', {}, {
+		save: {method: 'POST', isArray: false, headers: {'Content-type': 'application/x-www-form-urlencoded'},
 			interceptor: {
 				response: function(response) {
 					response.resource.$httpHeaders = response.headers;

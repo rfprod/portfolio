@@ -5,3 +5,4 @@ app/fonts/*.*
 !app/fonts/.gitkeep
 app/css/*.css
 *.log
+.env

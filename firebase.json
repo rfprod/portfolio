@@ -1,0 +1,63 @@
+{
+	"hosting": {
+		"public": "app",
+		"ignore": [
+			"firebase.json",
+			"**/.*",
+			"**/node_modules/**",
+			"app/components",
+			"app/php"
+		],
+		"headers": [
+			{
+				"source": "**",
+				"headers": [
+					{
+						"key": "Access-Control-Allow-Origin",
+						"value": "https://rfprod-2cda1.firebaseapp.com https://rfprod.tk"
+					},
+					{
+						"key": "Access-Control-Allow-Methods",
+						"value": "GET,PUT,POST,DELETE,OPTIONS,HEAD"
+					}
+				]
+			},
+			{
+				"source": "**/*.@(jpg|jpeg|gif|png|svg)",
+				"headers": [
+					{
+						"key": "Cache-Control",
+						"value": "max-age=7200"
+					}
+				]
+			},
+			{
+				"source": "/sendEmail",
+				"headers": [
+					{
+						"key": "Cache-Control",
+						"value": "public, no-cache, no-store, must-ravalidate, max-age=0"
+					},
+					{
+						"key": "Expires",
+						"value": "-1"
+					},
+					{
+						"key": "Pragme",
+						"value": "no-cache"
+					}
+				]
+			}
+		],
+		"rewrites": [
+			{
+				"source": "/sendEmail",
+				"function": "sendEmail"
+			},
+			{
+				"source": "**/!(sendEmail)",
+				"destination": "/index.html"
+			}
+		]
+	}
+}

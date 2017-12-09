@@ -91,3 +91,19 @@ ReqriteCond %{REQUEST_FILENAME} !-f
 ReqriteCond %{REQUEST_FILENAME} !-d
 ReqriteRule ^(.*)$ /#/$1 [L]
 ```
+
+### Firebase deploment (hosting + cloud functions)
+
+requires manual `.env` file creation in the directory `./app/functions/` with the following contents
+
+```
+MAILER_HOST=smtp.gmail.com
+MAILER_PORT=465
+MAILER_EMAIL=sender_email_address@gmail.com
+MAILER_CLIENT_ID=mailer_client_id.apps.googleusercontent.com
+MAILER_CLIENT_SECRET=mailer_client_secret
+MAILER_REFRESH_TOKEN=mailer_refresh_token
+MAILER_RECIPIENT_EMAIL=recipient_email_address@any_domain.tld
+```
+
+To use Gmail you may need to configure [Allow Less Secure Apps](https://www.google.com/settings/security/lesssecureapps) in your Gmail account unless you are using 2FA in which case you would have to create an [Application Specific password](https://security.google.com/settings/security/apppasswords). You may also need to unlock your account with [Allow access to your Google account](https://accounts.google.com/DisplayUnlockCaptcha) to use SMTP.

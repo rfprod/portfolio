@@ -51,22 +51,32 @@ npm run server
 
 ### Unit
 
-continuous
-
-```
-npm test
-```
-
 single run
 
 ```
 npm run test-single-run
 ```
 
+continuous
+
+```
+npm test-continous
+```
+
 ### End to End
 
 ```
 npm run protractor
+```
+
+### Run all tests
+
+both unit and e2e
+
+continuous
+
+```
+npm test
 ```
 
 ### Note

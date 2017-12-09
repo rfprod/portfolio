@@ -44,7 +44,6 @@
 		"run-sequence": "^2.2.0"
 	},
 	"scripts": {
-		"postinstall": "echo 'postinstall empty'",
 		"prestart": "npm install",
 		"start": "gulp",
 		"start-prebuilt": "npm install && gulp server",

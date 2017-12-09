@@ -19,7 +19,7 @@
 			"name": "SPAMT",
 			"logo": "img/openshift-logo.svg",
 			"urls": {
-				"repo": "https://github.com/rfprod/whoami",
+				"repo": "https://github.com/rfprod/spamt",
 				"web": "",
 				"android": ""
 			}

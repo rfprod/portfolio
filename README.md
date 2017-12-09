@@ -94,7 +94,7 @@ ReqriteRule ^(.*)$ /#/$1 [L]
 
 ### Firebase deploment (hosting + cloud functions)
 
-requires manual `.env` file creation in the directory `./app/functions/` with the following contents
+requires manual `.env` file creation in the directory `./functions/` with the following contents
 
 ```
 MAILER_HOST=smtp.gmail.com

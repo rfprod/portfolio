@@ -71,9 +71,6 @@ function sendEmail(name, email, header, message, domain, res) {
 	});
 }
 
-/*
-* intercept calls to php/contact.php and process
-*/
 exports.sendEmail = functions.https.onRequest((req, res) => {
 	if (req.method !== 'POST') {
 		res.status(403).json({error: 'Forbidden method'});

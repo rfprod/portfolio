@@ -58,7 +58,7 @@ function sendEmail(name, email, header, message, domain, res) {
 		to: process.env.MAILER_RECIPIENT_EMAIL,
 		subject: `PORTFOLIO: ${header} ✔`,
 		text: `${message}\n\nMessage was sent from domain: ${domain}`,
-		html: `<h3>${header}</h3><p>${message}</p><br><br><p>Message was sent from domain: ${domain}</p>`
+		html: `<h3>${header}</h3><p>${message}</p><p>From: ${name} ${email}</p><p>Message was sent from domain: ${domain}</p>`
 	};
 	mailTransporter.sendMail(mailOptions, (err, info) => {
 		if (err) {

@@ -11,9 +11,9 @@ exports.config = {
 		}
 	},
 
-	directConnect: false,
-
 	chromeOnly: false,
+
+	directConnect: true,
 
 	baseUrl: 'http://localhost:7070/',
 

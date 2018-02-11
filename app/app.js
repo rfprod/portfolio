@@ -3,8 +3,6 @@
 angular.module('portfolio', [
 	'ngRoute',
 	'ngAnimate',
-	'ngTouch',
-	'ui.bootstrap',
 	'angularSpinner',
 	'ngSanitize',
 

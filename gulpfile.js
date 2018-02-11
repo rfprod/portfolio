@@ -137,20 +137,20 @@ gulp.task('pack-vendor-js', () => {
 		*
 		*	sequence is essential
 		*/
-		'./node_modules/jquery/dist/jquery.js',
-		'./node_modules/bootstrap/dist/js/bootstrap.js',
+
+		'./node_modules/firebase/firebase.js',
 
 		'./node_modules/angular/angular.js',
-		'./node_modules/angular-animate/angular-animate.js',
-		'./node_modules/angular-touch/angular-touch.js',
 		'./node_modules/angular-loader/angular-loader.js',
-		'./node_modules/angular-mocks/angular-mocks.js',
+		'./node_modules/angular-sanitize/angular-sanitize.js',
+		'./node_modules/angular-aria/angular-aria.js',
+		'./node_modules/angular-messages/angular-messages.js',
+		'./node_modules/angular-animate/angular-animate.js',
+		'./node_modules/angular-material/angular-material.js',
 		'./node_modules/angular-resource/angular-resource.js',
 		'./node_modules/angular-route/angular-route.js',
-		'./node_modules/angular-sanitize/angular-sanitize.js',
+		'./node_modules/angular-mocks/angular-mocks.js',
 		'./node_modules/angular-websocket/dist/angular-websocket.js',
-		'./node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js',
-		'./node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
 		'./node_modules/angular-spinner/dist/angular-spinner.js',
 		'./node_modules/angular-translate/dist/angular-translate.js'
 	])
@@ -167,10 +167,11 @@ gulp.task('pack-vendor-css', () => { // packs vendor css files which bowerFiles 
 		/*
 		*	add third party css files here
 		*/
-		'./node_modules/bootstrap/dist/css/bootstrap.css',
-		'./node_modules/bootstrap/dist/css/bootstrap-theme.css',
-		'./node_modules/angular-ui-bootstrap/dist/ui-bootstrap-csp.css',
-		'./node_modules/font-awesome/css/font-awesome.css'
+		'./node_modules/font-awesome/css/font-awesome.css',
+
+		'./node_modules/angular-material/angular-material.css',
+		'./node_modules/angular-material/layouts/angular-material.layouts.css',
+		'./node_modules/angular-material/layouts/angular-material.layout-attributes.css'
 	])
 		.pipe(plumber())
 		.pipe(concat('vendor-pack.css'))
@@ -185,7 +186,6 @@ gulp.task('move-vendor-fonts', () => { // move vendor font files which bowerFile
 		/*
 		*	add third party fonts here
 		*/
-		'./node_modules/bootstrap/dist/fonts/*.*',
 		'./node_modules/font-awesome/fonts/*.*'
 	])
 		.pipe(gulp.dest('./app/fonts'));

@@ -1,16 +1,20 @@
 <div class="flex-container">
 	<span class="flex-item vertical-flex-container" id="training">
-		<a class="flex-item" id="codewars" href="{{links.codewars}}" target=_blank>
-			<img src="img/codewars-logo.svg">
-			<img id="badge" ng-src="{{'https://www.codewars.com/users/'+userConfig.username.codewars+'/badges/large'}}" image-on-load ng-show="show.codepen.badge" class="hidable hidable-animate">
+		<a class="flex-item" id="codewars" href="{{links.codewars}}" aria-label="codewars link" target=_blank>
+			<div>
+				<img src="img/codewars-logo.svg">
+			</div>
+			<div>
+				<img id="badge" ng-src="{{'https://www.codewars.com/users/'+userConfig.username.codewars+'/badges/large'}}" image-on-load ng-show="show.codepen.badge" class="hidable hidable-animate">
+			</div>
 		</a>
 		<a class="flex-item" id="hackerrank" href="{{links.hackerrank}}" target=_blank>
 			<img src="img/hackerrank-logo.svg">
 		</a>
 	</span>
-	<a class="flex-item" id="github" href="{{links.github}}" target=_blank>
+	<a class="flex-item" id="github" href="{{links.github}}" aria-label="github link" target=_blank>
 		<img src="img/github-logo.svg">
-		<table class="table table-condensed">
+		<table class="wide">
 			<thead>
 				<tr>
 					<td colspan="2" ng-class="{'success': data.github.hireable, 'danger': !data.github.hireable}">
@@ -62,9 +66,9 @@
 			</span>
 		</span>
 	</a>
-	<a class="flex-item" id="codepen" href="{{links.codepen}}" target=_blank>
+	<a class="flex-item" id="codepen" href="{{links.codepen}}" aria-label="codepen link" target=_blank>
 		<img src="img/codepen-logo.svg">
-		<table class="table table-condensed">
+		<table class="wide">
 			<thead>
 				<tr>
 					<td colspan="2">{{data.github.login}}</td>
@@ -96,63 +100,65 @@
 	</a>
 	<div id="apps-flex-container" ng-show="show.apps" class="hidable animate-hidable">
 		<span class="flex-item" ng-repeat="app in userConfig.apps">
-			<div class="media">
-				<div class="media-left">
-					<a ng-if="app.urls.web" href="{{app.urls.web}}" target=_blank>
-						<img class="media-object" ng-src="{{app.logo}}" title="{{app.name}}, powered by Openshift">
+			<div>
+				<div>
+					<a ng-if="app.urls.web" href="{{app.urls.web}}" aria-label="web link" target=_blank>
+						<img ng-src="{{app.logo}}" title="{{app.name}}, powered by Openshift">
 					</a>
-					<a ng-if="!app.urls.web">
-						<img class="media-object" ng-src="{{app.logo}}" title="{{app.name}}, powered by Openshift">
+					<a ng-if="!app.urls.web" aria-label="{{app.name}}">
+						<img ng-src="{{app.logo}}" title="{{app.name}}, powered by Openshift">
 					</a>
 				</div>
-				<div class="media-body">
-					<h4 class="media-heading">{{app.name}}</h4>
-					<a class="btn btn-default" ng-if="app.urls.web" href="{{app.urls.web}}" target=_blank><i class="fa fa-globe fa-3x" title="web"></i></a>
-					<a class="btn btn-default" ng-if="app.urls.android" href="{{app.urls.android}}" target=_blank><i class="fa fa-android fa-3x" title="download apk"></i></a>
-					<a class="btn btn-default" ng-if="app.urls.repo" href="{{app.urls.repo}}" target=_blank><i class="fa fa-github fa-3x" title="repo"></i></a>
+				<div>
+					<h4>{{app.name}}</h4>
+					<a md-button class="md-button" ng-if="app.urls.web" href="{{app.urls.web}}" target=_blank><i class="fa fa-globe fa-3x" title="web" aria-label="web link"></i></a>
+					<a md-button class="md-button" ng-if="app.urls.android" href="{{app.urls.android}}" target=_blank><i class="fa fa-android fa-3x" title="download apk" aria-label="android link"></i></a>
+					<a md-button class="md-button" ng-if="app.urls.repo" href="{{app.urls.repo}}" target=_blank><i class="fa fa-github fa-3x" title="repo" aria-label="repo link"></i></a>
 				</div>
 			</div>
 		</span>
 	</div>
 </div>
 
-<i id="email-form-toggler" class="btn btn-default fa fa-envelope fa-2x" ng-click="toggleEmailForm()" ng-class="{ 'active': show.email_form }"></i>
+
+<a md-button class="md-button" id="email-form-toggler" aria-label="email form toggler">
+	<md-icon md-font-icon="fa fa-envelope fa-2x" ng-click="toggleEmailForm()" ng-class="{ 'active': show.email_form }"></md-icon>
+</a>
 <span id="email-form" ng-show="show.email_form" class="hidable animate-hidable">
 
-	<div ng-if="emailFormSuccessMessage || emailFormErrorMessage" class="alert alert-dismissible" ng-class="{ 'alert-success': emailFormSuccessMessage,'alert-danger': emailFormErrorMessage}" role="alert">
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	<div ng-if="emailFormSuccessMessage || emailFormErrorMessage" ng-class="{ 'success': emailFormSuccessMessage,'danger': emailFormErrorMessage}">
+		<button type="button" aria-label="Close" ng-click="resetFormResultMessage()"><span aria-hidden="true">&times;</span></button>
 		{{emailFormSuccessMessage}}
 		{{emailFormErrorMessage}}
 	</div>
 
 	<form name="form" ng-submit="sendMessage(form.$valid)" novalidate>
 
-		<div class="form-group has-feedback" ng-class="{ 'has-error': form.name.$invalid }">
-			<input type="name" id="name" class="form-control" placeholder="{{emailFormPlaceholders.name}}" ng-pattern="/^[a-zA-Z]{2,}(\s)?[a-zA-Z]*/" name="name" ng-model="emailFormData.name" novalidate>
-			<span class="glyphicon glyphicon-user form-control-feedback"></span>
-			<p ng-show="form.name.$invalid || form.name.$pristine || form.name.$viewValue.length === 0" class="help-block">Name should be at least 2 characters long: {{form.name.$viewValue.length}}/2</p>
-		</div>
+		<md-input-container class="md-block">
+			<input type="text" id="name" placeholder="{{emailFormPlaceholders.name}}" ng-pattern="/^[a-zA-Z]{2,}(\s)?[a-zA-Z]*/" name="name" ng-model="emailFormData.name" required novalidate>
+			<p ng-show="form.name.$invalid || form.name.$pristine || form.name.$viewValue.length === 0">Name should be at least 2 characters long: {{form.name.$viewValue.length}}/2</p>
+			<div ng-messages="form.name.$error">
+				<p ng-message="pattern">Name should be at least 2 characters long: {{form.name.$viewValue.length}}/2</p>
+			</div>
+		</md-input-container>
 
-		<div class="form-group has-feedback" ng-class="{ 'has-error': form.email.$invalid }">
-			<input type="email" id="email" class="form-control" placeholder="{{emailFormPlaceholders.email}}" ng-pattern="/^[a-zA-Z0-9._%+_-]+@[a-zA-Z0-9.-]/" name="email" ng-model="emailFormData.email" novalidate>
-			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-			<p ng-show="form.email.$invalid || form.email.$pristine || form.email.$viewValue.length === 0" class="help-block">Enter a valid email address, please.</p>
-		</div>
+		<md-input-container class="md-block">
+			<input type="email" id="email" placeholder="{{emailFormPlaceholders.email}}" ng-pattern="/^[a-zA-Z0-9._%+_-]+@[a-zA-Z0-9.-]/" name="email" ng-model="emailFormData.email" required novalidate>
+			<p ng-show="form.email.$invalid || form.email.$pristine || form.email.$viewValue.length === 0">Enter a valid email address, please.</p>
+		</md-input-container>
 
-		<div class="form-group has-feedback" ng-class="{ 'has-error': form.header.$invalid }">
-			<input type="header" id="header" class="form-control" placeholder="{{emailFormPlaceholders.header}}" ng-pattern="/^[a-zA-Z\s]{5,}/" name="header" ng-model="emailFormData.header" novalidate>
-			<span class="glyphicon glyphicon-header form-control-feedback"></span>
-			<p ng-show="form.header.$invalid || form.header.$pristine || form.header.$viewValue.length === 0" class="help-block">Header should be at least 5 characters long: {{form.header.$viewValue.length}}/5</p>
-		</div>
+		<md-input-container class="md-block">
+			<input type="text" id="header" placeholder="{{emailFormPlaceholders.header}}" ng-pattern="/^[a-zA-Z\s]{5,}/" name="header" ng-model="emailFormData.header" required novalidate>
+			<p ng-show="form.header.$invalid || form.header.$pristine || form.header.$viewValue.length === 0">Header should be at least 5 characters long: {{form.header.$viewValue.length}}/5</p>
+		</md-input-container>
 
-		<div class="form-group has-feedback" ng-class="{ 'has-error': form.message.$invalid }">
-			<textarea type="text" id="message" class="form-control" placeholder="{{emailFormPlaceholders.message}}" ng-pattern="/(.|\n){75,}/" name="message" ng-model="emailFormData.message" novalidate>
+		<md-input-container class="md-block">
+			<textarea type="text" id="message" placeholder="{{emailFormPlaceholders.message}}" ng-pattern="/(.|\n){75,}/" name="message" ng-model="emailFormData.message" required novalidate>
 			</textarea>
-			<span class="glyphicon glyphicon-file form-control-feedback"></span>
-			<p ng-show="form.message.$invalid || form.message.$pristine || form.message.$viewValue.length === 0" class="help-block">Message should be at least 75 characters long: {{form.message.$viewValue.length}}/75</p>
-		</div>
+			<p ng-show="form.message.$invalid || form.message.$pristine || form.message.$viewValue.length === 0">Message should be at least 75 characters long: {{form.message.$viewValue.length}}/75</p>
+		</md-input-container>
 
-		<input class="btn btn-lg btn-primary btn-wide" type="submit" ng-disabled="!emailFormData.email || form.$invalid" value="Send Message"/>
+		<a md-button class="wide" type="submit" ng-disabled="!emailFormData.email || form.$invalid">Send Message</a>
 	</form>
 
 </span>

@@ -49,6 +49,10 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 			$scope.emailPostBody = '';
 			$scope.emailFormSuccessMessage = '';
 			$scope.emailFormErrorMessage = '';
+			$scope.resetFormResultMessage = function() {
+				$scope.emailFormSuccessMessage = '';
+				$scope.emailFormErrorMessage = '';
+			};
 			$scope.emailFormDataKeys = Object.keys($scope.emailFormData);
 			$scope.emailFormPlaceholders = {
 				name: 'Your name',

@@ -5,6 +5,8 @@ angular.module('portfolio', [
 	'ngAnimate',
 	'angularSpinner',
 	'ngSanitize',
+	'ngMaterial',
+	'ngMessages',
 
 	'portfolio.userPanel',
 	'portfolio.httpServices',

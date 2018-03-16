@@ -4,16 +4,15 @@ module.exports = function(config) {
 		basePath: '',
 
 		files: [
+			'./node_modules/angular-loader/angular-loader.js',
 			'./node_modules/angular/angular.js',
 			'./node_modules/angular-animate/angular-animate.js',
-			'./node_modules/angular-loader/angular-loader.js',
 			'./node_modules/angular-mocks/angular-mocks.js',
 			'./node_modules/angular-resource/angular-resource.js',
 			'./node_modules/angular-route/angular-route.js',
 			'./node_modules/angular-sanitize/angular-sanitize.js',
 			'./node_modules/angular-websocket/dist/angular-websocket.js',
 			'./node_modules/angular-spinner/dist/angular-spinner.js',
-			'./node_modules/angular-translate/dist/angular-translate.js',
 
 			'./app/app.js',
 			'./app/components/**/*.js',

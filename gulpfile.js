@@ -10,6 +10,8 @@ const gulp = require('gulp'),
 	uglify = require('gulp-uglify'),
 	karmaServer = require('karma').Server,
 	sass = require('gulp-sass'),
+	babel = require('gulp-babel'),
+	sourcemaps = require('gulp-sourcemaps'),
 	cssnano = require('gulp-cssnano'),
 	autoprefixer = require('gulp-autoprefixer'),
 	del = require('del'),
@@ -102,17 +104,22 @@ gulp.task('client-e2e-test', (done) => {
 	});
 });
 
-gulp.task('clean-build', () => {
-	return del(['./app/css/*.css', './app/js/*.js', './app/fonts/*.otf', './app/fonts/*.eot', './app/fonts/*.svg', './app/fonts/*.ttf', './app/fonts/*.woff', './app/fonts/*.woff2']);
+gulp.task('clear-build', () => {
+	return del(['./app/css/*.css', './app/js/*.js', './app/js/*.js.map', './app/fonts/*.otf', './app/fonts/*.eot', './app/fonts/*.svg', './app/fonts/*.ttf', './app/fonts/*.woff', './app/fonts/*.woff2']);
 });
 
 gulp.task('pack-app-js', () => {
 	return gulp.src(['./app/*.js', './app/components/**/*.js', '!./app/components/**/*_test.js', './app/views/**/*.js', '!./app/views/**/*_test.js' ])
 		.pipe(plumber())
+		.pipe(sourcemaps.init())
+		.pipe(babel({
+			presets: ['env']
+		}))
 		.pipe(concat('packed-app.js'))
 		.pipe(uglify())
 		.pipe(plumber.stop())
 		.pipe(rename('packed-app.min.js'))
+		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('./app/js'));
 });
 
@@ -140,8 +147,9 @@ gulp.task('pack-vendor-js', () => {
 
 		'./node_modules/firebase/firebase.js',
 
-		'./node_modules/angular/angular.js',
 		'./node_modules/angular-loader/angular-loader.js',
+
+		'./node_modules/angular/angular.js',
 		'./node_modules/angular-sanitize/angular-sanitize.js',
 		'./node_modules/angular-aria/angular-aria.js',
 		'./node_modules/angular-messages/angular-messages.js',
@@ -149,10 +157,8 @@ gulp.task('pack-vendor-js', () => {
 		'./node_modules/angular-material/angular-material.js',
 		'./node_modules/angular-resource/angular-resource.js',
 		'./node_modules/angular-route/angular-route.js',
-		'./node_modules/angular-mocks/angular-mocks.js',
 		'./node_modules/angular-websocket/dist/angular-websocket.js',
-		'./node_modules/angular-spinner/dist/angular-spinner.js',
-		'./node_modules/angular-translate/dist/angular-translate.js'
+		'./node_modules/angular-spinner/dist/angular-spinner.js'
 	])
 		.pipe(plumber())
 		.pipe(concat('vendor-pack.js'))
@@ -210,7 +216,7 @@ gulp.task('watch', () => {
 });
 
 gulp.task('build', (done) => {
-	runSequence('clean-build', 'lint', 'pack-app-js', 'pack-app-css', 'pack-vendor-js', 'pack-vendor-css', 'move-vendor-fonts', done);
+	runSequence('clear-build', 'lint', 'pack-app-js', 'pack-app-css', 'pack-vendor-js', 'pack-vendor-css', 'move-vendor-fonts', done);
 });
 
 gulp.task('run-tests', (done) => {

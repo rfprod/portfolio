@@ -6,5 +6,6 @@ app/fonts/**
 *.scss
 *.html
 *.min.js
+*.js.map
 *.php
 *.json

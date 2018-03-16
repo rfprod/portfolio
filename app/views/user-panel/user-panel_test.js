@@ -1,16 +1,16 @@
 'use strict';
 
-describe('portfolio.userPanel module', function() {
+describe('portfolio.userPanel module', () => {
 
 	beforeEach(module('angularSpinner'));
 	beforeEach(module('ngTemplates'));
 	beforeEach(module('portfolio.userPanel'));
 	beforeEach(module('portfolio.httpServices'));
 
-	describe('UserPanelController', function(){
-		var scope, ctrl, httpBackend, usSpinnerService, UserConfigService, GetGithubProfileService, GetGithubUserReposService, GetGithubRepoLanguagesService, GetCodepenProfileService, GetCodewarsProfileService;
+	describe('UserPanelController', () => {
+		let scope, ctrl, httpBackend, usSpinnerService, UserConfigService, GetGithubProfileService, GetGithubUserReposService, GetGithubRepoLanguagesService, GetCodepenProfileService, GetCodewarsProfileService;
 
-		beforeEach(inject(function($rootScope, $controller, $httpBackend, _usSpinnerService_, _UserConfigService_, _GetGithubProfileService_, _GetGithubUserReposService_, _GetGithubRepoLanguagesService_, _GetCodepenProfileService_, _GetCodewarsProfileService_) {
+		beforeEach(inject(($rootScope, $controller, $httpBackend, _usSpinnerService_, _UserConfigService_, _GetGithubProfileService_, _GetGithubUserReposService_, _GetGithubRepoLanguagesService_, _GetCodepenProfileService_, _GetCodewarsProfileService_) => {
 			scope = $rootScope.$new();
 			httpBackend = $httpBackend;
 			usSpinnerService = _usSpinnerService_;
@@ -34,26 +34,26 @@ describe('portfolio.userPanel module', function() {
 			spyOn(scope, 'getCodepenProfile').and.callThrough();
 			spyOn(scope, 'getCodewarsProfile').and.callThrough();
 
-			httpBackend.when('GET', 'http://localhost:7070/data/config.json').respond(function() {
+			httpBackend.when('GET', 'http://localhost:7070/data/config.json').respond(() => {
 				return [200, {github: 'test', codewars: 'test', codepen: 'test'}, {}];
 			});
-			httpBackend.when('GET', 'https://api.github.com/users/test').respond(function() {
+			httpBackend.when('GET', 'https://api.github.com/users/test').respond(() => {
 				return [200, {test: 'test'}, {}];
 			});
-			httpBackend.when('GET', 'http://cpv2api.com/profile/test').respond(function() {
+			httpBackend.when('GET', 'http://cpv2api.com/profile/test').respond(() => {
 				return [200, {data: {test: 'test'}}, {}];
 			});
-			httpBackend.when('GET', 'https://www.codewars.com/api/v1/users/test').respond(function() {
+			httpBackend.when('GET', 'https://www.codewars.com/api/v1/users/test').respond(() => {
 				return [200, {test: 'test'}, {}];
 			});
 
 		}));
 
-		it('should be defined', function(){
+		it('should be defined', () => {
 			expect(ctrl).toBeDefined();
 		});
 
-		it('should have variables in initial state and method', function() {
+		it('should have variables in initial state and method', () => {
 			expect(scope.displayError).toBeUndefined();
 			expect(scope.loading).toBeDefined();
 			expect(scope.loading).toBeFalsy();
@@ -80,13 +80,13 @@ describe('portfolio.userPanel module', function() {
 			expect(scope.getCodewarsProfile).toBeDefined();
 		});
 
-		it('should start a spinner if loading is in progress', function() {
+		it('should start a spinner if loading is in progress', () => {
 			scope.loading = true;
 			scope.$apply();
 			expect(usSpinnerService.spin).toHaveBeenCalledWith('root-spinner');
 		});
 
-		it('should stop a spinner if loading is finished', function() {
+		it('should stop a spinner if loading is finished', () => {
 			scope.loading = true;
 			scope.$apply();
 			expect(usSpinnerService.spin).toHaveBeenCalledWith('root-spinner');
@@ -95,12 +95,12 @@ describe('portfolio.userPanel module', function() {
 			expect(usSpinnerService.stop).toHaveBeenCalledWith('root-spinner');
 		});
 
-		it('should call UserConfigService on a respective method call', function() {
+		it('should call UserConfigService on a respective method call', () => {
 			scope.getUserConfig();
 			expect(UserConfigService.query).toHaveBeenCalled();
 		});
 
-		it('should call GetGithubProfileService on a respective method call', function() {
+		it('should call GetGithubProfileService on a respective method call', () => {
 			scope.userConfig.username = {};
 			scope.userConfig.username.github = 'test';
 			scope.$apply();
@@ -108,7 +108,7 @@ describe('portfolio.userPanel module', function() {
 			expect(GetGithubProfileService.query).toHaveBeenCalled();
 		});
 
-		it('should call GetCodepenProfileService on a respective method call', function() {
+		it('should call GetCodepenProfileService on a respective method call', () => {
 			scope.userConfig.username = {};
 			scope.userConfig.username.codepen = 'test';
 			scope.$apply();
@@ -116,7 +116,7 @@ describe('portfolio.userPanel module', function() {
 			expect(GetCodepenProfileService.query).toHaveBeenCalled();
 		});
 
-		it('should call GetCodewarsProfileService on a respective method call', function() {
+		it('should call GetCodewarsProfileService on a respective method call', () => {
 			scope.userConfig.username = {};
 			scope.userConfig.username.codewars = 'test';
 			scope.$apply();
@@ -124,7 +124,7 @@ describe('portfolio.userPanel module', function() {
 			expect(GetCodewarsProfileService.query).toHaveBeenCalled();
 		});
 
-		it('should init on $viewContentLoaded', function () {
+		it('should init on $viewContentLoaded', () => {
 			scope.$broadcast('$viewContentLoaded');
 			expect(scope.getUserConfig).toHaveBeenCalled();
 			expect(UserConfigService.query).toHaveBeenCalled();

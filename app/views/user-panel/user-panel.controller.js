@@ -13,7 +13,7 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 		function($scope, $location, $timeout, usSpinnerService, UserConfigService, SendEmailService, GetGithubProfileService, GetGithubUserReposService, GetGithubRepoLanguagesService, GetCodewarsProfileService, GetCodepenProfileService) {
 			$scope.displayError = undefined;
 			$scope.loading = false;
-			$scope.$watch('loading',function(newValue){
+			$scope.$watch('loading', (newValue) => {
 				if (newValue) { usSpinnerService.spin('root-spinner'); }
 				if (!newValue) { usSpinnerService.stop('root-spinner'); }
 			});
@@ -49,7 +49,7 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 			$scope.emailPostBody = '';
 			$scope.emailFormSuccessMessage = '';
 			$scope.emailFormErrorMessage = '';
-			$scope.resetFormResultMessage = function() {
+			$scope.resetFormResultMessage = () => {
 				$scope.emailFormSuccessMessage = '';
 				$scope.emailFormErrorMessage = '';
 			};
@@ -60,35 +60,35 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 				header: 'Your message header',
 				message: 'Your message text'
 			};
-			$scope.toggleApps = function() {
+			$scope.toggleApps = () => {
 				$scope.show.apps = ($scope.show.apps) ? false : true;
 				console.log('toggleApps:', $scope.show.apps);
 			};
-			$scope.toggleEmailForm = function() {
+			$scope.toggleEmailForm = () => {
 				$scope.show.email_form = ($scope.show.email_form) ? false : true;
 				console.log('toggleEmailForm:', $scope.show.email_form);
 			};
-			$scope.sendMessage = function(isFormValid) {
+			$scope.sendMessage = (isFormValid) => {
 				$scope.loading = true;
 				$scope.emailFormErrorMessage = '';
 				$scope.emailFormSuccessMessage = '';
 				if (isFormValid) {
 					$scope.emailPostBody = '';
-					for (var i = 0, max = $scope.emailFormDataKeys.length; i < max; i++) {
-						var key = $scope.emailFormDataKeys[i];
+					for (let i = 0, max = $scope.emailFormDataKeys.length; i < max; i++) {
+						const key = $scope.emailFormDataKeys[i];
 						$scope.emailPostBody += key + '=' + $scope.emailFormData[key] + '&';
 					}
 					$scope.emailPostBody = $scope.emailPostBody.substring(0, $scope.emailPostBody.length - 1);
 					SendEmailService.save({}, $scope.emailPostBody).$promise.then(
-						function(response) {
+						(response) => {
 							console.log('sendMessage response: ', response);
 							if (response.success) {
 								$scope.emailFormErrorMessage = '';
 								$scope.emailFormSuccessMessage = 'Your message was successfully sent. You will get a reply to the provided email address shortly.';
-								$timeout(function() {
+								$timeout(() => {
 									$scope.toggleEmailForm();
-									for (var i = 0, max = $scope.emailFormDataKeys.length; i < max; i++) {
-										var key = $scope.emailFormDataKeys[i];
+									for (let i = 0, max = $scope.emailFormDataKeys.length; i < max; i++) {
+										const key = $scope.emailFormDataKeys[i];
 										$scope.emailFormData[key] = (key !== 'domain') ? '' : $scope.emailFormData[key];
 									}
 								}, 3000);
@@ -101,7 +101,7 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 							}
 							$scope.loading = false;
 						},
-						function(error) {
+						(error) => {
 							console.log('sendMessage error: ', error);
 							$scope.emailFormSuccessMessage = '';
 							$scope.emailFormErrorMessage = error.status + ' : ' + error.statusText;
@@ -113,10 +113,10 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 				}
 			};
 
-			$scope.getUserConfig = function() {
+			$scope.getUserConfig = () => {
 				$scope.loading = true;
 				UserConfigService.query({}).$promise.then(
-					function(response) {
+					(response) => {
 						console.log('getUserConfig success: ', response);
 						$scope.displayError = undefined;
 						$scope.loading = false;
@@ -130,7 +130,7 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 						$scope.getCodepenProfile();
 						$scope.getCodewarsProfile();
 					},
-					function(error) {
+					(error) => {
 						console.log('getUserConfig error: ', error);
 						$scope.displayError = error.status + ' : ' + error.statusText;
 						$scope.loading = false;
@@ -138,51 +138,51 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 				);
 			};
 
-			$scope.getGithubProfile = function() {
+			$scope.getGithubProfile = () => {
 				$scope.loading = true;
 				GetGithubProfileService.query({ user: $scope.userConfig.username.github }).$promise.then(
-					function(response) {
+					(response) => {
 						console.log('getGithubProfile success: ', response);
 						$scope.displayError = undefined;
 						$scope.loading = false;
 						$scope.data.github = response;
 						$scope.getGithubRepos();
 					},
-					function(error) {
+					(error) => {
 						console.log('getGithubProfile error: ', error);
 						$scope.displayError = error.status + ' : ' + error.statusText;
 						$scope.loading = false;
 					}
 				);
 			};
-			$scope.getGithubRepos = function() {
+			$scope.getGithubRepos = () => {
 				$scope.loading = true;
 				GetGithubUserReposService.query({ user: $scope.userConfig.username.github }).$promise.then(
-					function(response) {
+					(response) => {
 						console.log('getGithubRepos success: ', response);
 						$scope.displayError = undefined;
 						$scope.loading = false;
 						$scope.data.githubRepos = response;
-						for (var i = 0, max = $scope.data.githubRepos.length; i < max; i++) {
+						for (let i = 0, max = $scope.data.githubRepos.length; i < max; i++) {
 							$scope.getGithubRepoLanguages($scope.data.githubRepos[i].name);
 						}
 					},
-					function(error) {
+					(error) => {
 						console.log('getGithubRepos error: ', error);
 						$scope.displayError = error.status + ' : ' + error.statusText;
 						$scope.loading = false;
 					}
 				);
 			};
-			$scope.getGithubRepoLanguages = function(repoName) {
+			$scope.getGithubRepoLanguages = (repoName) => {
 				$scope.loading = true;
 				GetGithubRepoLanguagesService.query({ user: $scope.userConfig.username.github, repo: repoName }).$promise.then(
-					function(response) {
+					(response) => {
 						console.log('getGithubRepoLanguages success: ', response);
 						$scope.displayError = undefined;
 						$scope.loading = false;
 						loop:
-						for (var key in response) {
+						for (const key in response) {
 							if (key.indexOf('$') !== -1) {
 								console.log('don\'t copy object properties other than languages');
 								break loop;
@@ -196,39 +196,39 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 							}
 						}
 					},
-					function(error) {
+					(error) => {
 						console.log('getGithubRepoLanguages error: ', error);
 						$scope.displayError = error.status + ' : ' + error.statusText;
 						$scope.loading = false;
 					}
 				);
 			};
-			$scope.getCodepenProfile = function() {
+			$scope.getCodepenProfile = () => {
 				$scope.loading = true;
 				GetCodepenProfileService.query({ user: $scope.userConfig.username.codepen }).$promise.then(
-					function(response) {
+					(response) => {
 						console.log('getCodepenProfile success: ', response);
 						$scope.displayError = undefined;
 						$scope.loading = false;
 						$scope.data.codepen = response.data;
 					},
-					function(error) {
+					(error) => {
 						console.log('getCodepenProfile error: ', error);
 						$scope.displayError = error.status + ' : ' + error.statusText;
 						$scope.loading = false;
 					}
 				);
 			};
-			$scope.getCodewarsProfile = function() {
+			$scope.getCodewarsProfile = () => {
 				$scope.loading = true;
 				GetCodewarsProfileService.query({ user: $scope.userConfig.username.codewars }).$promise.then(
-					function(response) {
+					(response) => {
 						console.log('getCodewarsProfile success: ', response);
 						$scope.displayError = undefined;
 						$scope.loading = false;
 						$scope.data.codewars = response;
 					},
-					function(error) {
+					(error) => {
 						console.log('getCodewarsProfile error: ', error);
 						$scope.displayError = error.status + ' : ' + error.statusText;
 						$scope.loading = false;
@@ -237,12 +237,11 @@ angular.module('portfolio.userPanel', ['ngRoute', 'ngSanitize'])
 				);
 			};
 
-			$scope.$on('$viewContentLoaded', function() {
+			$scope.$on('$viewContentLoaded', () => {
 				console.log('User Panel Controller content loaded');
 				$scope.getUserConfig();
-				console.log('>> WTF: ',$scope.emailFormData);
 			});
-			$scope.$on('$destroy', function() {
+			$scope.$on('$destroy', () => {
 				console.log('User Panel Controller destroyed');
 			});
 		}

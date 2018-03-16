@@ -13,7 +13,7 @@ angular.module('portfolio', [
 	'portfolio.UIDirectives'
 ])
 	.config(['$routeProvider', '$sceDelegateProvider', '$locationProvider', 'usSpinnerConfigProvider',
-		function($routeProvider, $sceDelegateProvider, $locationProvider, usSpinnerConfigProvider) {
+		($routeProvider, $sceDelegateProvider, $locationProvider, usSpinnerConfigProvider) => {
 			$routeProvider.otherwise({redirectTo: '/'});
 
 			$sceDelegateProvider.resourceUrlWhitelist([
@@ -47,6 +47,6 @@ angular.module('portfolio', [
 			});
 		}
 	])
-	.run(['$animate', function($animate) {
+	.run(['$animate', ($animate) => {
 		$animate.enabled(true); // enable animations on app start
 	}]);

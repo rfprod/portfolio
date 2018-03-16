@@ -1,8 +1,8 @@
 'use strict';
 
-describe('portfolio', function() {
+describe('portfolio', () => {
 
-	it('should automatically redirect all url-requests to /', function(done) {
+	it('should automatically redirect all url-requests to /', (done) => {
 		browser.ignoreSynchronization = true;
 		browser.get('');
 		expect(browser.getCurrentUrl()).toMatch(/\//);
@@ -10,26 +10,26 @@ describe('portfolio', function() {
 		done();
 	});
 
-	describe('Portfolio view', function() {
+	describe('Portfolio view', () => {
 
 		function waitForElementPresence(locator, timeout) {
 			if (!timeout) {
-				browser.wait(function() {
+				browser.wait(() => {
 					return element(locator).isPresent();
 				}, 7000);
 			} else {
-				browser.wait(function() {
+				browser.wait(() => {
 					return element(locator).isPresent();
 				}, timeout);
 			}
 		}
 
-		beforeEach(function() {
+		beforeEach(() => {
 			browser.ignoreSynchronization = true;
 			browser.get('/');
 		});
 
-		it('should render portfolio view when user navigates to /', function(done) {
+		it('should render portfolio view when user navigates to /', (done) => {
 			browser.driver.manage().window().setSize(1024, 768);
 			expect(browser.getCurrentUrl()).toMatch(/\//);
 			expect(element(by.css('.flex-container')).isDisplayed()).toBeTruthy();
@@ -47,13 +47,13 @@ describe('portfolio', function() {
 			done();
 		});
 
-		var rootHandle;
-		it('should open links in new tabs on each flex-item click: codewars', function(done) {
-			element.all(by.css('a.flex-item')).get(0).click().then(function() {
-				browser.getAllWindowHandles().then(function(handles) {
+		let rootHandle;
+		it('should open links in new tabs on each flex-item click: codewars', (done) => {
+			element.all(by.css('a.flex-item')).get(0).click().then(() => {
+				browser.getAllWindowHandles().then((handles) => {
 					rootHandle = handles[0];
-					var newWindowHandle = handles[1];
-					browser.switchTo().window(newWindowHandle).then(function() {
+					const newWindowHandle = handles[1];
+					browser.switchTo().window(newWindowHandle).then(() => {
 						expect(browser.getCurrentUrl()).toMatch(/codewars/);
 					});
 				});
@@ -62,14 +62,14 @@ describe('portfolio', function() {
 			done();
 		});
 
-		it('should open links in new tabs on each flex-item click: hackerrank', function(done) {
+		it('should open links in new tabs on each flex-item click: hackerrank', (done) => {
 			browser.close();
-			browser.switchTo().window(rootHandle).then(function() {
-				element.all(by.css('a.flex-item')).get(1).click().then(function() {
-					browser.getAllWindowHandles().then(function(handles) {
+			browser.switchTo().window(rootHandle).then(() => {
+				element.all(by.css('a.flex-item')).get(1).click().then(() => {
+					browser.getAllWindowHandles().then((handles) => {
 						rootHandle = handles[0];
-						var newWindowHandle = handles[1];
-						browser.switchTo().window(newWindowHandle).then(function() {
+						const newWindowHandle = handles[1];
+						browser.switchTo().window(newWindowHandle).then(() => {
 							expect(browser.getCurrentUrl()).toMatch(/hackerrank/);
 						});
 					});
@@ -79,16 +79,16 @@ describe('portfolio', function() {
 			done();
 		});
 
-		it('should open links in new tabs on each flex-item click: github', function(done) {
+		it('should open links in new tabs on each flex-item click: github', (done) => {
 			browser.close();
-			browser.switchTo().window(rootHandle).then(function() {
+			browser.switchTo().window(rootHandle).then(() => {
 				/*
 				*	check anchor attributes instead of opening link in a jew window
 				*/
-				element.all(by.css('a.flex-item')).get(2).getAttribute('href').then(function(value) {
+				element.all(by.css('a.flex-item')).get(2).getAttribute('href').then((value) => {
 					expect(value).toMatch(/github/);
 				});
-				element.all(by.css('a.flex-item')).get(2).getAttribute('target').then(function(value) {
+				element.all(by.css('a.flex-item')).get(2).getAttribute('target').then((value) => {
 					expect(value).toMatch(/_blank/);
 				});
 			});
@@ -96,14 +96,14 @@ describe('portfolio', function() {
 			done();
 		});
 
-		it('should open links in new tabs on each flex-item click: codepen', function(done) {
+		it('should open links in new tabs on each flex-item click: codepen', (done) => {
 			/*
 			*	no need to switch windows here
 			*/
-			element.all(by.css('a.flex-item')).get(3).click().then(function() {
-				browser.getAllWindowHandles().then(function(handles) {
-					var newWindowHandle = handles[1];
-					browser.switchTo().window(newWindowHandle).then(function() {
+			element.all(by.css('a.flex-item')).get(3).click().then(() => {
+				browser.getAllWindowHandles().then((handles) => {
+					const newWindowHandle = handles[1];
+					browser.switchTo().window(newWindowHandle).then(() => {
 						expect(browser.getCurrentUrl()).toMatch(/codepen/);
 					});
 				});

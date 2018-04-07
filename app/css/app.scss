@@ -164,8 +164,14 @@ a.flex-item { // flex-item containing particular content, shuld not be stacked w
 	bottom: 0;
 	display: block;
 	width: 100vw;
-	height: auto!important;
 	text-align: center;
+	background-color: $lightgrey;
+
+	&.opened {
+		height: 100vh;
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
 
 	#apps-toggler {
 		z-index: 1000;
@@ -196,6 +202,7 @@ a.flex-item { // flex-item containing particular content, shuld not be stacked w
 
 	#apps-flex-container {
 		display: flex;
+		flex: 1 1 auto;
 		flex-wrap: wrap;
 		justify-content: center;
 		align-items: stretch;

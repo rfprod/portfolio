@@ -86,7 +86,7 @@
 		</table>
 	</a>
 </div>
-<div id="apps-reference" ng-show="userConfig.apps.length > 0" class="hidable animate-hidable">
+<div id="apps-reference" ng-show="userConfig.apps.length > 0" class="hidable animate-hidable" ng-class="{'opened': show.apps}">
 	<a id="apps-toggler" href="" ng-click="toggleApps()" ng-class="{'apps-in': show.apps}">
 		<i class="fa fa-arrow-up fa-3x transparent hidable animate-hidable" ng-show="!show.apps"></i>
 		<i class="fa fa-arrow-up fa-3x transparent hidable animate-hidable" ng-show="!show.apps"></i>
@@ -103,10 +103,10 @@
 			<div>
 				<div>
 					<a ng-if="app.urls.web" href="{{app.urls.web}}" aria-label="web link" target=_blank>
-						<img ng-src="{{app.logo}}" title="{{app.name}}, powered by Openshift">
+						<img ng-src="{{app.logo}}" title="{{app.name}}">
 					</a>
 					<a ng-if="!app.urls.web" aria-label="{{app.name}}">
-						<img ng-src="{{app.logo}}" title="{{app.name}}, powered by Openshift">
+						<img ng-src="{{app.logo}}" title="{{app.name}}">
 					</a>
 				</div>
 				<div>

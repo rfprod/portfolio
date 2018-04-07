@@ -8,18 +8,27 @@
 	"apps": [
 		{
 			"name": "WhoAmI microservice",
-			"logo": "img/openshift-logo.svg",
+			"logo": "img/heroku-logo.svg",
 			"urls": {
 				"repo": "https://github.com/rfprod/whoami",
-				"web": "",
+				"web": "https://whoami-microsrvc.herokuapp.com/",
 				"android": ""
 			}
 		},
 		{
 			"name": "SPAMT",
-			"logo": "img/openshift-logo.svg",
+			"logo": "img/heroku-logo.svg",
 			"urls": {
 				"repo": "https://github.com/rfprod/spamt",
+				"web": "",
+				"android": ""
+			}
+		},
+		{
+			"name": "Protractor Bot",
+			"logo": "img/protractor-logo.svg",
+			"urls": {
+				"repo": "https://github.com/rfprod/protractor-bot",
 				"web": "",
 				"android": ""
 			}

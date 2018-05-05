@@ -1,3 +1,5 @@
+app index
+<!--
 <div class="flex-container">
 	<span class="flex-item vertical-flex-container" id="training">
 		<a class="flex-item" id="codewars" href="{{links.codewars}}" aria-label="codewars link" target=_blank>
@@ -119,46 +121,4 @@
 		</span>
 	</div>
 </div>
-
-
-<a md-button class="md-button" id="email-form-toggler" aria-label="email form toggler">
-	<md-icon md-font-icon="fa fa-envelope fa-2x" ng-click="toggleEmailForm()" ng-class="{ 'active': show.email_form }"></md-icon>
-</a>
-<span id="email-form" ng-show="show.email_form" class="hidable animate-hidable">
-
-	<div ng-if="emailFormSuccessMessage || emailFormErrorMessage" ng-class="{ 'success': emailFormSuccessMessage,'danger': emailFormErrorMessage}">
-		<button type="button" aria-label="Close" ng-click="resetFormResultMessage()"><span aria-hidden="true">&times;</span></button>
-		{{emailFormSuccessMessage}}
-		{{emailFormErrorMessage}}
-	</div>
-
-	<form name="form" ng-submit="sendMessage(form.$valid)" novalidate>
-
-		<md-input-container class="md-block">
-			<input type="text" id="name" placeholder="{{emailFormPlaceholders.name}}" ng-pattern="/^[a-zA-Z]{2,}(\s)?[a-zA-Z]*/" name="name" ng-model="emailFormData.name" required novalidate>
-			<p ng-show="form.name.$invalid || form.name.$pristine || form.name.$viewValue.length === 0">Name should be at least 2 characters long: {{form.name.$viewValue.length}}/2</p>
-			<div ng-messages="form.name.$error">
-				<p ng-message="pattern">Name should be at least 2 characters long: {{form.name.$viewValue.length}}/2</p>
-			</div>
-		</md-input-container>
-
-		<md-input-container class="md-block">
-			<input type="email" id="email" placeholder="{{emailFormPlaceholders.email}}" ng-pattern="/^[a-zA-Z0-9._%+_-]+@[a-zA-Z0-9.-]/" name="email" ng-model="emailFormData.email" required novalidate>
-			<p ng-show="form.email.$invalid || form.email.$pristine || form.email.$viewValue.length === 0">Enter a valid email address, please.</p>
-		</md-input-container>
-
-		<md-input-container class="md-block">
-			<input type="text" id="header" placeholder="{{emailFormPlaceholders.header}}" ng-pattern="/^[a-zA-Z\s]{5,}/" name="header" ng-model="emailFormData.header" required novalidate>
-			<p ng-show="form.header.$invalid || form.header.$pristine || form.header.$viewValue.length === 0">Header should be at least 5 characters long: {{form.header.$viewValue.length}}/5</p>
-		</md-input-container>
-
-		<md-input-container class="md-block">
-			<textarea type="text" id="message" placeholder="{{emailFormPlaceholders.message}}" ng-pattern="/(.|\n){75,}/" name="message" ng-model="emailFormData.message" required novalidate>
-			</textarea>
-			<p ng-show="form.message.$invalid || form.message.$pristine || form.message.$viewValue.length === 0">Message should be at least 75 characters long: {{form.message.$viewValue.length}}/75</p>
-		</md-input-container>
-
-		<a md-button class="wide" type="submit" ng-disabled="!emailFormData.email || form.$invalid">Send Message</a>
-	</form>
-
-</span>
+-->

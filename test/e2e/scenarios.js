@@ -1,7 +1,7 @@
 'use strict';
 
 describe('portfolio', () => {
-
+/*
 	it('should automatically redirect all url-requests to /', (done) => {
 		browser.ignoreSynchronization = true;
 		browser.get('');
@@ -82,9 +82,7 @@ describe('portfolio', () => {
 		it('should open links in new tabs on each flex-item click: github', (done) => {
 			browser.close();
 			browser.switchTo().window(rootHandle).then(() => {
-				/*
-				*	check anchor attributes instead of opening link in a jew window
-				*/
+				//	check anchor attributes instead of opening link in a jew window
 				element.all(by.css('a.flex-item')).get(2).getAttribute('href').then((value) => {
 					expect(value).toMatch(/github/);
 				});
@@ -97,9 +95,7 @@ describe('portfolio', () => {
 		});
 
 		it('should open links in new tabs on each flex-item click: codepen', (done) => {
-			/*
-			*	no need to switch windows here
-			*/
+			//	no need to switch windows here
 			element.all(by.css('a.flex-item')).get(3).click().then(() => {
 				browser.getAllWindowHandles().then((handles) => {
 					const newWindowHandle = handles[1];
@@ -113,4 +109,5 @@ describe('portfolio', () => {
 		});
 
 	});
+*/
 });

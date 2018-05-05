@@ -1,8 +1,26 @@
+# dependencies
 node_modules
+
+# environment variables and logs
+*.env
+.*.env
+*.log
+
+# compiled client app
+app/src/*.js
+app/src/*.js.map
+app/src/**/*.js
+app/src/**/*.js.map
+
+# build
 app/js/*.*
 !app/js/.gitkeep
-app/fonts/*.*
-!app/fonts/.gitkeep
+app/webfonts/*.*
+!app/webfonts/.gitkeep
 app/css/*.css
-*.log
-.env
+
+# compiled client tests
+test/unit/*.js
+test/unit/*.js.map
+test/unit/**/*.js
+test/unit/**/*.js.map

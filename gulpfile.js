@@ -6,19 +6,19 @@ const gulp = require('gulp'),
 	concat = require('gulp-concat'),
 	rename = require('gulp-rename'),
 	eslint = require('gulp-eslint'),
+	tslint = require('gulp-tslint'),
 	plumber = require('gulp-plumber'),
 	uglify = require('gulp-uglify'),
 	karmaServer = require('karma').Server,
 	sass = require('gulp-sass'),
-	babel = require('gulp-babel'),
-	sourcemaps = require('gulp-sourcemaps'),
 	cssnano = require('gulp-cssnano'),
 	autoprefixer = require('gulp-autoprefixer'),
-	del = require('del'),
+	systemjsBuilder = require('gulp-systemjs-builder'),
 	spawn = require('child_process').spawn,
 	exec = require('child_process').exec;
 let httpServer,
-	protractor;
+	protractor,
+	tsc;
 
 function killProcessByName(name){
 	exec('pgrep ' + name, (error, stdout, stderr) => {
@@ -40,7 +40,7 @@ function killProcessByName(name){
 	});
 }
 
-gulp.task('dev-server', (done) => {
+gulp.task('server', (done) => {
 	if (httpServer) httpServer.emit('kill');
 	httpServer = gulp.src('./app').pipe(webserver({
 		host: 'localhost',
@@ -53,8 +53,10 @@ gulp.task('dev-server', (done) => {
 			*	returns index.html if condition is met
 			*	this ignores all requests to api endpoint, and to files with extensions
 			*/
-			if (req.url.match(/^\/(?!api)[^.]*$/)) {
-				console.log('httpServer middleware SPA config:', req.url);
+			if (req.url.match(/^\/(__|app|css|data|img|js|views|webfonts)\/.*$/)) {
+				console.log('httpServer middleware SPA config, pass request:', req.url);
+			} else {
+				console.log('httpServer middleware SPA config, replace url:', req.url);
 				req.url = '/index.html';
 			}
 			next();
@@ -63,36 +65,44 @@ gulp.task('dev-server', (done) => {
 	done();
 });
 
-gulp.task('server', (done) => {
-	if (httpServer) httpServer.emit('kill');
-	httpServer = gulp.src('./app').pipe(webserver({
-		host: 'localhost',
-		port: 7070,
-		livereload: false,
-		middleware: function(req, res, next) {
-			/*
-			*	config for SPA
-			*	returns index.html if condition is met
-			*	this ignores all requests to api endpoint, and to files with extensions
-			*/
-			if (req.url.match(/^\/(?!api)[^.]*$/)) {
-				console.log('httpServer middleware SPA config:', req.url);
-				req.url = '/index.html';
-			}
-			next();
+gulp.task('tsc', (done) => {
+	if (tsc) tsc.kill();
+	tsc = spawn('tsc', [], {stdio: 'inherit'});
+	tsc.on('close', (code) => {
+		if (code === 8) {
+			console.log('Error detected, waiting for changes...');
+		} else {
+			done();
 		}
-	}));
-	done();
+	});
 });
 
+let karmaSRV;
 gulp.task('client-unit-test', (done) => {
-	new karmaServer({
-		configFile: require('path').resolve('karma.conf.js'),
-		singleRun: true
-	}, () => {
-		console.log('done');
-		done();
-	}).start();
+	if (!karmaSRV) {
+		karmaSRV = new karmaServer({
+			configFile: require('path').resolve('test/karma.conf.js'),
+			singleRun: true
+		});
+
+		karmaSRV.on('browser_error', (browser, err) => {
+			console.log('=====\nKarma > Run Failed\n=====\n', err);
+			throw err;
+		});
+
+		karmaSRV.on('run_complete', (browsers, results) => {
+			if (results.failed) {
+				console.log('=====\nKarma > Tests Failed\n=====\n', results);
+			} else {
+				console.log('=====\nKarma > Complete With No Failures\n=====\n', results);
+			}
+			done();
+		});
+
+		karmaSRV.start();
+	} else {
+		console.log('<<<<< karmaSRV already running >>>>>');
+	}
 });
 
 gulp.task('client-e2e-test', (done) => {
@@ -104,26 +114,27 @@ gulp.task('client-e2e-test', (done) => {
 	});
 });
 
-gulp.task('clear-build', () => {
-	return del(['./app/css/*.css', './app/js/*.js', './app/js/*.js.map', './app/fonts/*.otf', './app/fonts/*.eot', './app/fonts/*.svg', './app/fonts/*.ttf', './app/fonts/*.woff', './app/fonts/*.woff2']);
+gulp.task('run-tests', (done) => {
+	runSequence('client-unit-test', 'client-e2e-test', done);
 });
 
-gulp.task('pack-app-js', () => {
-	return gulp.src(['./app/*.js', './app/components/**/*.js', '!./app/components/**/*_test.js', './app/views/**/*.js', '!./app/views/**/*_test.js' ])
-		.pipe(plumber())
-		.pipe(sourcemaps.init())
-		.pipe(babel({
-			presets: ['env']
-		}))
-		.pipe(concat('packed-app.js'))
-		.pipe(uglify())
-		.pipe(plumber.stop())
-		.pipe(rename('packed-app.min.js'))
-		.pipe(sourcemaps.write('.'))
+gulp.task('build-system-js', () => {
+	/*
+	*	this task builds angular application
+	*	components, angular modules, and some dependencies
+	*
+	*	nonangular components related to design, styling, data visualization etc.
+	*	are built by another task
+	*/
+	return systemjsBuilder('/','./systemjs.config.js')
+		.buildStatic('app', 'bundle.min.js', {
+			minify: true,
+			mangle: true
+		})
 		.pipe(gulp.dest('./app/js'));
 });
 
-gulp.task('pack-app-css', () => {
+gulp.task('sass-autoprefix-minify-css', () => {
 	return gulp.src('./app/css/*.scss')
 		.pipe(plumber())
 		.pipe(concat('packed-app.css'))
@@ -133,103 +144,129 @@ gulp.task('pack-app-css', () => {
 		}))
 		.pipe(cssnano())
 		.pipe(plumber.stop())
-		.pipe(rename('packed-app.min.css'))
+		.pipe(rename('bundle.min.css'))
 		.pipe(gulp.dest('./app/css'));
 });
 
 gulp.task('pack-vendor-js', () => {
 	return gulp.src([
 		/*
-		*	add third party js files here
-		*
-		*	sequence is essential
+		*	add paths to required third party js libraries here
 		*/
-
+		// firebase
 		'./node_modules/firebase/firebase.js',
-
-		'./node_modules/angular-loader/angular-loader.js',
-
-		'./node_modules/angular/angular.js',
-		'./node_modules/angular-sanitize/angular-sanitize.js',
-		'./node_modules/angular-aria/angular-aria.js',
-		'./node_modules/angular-messages/angular-messages.js',
-		'./node_modules/angular-animate/angular-animate.js',
-		'./node_modules/angular-material/angular-material.js',
-		'./node_modules/angular-resource/angular-resource.js',
-		'./node_modules/angular-route/angular-route.js',
-		'./node_modules/angular-websocket/dist/angular-websocket.js',
-		'./node_modules/angular-spinner/dist/angular-spinner.js'
+		// angular requirements
+		'./node_modules/core-js/client/shim.js',
+		'./node_modules/zone.js/dist/zone.min.js',
+		'./node_modules/reflect-metadata/Reflect.js',
+		'./node_modules/web-animations-js/web-animations.min.js'
 	])
 		.pipe(plumber())
-		.pipe(concat('vendor-pack.js'))
+		.pipe(concat('vendor-bundle.js'))
 		.pipe(uglify())
 		.pipe(plumber.stop())
-		.pipe(rename('vendor-pack.min.js'))
+		.pipe(rename('vendor-bundle.min.js'))
 		.pipe(gulp.dest('./app/js'));
 });
 
-gulp.task('pack-vendor-css', () => { // packs vendor css files which bowerFiles put into app/js folder on bower-files task execution
+gulp.task('pack-vendor-css', () => {
 	return gulp.src([
 		/*
 		*	add third party css files here
 		*/
-		'./node_modules/font-awesome/css/font-awesome.css',
-
-		'./node_modules/angular-material/angular-material.css',
-		'./node_modules/angular-material/layouts/angular-material.layouts.css',
-		'./node_modules/angular-material/layouts/angular-material.layout-attributes.css'
+		/*
+		*	Angular material theme should be chosen and loaded here
+		*/
+		'./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css'
+		//'./node_modules/@angular/material/prebuilt-themes/indigo-pink.css'
+		//'./node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css'
+		//'./node_modules/@angular/material/prebuilt-themes/purple-green.css'
 	])
 		.pipe(plumber())
-		.pipe(concat('vendor-pack.css'))
+		.pipe(concat('vendor-bundle.css'))
 		.pipe(cssnano())
 		.pipe(plumber.stop())
-		.pipe(rename('vendor-pack.min.css'))
+		.pipe(rename('vendor-bundle.min.css'))
 		.pipe(gulp.dest('./app/css'));
 });
 
-gulp.task('move-vendor-fonts', () => { // move vendor font files which bowerFiles put into app/fonts folder on bower-files task execution
+gulp.task('move-vendor-fonts', () => {
 	return gulp.src([
 		/*
 		*	add third party fonts here
 		*/
-		'./node_modules/font-awesome/fonts/*.*'
+		// material design icons
+		'./node_modules/material-design-icon-fonts/iconfont/*.eot',
+		'./node_modules/material-design-icon-fonts/iconfont/*.woff2',
+		'./node_modules/material-design-icon-fonts/iconfont/*.woff',
+		'./node_modules/material-design-icon-fonts/iconfont/*.ttf'
 	])
-		.pipe(gulp.dest('./app/fonts'));
+		.pipe(gulp.dest('./app/webfonts'));
 });
 
-gulp.task('lint', () => {
-	return gulp.src(['./app/**', './*.js']) // uses ignore list from .eslintignore
+
+gulp.task('eslint', () => {
+	return gulp.src(['./*.js', './functions/index.js', './test/**/*.js']) // uses ignore list from .eslintignore
 		.pipe(eslint('./.eslintrc.json'))
 		.pipe(eslint.format());
 });
 
-gulp.task('watch-and-lint', () => {
-	gulp.watch(['./app/*.js', './app/components/**', './app/views/**', './*.js', './.eslintignore', './.eslintrc.json'], ['lint']); // watch files to be linted or eslint config files and lint on change
+gulp.task('tslint', () => {
+	return gulp.src(['./app/*.ts', './app/**/*.ts', '!./app/{css,views}/', './test/client/**/*.ts'])
+		.pipe(tslint({
+			formatter: 'verbose' // 'verbose' - extended info | 'prose' - brief info
+		}))
+		.pipe(tslint.report({
+			emitError: false
+		}));
 });
+
+gulp.task('lint', (done) => {
+	runSequence('eslint', 'tslint', done);
+});
+
 
 gulp.task('watch', () => {
-	gulp.watch(['./gulpfile.js', './app/*.js','./app/components/**/*.js','!./app/components/**/*_test.js','./app/views/**/*.js','!./app/views/**/*_test.js'], ['pack-app-js']);
-	gulp.watch('./app/css/app.scss', ['pack-app-css']);
+	gulp.watch(['./gulpfile.js'], ['pack-vendor-js', 'pack-vendor-css', 'move-vendor-fonts', 'server']);
+	gulp.watch('./app/css/*.scss', ['sass-autoprefix-minify-css']);
 	gulp.watch(['./app/*.js', './app/components/**/*.js','./app/views/**/*.js','./karma.conf.js'], ['client-unit-test']);
-	gulp.watch(['./app/*.js', './app/components/**/*.js','!./app/components/**/*_test.js','./app/views/**/*.js','!./app/views/**/*_test.js','./e2e-tests/*.js'], ['client-e2e-test']);
-	gulp.watch(['./app/**', './*.js'], ['lint']);
+	gulp.watch(['./app/*.ts', './app/**/*.ts', './test/client/**/*.ts', './tslint.json'], ['spawn-rebuild-app']);
+	gulp.watch(['./*.js', './functions/index.js', './test/**/*.js'], ['eslint']);
 });
+
 
 gulp.task('build', (done) => {
-	runSequence('clear-build', 'lint', 'pack-app-js', 'pack-app-css', 'pack-vendor-js', 'pack-vendor-css', 'move-vendor-fonts', done);
+	runSequence('build-system-js', 'sass-autoprefix-minify-css', 'pack-vendor-js', 'pack-vendor-css', 'move-vendor-fonts', done);
 });
 
-gulp.task('run-tests', (done) => {
-	runSequence('client-unit-test', 'client-e2e-test', done);
+gulp.task('compile-and-build', (done) => {
+	runSequence('tsc', 'build-system-js', 'sass-autoprefix-minify-css', 'pack-vendor-js', 'pack-vendor-css', 'move-vendor-fonts', done);
 });
 
-gulp.task('default', ['build', 'dev-server', 'run-tests', 'watch']);
-
-process.on('exit', () => {
-	if (httpServer) httpServer.emit('kill');
-	if (protractor) protractor.kill();
+gulp.task('rebuild-app', (done) => { // should be used in watcher to rebuild the app on *.ts file changes
+	runSequence('tslint', 'tsc', 'build-system-js', done);
 });
 
-process.on('SIGINT', () => {
-	killProcessByName('gulp');
+let rebuildApp;
+gulp.task('spawn-rebuild-app', (done) => {
+	if (rebuildApp) rebuildApp.kill();
+	rebuildApp = spawn('gulp', ['rebuild-app'], {stdio: 'inherit'});
+	rebuildApp.on('close', (code) => {
+		console.log(`rebuildApp closed with code ${code}`);
+	});
+	done();
+});
+
+
+gulp.task('default', (done) => {
+	runSequence('compile-and-build', 'server', /*'run-tests',*/ 'watch', done);
+});
+
+
+process.on('exit', (code) => {
+	console.log(`PROCESS EXIT CODE ${code}`);
+	// if (httpServer) httpServer.emit('kill');
+	// if (protractor) protractor.kill();
+	// if (tsc) tsc.kill();
+	// killProcessByName('gulp');
 });

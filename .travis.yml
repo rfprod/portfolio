@@ -29,6 +29,6 @@ before_script:
   - sleep 2
 # build app, start it, and run tests
 script:
-  - gulp build
+  - gulp compile-and-build
   - npm run server & # ampersand is required to run server in background
   - gulp run-tests

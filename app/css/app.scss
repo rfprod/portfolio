@@ -1,25 +1,51 @@
-// bootstrap colors
-$primary: #007ab7;
-$success: #5cb85c;
-$info: #5bc0de;
-$warning: #f0ad4e;
-$danger: #d9534f;
+/* required in case of self hosting of material-design-icons */
+	@font-face {
+		font-family: 'Material Icons';
+		font-style: normal;
+		font-weight: 400;
+		src: url(../webfonts/MaterialIcons-Regular.eot); /* For IE6-8 */
+		src: local('Material Icons'),
+			local('MaterialIcons-Regular'),
+			url(../webfonts/MaterialIcons-Regular.woff2) format('woff2'),
+			url(../webfonts/MaterialIcons-Regular.woff) format('woff'),
+			url(../webfonts/MaterialIcons-Regular.ttf) format('truetype');
+	}
+	.material-icons {
+		font-family: 'Material Icons';
+		font-weight: normal;
+		font-style: normal;
+		font-size: 24px;  /* Preferred icon size */
+		display: inline-block;
+		line-height: 1;
+		text-transform: none;
+		letter-spacing: normal;
+		word-wrap: normal;
+		white-space: nowrap;
+		direction: ltr;
 
-.primary { background-color: $primary; }
-.success { background-color: $success; }
-.info { background-color: $info; }
-.active { color: $info; }
-.warning { background-color: $warning; }
-.danger { background-color: $danger; }
+		/* Support for all WebKit browsers. */
+		-webkit-font-smoothing: antialiased;
+		/* Support for Safari and Chrome. */
+		text-rendering: optimizeLegibility;
 
-// colours
-$black: #000000;
-$white: #ffffff;
-$grey: #949494;
-$lightgrey: #f0f0f0;
-$lightgreyBG: rgba(250, 250, 250, 0.95);
+		/* Support for Firefox. */
+		-moz-osx-font-smoothing: grayscale;
 
-/* USER-PANEL */ 
+		/* Support for IE. */
+		font-feature-settings: 'liga';
+
+		&:hover {
+			cursor: default;
+		}
+	}
+	button {
+		.material-icons {
+			&:hover {
+				cursor: pointer;
+			}
+		}
+	}
+/* required in case of self hosting of material-design-icons */
 
 h1, h2, h3, h4, h5, p {
 	&:hover {
@@ -32,241 +58,4 @@ a {
 	&:hover, &:focus {
 		text-decoration: none;
 	}
-}
-
-html {
-	display: block;
-	right: 0;
-	left: 0;
-	top: 0;
-	bottom: 0;
-	body {
-		font-family: monospace;
-		display: block;
-		right: 0;
-		left: 0;
-		top: 0;
-		bottom: 0;
-
-		#output {
-			display: block;
-			right: 0;
-			left: 0;
-			top: 0;
-			bottom: 0;
-			max-height: 100%;
-		}
-	}
-}
-
-/*
-*	add "hidable animate-hidable" to DOM object class
-*	to animate the object's visibility state changes
-*	DOM object visibility must be controlled by one of the directives:
-*	ng-show or ng-hide
-*/
-.hidable {
-	opacity: 1;
-}
-.animate-hidable {
-	&.ng-hide {
-		opacity: 0;
-	}
-	&.ng-hide-add, &.ng-hide-remove {
-		transition: all linear 0.75s;
-	}
-}
-
-.flex-container {
-	display: flex;
-	height: 97vh;
-	justify-content: center;
-	align-items: stretch;
-}
-.vertical-flex-container {
-	display: flex;
-	justify-content: center;
-	align-items: stretch;	
-	flex-direction: column;
-}
-a.flex-item { // flex-item containing particular content, shuld not be stacked with vertical-flex-container
-	opacity: 0.75;
-	&:hover, &:focus {
-		opacity: 1;
-	}
-}
-.flex-item { // general flex item, may be stacked with vertical-flex-container
-	flex: 1;
-	text-align: center;
-	vertical-align: center;
-	transition: all linear 0.3s;
-
-	$imgNormal: 30vw;
-	$imgMax: 40vh;
-	img {
-		width: $imgNormal;
-		max-width: $imgMax;
-		height: $imgNormal;
-		max-height: $imgMax;
-	}
-
-	#badge {
-		width: $imgNormal;
-		max-width: $imgMax;
-		height: auto !important;
-	}
-
-	$avatarDim: 25px;
-	.avatar {
-		width: $avatarDim;
-		height: $avatarDim;
-	}
-
-	table {
-		color: $black;
-	}
-
-	tbody {
-		text-align: left;
-	}
-}
-
-#github {
-	#repos-languages {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		align-items: stretch;
-
-		span {
-			flex: 1 0 auto;
-			padding-left: 0.2em;
-			padding-right: 0.2em;
-			border: 1px dotted $lightgrey;
-		}
-	}
-}
-
-@media (max-width: 550px) {
-	#training, #codewars, #hackerrank, #codepen {
-		display: none;
-	}
-}
-
-@media (min-width: 551px) {
-	#training, #codewars, #hackerrank, #codepen {
-		display: block;
-	}
-}
-
-#apps-reference {
-	position: fixed;
-	bottom: 0;
-	display: block;
-	width: 100vw;
-	text-align: center;
-	background-color: $lightgrey;
-
-	&.opened {
-		height: 100vh;
-		overflow-y: auto;
-		overflow-x: hidden;
-	}
-
-	#apps-toggler {
-		z-index: 1000;
-		width: 100%;
-		height: auto!important;
-		display: flex;
-		justify-content: center;
-		align-items: stretch;
-		color: $grey;
-		&.apps-in {
-			color: $info;
-			background-color: $lightgrey;
-		}
-		&:hover {
-			cursor: pointer;
-			color: $info;
-			background-color: $lightgrey;
-		}
-
-		i {
-			flex: 1;
-		}
-	}
-	
-	.transparent {
-		color: $white;
-	}
-
-	#apps-flex-container {
-		display: flex;
-		flex: 1 1 auto;
-		flex-wrap: wrap;
-		justify-content: center;
-		align-items: stretch;
-		&:hover {
-			cursor: default;
-		}
-
-		.flex-item {
-			background-color: $lightgreyBG;
-			&:hover {
-				// cursor: pointer;
-				background-color: $lightgrey;
-			}
-		}
-
-		$appImgNormal: 135px;
-		$appImgMax: 250px;
-		img {
-			width: $appImgNormal;
-			max-width: $appImgMax;
-			height: $appImgNormal;
-			max-height: $appImgMax;
-		}
-	}
-}
-
-#email-form-toggler {
-	position: fixed;
-	top: 0;
-	right: 0;
-	border: 0;
-	border-radius: 0;
-	background: transparent;
-	color: $grey;
-	z-index: 1002;
-	min-width: 29px;
-	&:hover {
-		color: $info;
-	}
-	&.active {
-		color: $info;	
-	}
-}
-#email-form {
-	display: block;
-	position: absolute;
-	background: rgba(245,245,245, 0.95);
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	z-index: 1001;
-	padding: 5em 3em 5em 3em;
-
-	#message {
-		resize: vertical;
-		max-height: 40vh;
-	}
-
-	input, textarea {
-		width: 100%;
-	}
-}
-
-.wide {
-	width: 100%;
 }

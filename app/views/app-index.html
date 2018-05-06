@@ -1,4 +1,4 @@
-<span fxFlex="20" fxShow="data.userConfig.apps.length > 0" fxLayout="row wrap" fxLayoutAlign="center stretch" [fxHide.xs]="true" [fxHide.sm]="true" id="img-shrink-container">
+<span fxFlex="20" fxShow="data.userConfig.apps.length > 0" fxLayout="row wrap" fxLayoutAlign="center stretch" [fxHide.xs]="false" [fxHide.sm]="false" id="img-shrink-container">
 	<span fxFlex="90" fxLayout="row wrap" fxLayoutAlign="" *ngFor="let app of data.userConfig.apps">
 		<h4 fxFlex="90">{{app.name}}</h4>
 
@@ -23,9 +23,9 @@
 	</span>
 </span>
 
-<span fxFlex="50" fxLayout="row wrap" fxLayoutAlign="center center">
+<span fxFlex="50" fxFlex.xs="80" fxFlex.xs="80" fxLayout="row wrap" fxLayoutAlign="center center">
 	<a fxFlex="90" fxLayout="row" fxLayoutAlign="center center" href="{{data.links.github}}" title="Github profile link" target=_blank>
-		<img src="img/github-logo.svg">
+		<img src="img/github-logo.svg" (load)="imgLoaded('githubLogo')" (error)="imgError('githubLogo')" (showImage)="showImage('githubLogo')">
 	</a>
 	<div fxFlex="90" fxLayout="row wrap" fxLayoutAlign="center center">
 		<div fxFlex="100" fxLayout="row" fxLayoutAlign="center center">
@@ -91,13 +91,13 @@
 
 <span fxFlex="30" fxLayout="row wrap" fxLayoutAlign="center stretch" [fxHide.xs]="true" [fxHide.sm]="true" id="img-shrink-container">
 	<a fxFlex="90" fxLayout="row" fxLayoutAlign="center center" href="{{data.links.codepen}}" title="Codepen profile link" target=_blank>
-		<img src="img/codepen-logo.svg">
+		<img src="img/codepen-logo.svg" (load)="imgLoaded('codepenLogo')" (error)="imgError('codepenLogo')" (showImage)="showImage('codepenLogo')">
 	</a>
 	<a fxFlex="90" fxLayout="column" fxLayoutAlign="center center" href="{{data.links.codewars}}" title="Codewars profile link" target=_blank>
-		<img src="img/codewars-logo.svg">
-		<img *ngIf="data.userConfig.username" src="{{'https://www.codewars.com/users/' + data.userConfig.username.codewars + '/badges/large'}}" [checkImageLoad]="true" (showImage)="showImage('codewars')">
+		<img src="img/codewars-logo.svg" (load)="imgLoaded('codewarsLogo')" (error)="imgError('codewarsLogo')" (showImage)="showImage('codewarsLogo')">
+		<img *ngIf="data.userConfig.username" src="{{'https://www.codewars.com/users/' + data.userConfig.username.codewars + '/badges/large'}}" (load)="imgLoaded('codewarsBadge')" (error)="imgError('codewarsBadge')" (showImage)="showImage('codewarsBadge')">
 	</a>
 	<a fxFlex="90" fxLayout="row" fxLayoutAlign="center center" href="{{data.links.hackerrank}}" title="Hackerrank profile link" target=_blank>
-		<img src="img/hackerrank-logo.svg">
+		<img src="img/hackerrank-logo.svg" (load)="imgLoaded('hackerrankLogo')" (error)="imgError('hackerrankLogo')" (showImage)="showImage('hackerrankLogo')">
 	</a>
 </span>

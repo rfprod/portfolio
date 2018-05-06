@@ -23,8 +23,6 @@ import { AppComponent } from './app.component';
 import { AppIndexComponent } from './components/app-index.component';
 import { AppContactComponent } from './components/app-contact.component';
 
-import { CheckImageLoadDirective } from './directives/check-image-load.directive';
-
 import { EventEmitterService } from './services/event-emitter.service';
 import { CustomDeferredService } from './services/custom-deferred.service';
 import { CustomHttpHandlersService } from './services/custom-http-handlers.service';
@@ -32,16 +30,15 @@ import { CustomHttpHandlersService } from './services/custom-http-handlers.servi
 import { UserConfigService } from './services/user-config.service';
 import { SendEmailService } from './services/send-email.service';
 import { GithubService } from './services/github.service';
-import { CodepenService } from './services/codepen.service';
 
 @NgModule({
-	declarations: [ AppComponent, AppIndexComponent, AppContactComponent , CheckImageLoadDirective ],
+	declarations: [ AppComponent, AppIndexComponent, AppContactComponent ],
 	entryComponents: [ AppContactComponent ],
 	imports 		: [ BrowserModule, BrowserAnimationsModule, FlexLayoutModule, CustomMaterialModule, FormsModule,
 									ReactiveFormsModule, HttpModule, RouterModule.forRoot(APP_ROUTES) ],
 	providers 	: [ { provide: APP_BASE_HREF, useValue: '/' }, { provide: LocationStrategy, useClass: PathLocationStrategy },
 									{ provide: 'Window', useValue: window }, CustomDeferredService, CustomHttpHandlersService,
-									EventEmitterService, UserConfigService, SendEmailService, GithubService, CodepenService ],
+									EventEmitterService, UserConfigService, SendEmailService, GithubService ],
 	schemas 		: [ CUSTOM_ELEMENTS_SCHEMA ],
 	bootstrap 	: [ AppComponent ],
 })

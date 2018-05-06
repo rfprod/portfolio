@@ -9,7 +9,6 @@ import { CustomDeferredService } from '../services/custom-deferred.service';
 
 import { UserConfigService } from '../services/user-config.service';
 import { GithubService } from '../services/github.service';
-import { CodepenService } from '../services/codepen.service';
 
 import 'rxjs/add/operator/first';
 
@@ -28,7 +27,6 @@ export class AppIndexComponent implements OnInit, OnDestroy {
 		private emitter: EventEmitterService,
 		private userCongigService: UserConfigService,
 		private githubService: GithubService,
-		private codepenService: CodepenService,
 		@Inject('Window') private window: Window
 	) {
 		console.log('this.el.nativeElement', this.el.nativeElement);
@@ -45,8 +43,7 @@ export class AppIndexComponent implements OnInit, OnDestroy {
 		github: {} as any,
 		githubRepos: [] as any[],
 		githubLanguages: {} as any,
-		githubLanguagesKeys: [] as string[],
-		codepen: {} as any
+		githubLanguagesKeys: [] as string[]
 	};
 
 	private getUserConfig(): Promise<any> {
@@ -124,21 +121,6 @@ export class AppIndexComponent implements OnInit, OnDestroy {
 		return def.promise;
 	}
 
-	private getCodepenProfile(): Promise<any> {
-		const def = new CustomDeferredService<any>();
-		this.codepenService.getProfile(this.data.userConfig.username.codepen).first().subscribe(
-			(data: any) => {
-				this.data.codepen = data;
-				def.resolve();
-			},
-			(error: any) => {
-				console.log('getCodepenProfile error', error);
-				def.reject(error);
-			}
-		);
-		return def.promise;
-	}
-
 	private dialogInstance: MatDialogRef<AppContactComponent>;
 
 	public showContactDialog(): void {
@@ -159,6 +141,26 @@ export class AppIndexComponent implements OnInit, OnDestroy {
 		});
 	}
 
+	public imgShow: any = {
+		githubLogo: true as boolean,
+		codepenLogo: true as boolean,
+		codewarsLogo: true as boolean,
+		codewarsBadge: true as boolean,
+		hackerrankLogo: true as boolean
+	};
+
+	public showImage(imageKey: string): boolean {
+		return this.imgShow[imageKey];
+	}
+
+	public imgLoaded(imageKey: string): void {
+		this.imgShow[imageKey] = true;
+	}
+
+	public imgError(imageKey: string): void {
+		this.imgShow[imageKey] = false;
+	}
+
 	public ngOnInit(): void {
 		console.log('ngOnInit: AppIndexComponent initialized');
 
@@ -166,7 +168,6 @@ export class AppIndexComponent implements OnInit, OnDestroy {
 		this.getUserConfig()
 			.then(() => this.getGithubProfile())
 			.then(() => this.getGithubRepos())
-			.then(() => this.getCodepenProfile())
 			.then(() => {
 				console.log('AppIndex init done');
 				this.emitter.emitSpinnerStopEvent();

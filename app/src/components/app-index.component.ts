@@ -10,7 +10,6 @@ import { CustomDeferredService } from '../services/custom-deferred.service';
 import { UserConfigService } from '../services/user-config.service';
 import { GithubService } from '../services/github.service';
 import { CodepenService } from '../services/codepen.service';
-import { CodewarsService } from '../services/codewars.service';
 
 import 'rxjs/add/operator/first';
 
@@ -30,7 +29,6 @@ export class AppIndexComponent implements OnInit, OnDestroy {
 		private userCongigService: UserConfigService,
 		private githubService: GithubService,
 		private codepenService: CodepenService,
-		private codewarsService: CodewarsService,
 		@Inject('Window') private window: Window
 	) {
 		console.log('this.el.nativeElement', this.el.nativeElement);
@@ -47,7 +45,6 @@ export class AppIndexComponent implements OnInit, OnDestroy {
 		github: {} as any,
 		githubRepos: [] as any[],
 		githubLanguages: {} as any,
-		codewars: {} as any,
 		codepen: {} as any
 	};
 
@@ -142,21 +139,6 @@ export class AppIndexComponent implements OnInit, OnDestroy {
 		return def.promise;
 	}
 
-	private getCodewarsProfile(): Promise<any> {
-		const def = new CustomDeferredService<any>();
-		this.codewarsService.getProfile(this.data.userConfig.username.codewars).first().subscribe(
-			(data: any) => {
-				this.data.github = data;
-				def.resolve();
-			},
-			(error: any) => {
-				console.log('getCodewarsProfile error', error);
-				def.reject(error);
-			}
-		);
-		return def.promise;
-	}
-
 	public toggleApps(): void {
 		console.log('TODO: toggle apps sidenav');
 	}
@@ -189,7 +171,6 @@ export class AppIndexComponent implements OnInit, OnDestroy {
 			.then(() => this.getGithubProfile())
 			.then(() => this.getGithubRepos())
 			.then(() => this.getCodepenProfile())
-			.then(() => this.getCodewarsProfile())
 			.then(() => {
 				console.log('AppIndex init done');
 				this.emitter.emitSpinnerStopEvent();

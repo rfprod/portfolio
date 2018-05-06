@@ -33,7 +33,6 @@ import { UserConfigService } from './services/user-config.service';
 import { SendEmailService } from './services/send-email.service';
 import { GithubService } from './services/github.service';
 import { CodepenService } from './services/codepen.service';
-import { CodewarsService } from './services/codewars.service';
 
 @NgModule({
 	declarations: [ AppComponent, AppIndexComponent, AppContactComponent , CheckImageLoadDirective ],
@@ -42,7 +41,7 @@ import { CodewarsService } from './services/codewars.service';
 									ReactiveFormsModule, HttpModule, RouterModule.forRoot(APP_ROUTES) ],
 	providers 	: [ { provide: APP_BASE_HREF, useValue: '/' }, { provide: LocationStrategy, useClass: PathLocationStrategy },
 									{ provide: 'Window', useValue: window }, CustomDeferredService, CustomHttpHandlersService,
-									EventEmitterService, UserConfigService, SendEmailService, GithubService, CodepenService, CodewarsService ],
+									EventEmitterService, UserConfigService, SendEmailService, GithubService, CodepenService ],
 	schemas 		: [ CUSTOM_ELEMENTS_SCHEMA ],
 	bootstrap 	: [ AppComponent ],
 })

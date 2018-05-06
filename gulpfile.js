@@ -5,6 +5,7 @@ const gulp = require('gulp'),
 	webserver = require('gulp-webserver'),
 	concat = require('gulp-concat'),
 	rename = require('gulp-rename'),
+	replace = require('gulp-replace'),
 	eslint = require('gulp-eslint'),
 	tslint = require('gulp-tslint'),
 	plumber = require('gulp-plumber'),
@@ -19,6 +20,11 @@ const gulp = require('gulp'),
 let httpServer,
 	protractor,
 	tsc;
+
+/**
+ *	load .env variables
+ */
+require('dotenv').load();
 
 function killProcessByName(name){
 	exec('pgrep ' + name, (error, stdout, stderr) => {
@@ -131,6 +137,10 @@ gulp.task('build-system-js', () => {
 			minify: true,
 			mangle: true
 		})
+		.pipe(replace(/GITHUB_ACCESS_TOKEN/, (match, offset) => {
+			console.log('gulp replaced ' + match + ' at ' + offset + 'with actual github access token' );
+			return process.env.GITHUB_ACCESS_TOKEN;
+		}))
 		.pipe(gulp.dest('./app/js'));
 });
 

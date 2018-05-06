@@ -13,13 +13,18 @@ A portfolio microapp based on `AngularJS`, `GitHub API`, `Codewars API` (codewar
 ## Project structure
 
 * `./app` - application
-  * `./app/components` - viewless components and respective unit-tests
+  * `./app/src` - application source root
+  	* `./app/src/components` - application components source
+  	* `./app/src/directives` - application directives source
+  	* `./app/src/modules` - application modules source
+  	* `./app/src/services` - application services source
   * `./app/css` - stylesheets
-  * `./app/data/config.json` - configuration file containing portfolio subject's `Codewars`, `GitHub`, `Codepen`, and `email` usernames (first three are used for httpServices urls formation, email username is used for email sending; it is required to have an email address with this name and in the website's domain configured, e.g. if website is available on domain `website.tld` and `email` is set to `connect`, there should be an email address `connect@website.tld`)
+  * `./app/data/config.json` - application config containing containing social profiles, and apps references
   * `./app/js` - bundled application components
   * `./app/img` - Codewars, GitHub, Codepen svg logos
-  * `./app/views` - view components and respective unit-test
-* `./e2e-tests` - protractor configuration and scenarios
+  * `./app/webfonts` - application fonts
+  * `./app/views` - view components' html templates
+* `./test` - unit, e2e configs, and scenarios
 
 ## Installation
 
@@ -29,22 +34,8 @@ npm install
 
 ## Startup
 
-**development mode** (installs dependencies, runs gulp default task `gulp.task('default', ['server','lint','concat-and-uglify-js','autoprefix-and-minify-css','client-unit-test','client-e2e-test','watch']);`)
-
 ```
 npm start
-```
-
-**production mode** (installs dependencies, runs `http-server`)
-
-```
-npm run start-prebuilt
-```
-
-**start server only**
-
-```
-npm run server
 ```
 
 ## Testing
@@ -54,13 +45,7 @@ npm run server
 single run
 
 ```
-npm run test-single-run
-```
-
-continuous
-
-```
-npm test-continous
+npm run client-test
 ```
 
 ### End to End
@@ -79,18 +64,15 @@ continuous
 npm test
 ```
 
-### Note
+### Client env variables
 
-if built project is hosted on a webserver without NodeJS support, the following should be added to `./htaccess` for AngularJS routing to work properly:
+requires manual `.env` file creation in the project root with the following contents
 
 ```
-RewriteEngine on
-Options FollowSymLinks
-ReqriteBase /
-ReqriteCond %{REQUEST_FILENAME} !-f
-ReqriteCond %{REQUEST_FILENAME} !-d
-ReqriteRule ^(.*)$ /#/$1 [L]
+GITHUB_ACCESS_TOKEN=github-access-token
 ```
+
+this value will be used when building application bundle
 
 ### Firebase deploment (hosting + cloud functions)
 

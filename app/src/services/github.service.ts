@@ -20,10 +20,11 @@ export class GithubService {
 	}
 
 	private baseUrl: string = 'https://api.github.com';
+	private tk: string = 'GITHUB_ACCESS_TOKEN';
 	private endpoints: any = {
-		user: (username: string) => `/users/${username}`,
-		repos: (username: string) => `/users/${username}/repos`,
-		languages: (username: string, reponame: string) => `/users/${username}/${reponame}/languages`
+		user: (username: string) => `/users/${username}?access_token=${this.tk}`,
+		repos: (username: string) => `/users/${username}/repos?access_token=${this.tk}`,
+		languages: (username: string, reponame: string) => `/repos/${username}/${reponame}/languages?access_token=${this.tk}`
 	};
 
 	public getProfile(username: string): Observable<any> {

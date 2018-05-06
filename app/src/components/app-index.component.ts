@@ -45,6 +45,7 @@ export class AppIndexComponent implements OnInit, OnDestroy {
 		github: {} as any,
 		githubRepos: [] as any[],
 		githubLanguages: {} as any,
+		githubLanguagesKeys: [] as string[],
 		codepen: {} as any
 	};
 
@@ -106,13 +107,12 @@ export class AppIndexComponent implements OnInit, OnDestroy {
 						console.log('don\'t copy object properties other than languages');
 						break loop;
 					}
-					console.log('lang:', lang);
-					console.log('data[lang]:', data[lang]);
 					if (this.data.githubLanguages.hasOwnProperty(lang)) {
 						this.data.githubLanguages[lang] += data[lang];
 					} else {
 						this.data.githubLanguages[lang] = data[lang];
 					}
+					this.data.githubLanguagesKeys = Object.keys(this.data.githubLanguages);
 				}
 				def.resolve();
 			},

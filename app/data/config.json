@@ -20,7 +20,7 @@
 			"logo": "img/heroku-logo.svg",
 			"urls": {
 				"repo": "https://github.com/rfprod/spamt",
-				"web": "",
+				"web": "https://spamt.herokuapp.com/",
 				"android": ""
 			}
 		},

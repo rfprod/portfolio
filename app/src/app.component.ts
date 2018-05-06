@@ -13,7 +13,7 @@ import 'rxjs/add/operator/takeUntil';
 	template: `
 		<router-outlet></router-outlet>
 		<span id="spinner" *ngIf="showSpinner">
-			<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+			<mat-progress-spinner mode="indeterminate" aria-label="Application loading indicator"></mat-progress-spinner>
 		</span>
 	`
 })

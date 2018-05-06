@@ -1,124 +1,99 @@
-app index
-<!--
-<div class="flex-container">
-	<span class="flex-item vertical-flex-container" id="training">
-		<a class="flex-item" id="codewars" href="{{links.codewars}}" aria-label="codewars link" target=_blank>
-			<div>
-				<img src="img/codewars-logo.svg">
-			</div>
-			<div>
-				<img id="badge" ng-src="{{'https://www.codewars.com/users/'+userConfig.username.codewars+'/badges/large'}}" image-on-load ng-show="show.codepen.badge" class="hidable hidable-animate">
-			</div>
+<span fxFlex="20" fxShow="data.userConfig.apps.length > 0" fxLayout="row wrap" fxLayoutAlign="center stretch" [fxHide.xs]="true" [fxHide.sm]="true" id="img-shrink-container">
+	<span fxFlex="90" fxLayout="row wrap" fxLayoutAlign="" *ngFor="let app of data.userConfig.apps">
+		<h4 fxFlex="90">{{app.name}}</h4>
+
+		<a fxFlex="90" fxLayout="row" fxLayoutAlign="center center" *ngIf="app.urls.web" href="{{app.urls.web}}" title="web link" target=_blank>
+			<img src="{{app.logo}}" title="{{app.name}}">
 		</a>
-		<a class="flex-item" id="hackerrank" href="{{links.hackerrank}}" target=_blank>
-			<img src="img/hackerrank-logo.svg">
+		<a fxFlex="90" fxLayout="row" fxLayoutAlign="center center" *ngIf="!app.urls.web" title="{{app.name}}">
+			<img src="{{app.logo}}" title="{{app.name}}">
 		</a>
+
+		<span fxFlex="90">
+			<a md-icon-button *ngIf="app.urls.web" href="{{app.urls.web}}" title="web link" target=_blank>
+				<span class="material-icons">web</span>
+			</a>
+			<a md-icon-button *ngIf="app.urls.android" href="{{app.urls.android}}" title="android link" target=_blank>
+				<span class="material-icons">android</span>
+			</a>
+			<a md-icon-button *ngIf="app.urls.repo" href="{{app.urls.repo}}" title="repo link" target=_blank>
+				<span class="material-icons">code</span>
+			</a>
+		</span>
 	</span>
-	<a class="flex-item" id="github" href="{{links.github}}" aria-label="github link" target=_blank>
+</span>
+
+<span fxFlex="50" fxLayout="row wrap" fxLayoutAlign="center center">
+	<a fxFlex="90" fxLayout="row" fxLayoutAlign="center center" href="{{data.links.github}}" title="Github profile link" target=_blank>
 		<img src="img/github-logo.svg">
-		<table class="wide">
-			<thead>
-				<tr>
-					<td colspan="2" ng-class="{'success': data.github.hireable, 'danger': !data.github.hireable}">
-						{{data.github.login}} is 
-						<span ng-if="data.github.hireable">HIREABLE</span>
-						<span ng-if="!data.github.hireable">NOT HIREABLE</span>
-					</td>
-				</tr>
-			</thead>
-			<tbody ng-show="data.github.login" class="hidable animate-hidable">
-				<tr>
-					<td>Location</td>
-					<td>{{data.github.location}}</td>
-				</tr>
-				<tr ng-if="data.github.bio">
-					<td colspan="2">{{data.github.bio}}</td>
-				</tr>
-				<tr ng-if="data.github.email">
-					<td>Email</td>
-					<td>{{data.github.email}}</td>
-				</tr>
-				<tr ng-if="data.github.company">
-					<td>Company</td>
-					<td>{{data.github.company}}</td>
-				</tr>
-				<tr>
-					<td>Created</td>
-					<td>{{data.github.created_at | date}}</td>
-				</tr>
-				<tr>
-					<td>Updated</td>
-					<td>{{data.github.updated_at | date}}</td>
-				</tr>
-				<tr>
-					<td>Gists</td>
-					<td>{{data.github.public_gists}}</td>
-				</tr>
-				<tr>
-					<td>Repos</td>
-					<td>{{data.github.public_repos}}</td>
-				</tr>
-			</tbody>
-		</table>
-		<span id="repos-languages">
-			<span ng-repeat="(lang, counter) in data.githubLanguages">
-				{{lang}}
-				</br>
-				{{counter}}
+	</a>
+	<div fxFlex="90" fxLayout="row wrap" fxLayoutAlign="center center">
+		<div fxFlex="100" fxLayout="row" fxLayoutAlign="center center">
+			<span fxFlex="0 1 auto">{{data.github.login}} is 
+				<span *ngIf="data.github.hireable">HIREABLE</span>
+				<span *ngIf="!data.github.hireable">NOT HIREABLE</span>
 			</span>
-		</span>
-	</a>
-	<a class="flex-item" id="codepen" href="{{links.codepen}}" aria-label="codepen link" target=_blank>
-		<img src="img/codepen-logo.svg">
-		<table class="wide">
-			<thead>
-				<tr>
-					<td colspan="2">{{data.github.login}}</td>
-				</tr>
-			</thead>
-			<tbody ng-show="data.codepan.location || data.codepen.bio" class="hidable animate-hidable">
-				<tr ng-if="data.codepen.location">
-					<td>Location</td>
-					<td>{{data.codepen.location}}</td>
-				</tr>
-				<tr ng-if="data.codepen.bio">
-					<td colspan="2">{{data.codepen.bio}}</td>
-				</tr>
-			</tbody>
-		</table>
-	</a>
-</div>
-<div id="apps-reference" ng-show="userConfig.apps.length > 0" class="hidable animate-hidable" ng-class="{'opened': show.apps}">
-	<a id="apps-toggler" href="" ng-click="toggleApps()" ng-class="{'apps-in': show.apps}">
-		<i class="fa fa-arrow-up fa-3x transparent hidable animate-hidable" ng-show="!show.apps"></i>
-		<i class="fa fa-arrow-up fa-3x transparent hidable animate-hidable" ng-show="!show.apps"></i>
-		<i class="fa fa-arrow-down fa-3x transparent hidable animate-hidable" ng-show="show.apps"></i>
-		<i class="fa fa-arrow-down fa-3x transparent hidable animate-hidable" ng-show="show.apps"></i>
-		<i class="fa fa-cogs fa-3x"></i> 
-		<i class="fa fa-arrow-up fa-3x transparent hidable animate-hidable" ng-show="!show.apps"></i>
-		<i class="fa fa-arrow-up fa-3x transparent hidable animate-hidable" ng-show="!show.apps"></i>
-		<i class="fa fa-arrow-down fa-3x transparent hidable animate-hidable" ng-show="show.apps"></i>
-		<i class="fa fa-arrow-down fa-3x transparent hidable animate-hidable" ng-show="show.apps"></i>
-	</a>
-	<div id="apps-flex-container" ng-show="show.apps" class="hidable animate-hidable">
-		<span class="flex-item" ng-repeat="app in userConfig.apps">
-			<div>
-				<div>
-					<a ng-if="app.urls.web" href="{{app.urls.web}}" aria-label="web link" target=_blank>
-						<img ng-src="{{app.logo}}" title="{{app.name}}">
-					</a>
-					<a ng-if="!app.urls.web" aria-label="{{app.name}}">
-						<img ng-src="{{app.logo}}" title="{{app.name}}">
-					</a>
-				</div>
-				<div>
-					<h4>{{app.name}}</h4>
-					<a md-button class="md-button" ng-if="app.urls.web" href="{{app.urls.web}}" target=_blank><i class="fa fa-globe fa-3x" title="web" aria-label="web link"></i></a>
-					<a md-button class="md-button" ng-if="app.urls.android" href="{{app.urls.android}}" target=_blank><i class="fa fa-android fa-3x" title="download apk" aria-label="android link"></i></a>
-					<a md-button class="md-button" ng-if="app.urls.repo" href="{{app.urls.repo}}" target=_blank><i class="fa fa-github fa-3x" title="repo" aria-label="repo link"></i></a>
-				</div>
-			</div>
-		</span>
+		</div>
+		<div fxFlex="100" fxShow="data.github.login" fxLayout="row wrap" fxLayoutAlign="center center">
+			<span>
+				<span fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+					<span fxFlex>Location</span>
+					<span fxFlex>{{data.github.location}}</span>
+				</span>
+				<span fxFlex="100" *ngIf="data.github.bio" fxLayoutAlign="center center" fxLayoutGap="20px">
+					<span fxFlex>{{data.github.bio}}</span>
+				</span>
+				<span fxFlex="100" *ngIf="data.github.email" fxLayoutAlign="center center" fxLayoutGap="20px">
+					<span fxFlex>Email</span>
+					<span fxFlex>{{data.github.email}}</span>
+				</span>
+				<span fxFlex="100" *ngIf="data.github.company" fxLayoutAlign="center center" fxLayoutGap="20px">
+					<span fxFlex>Company</span>
+					<span fxFlex>{{data.github.company}}</span>
+				</span>
+				<span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+					<span fxFlex>Created</span>
+					<span fxFlex>{{data.github.created_at | date}}</span>
+				</span>
+				<span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+					<span fxFlex>Updated</span>
+					<span fxFlex>{{data.github.updated_at | date}}</span>
+				</span>
+				<span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+					<span fxFlex>Gists</span>
+					<span fxFlex>{{data.github.public_gists}}</span>
+				</span>
+				<span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+					<span fxFlex>Repos</span>
+					<span fxFlex>{{data.github.public_repos}}</span>
+				</span>
+			</span>
+		</div>
+
+		<div fxFlex="100" fxShow="data.github.login" fxLayout="row wrap" fxLayoutAlign="center center">
+			<span>
+				<span fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="15px">
+					<span fxFlex *ngFor="let lang of data.githubLanguagesKeys">
+						{{lang}}
+						<br>
+						{{data.githubLanguages[lang]}}
+					</span>
+				</span>
+			</span>
+		</div>
+
 	</div>
-</div>
--->
+</span>
+
+<span fxFlex="30" fxLayout="row wrap" fxLayoutAlign="center stretch" [fxHide.xs]="true" [fxHide.sm]="true" id="img-shrink-container">
+	<a fxFlex="90" fxLayout="row" fxLayoutAlign="center center" href="{{data.links.codepen}}" title="Codepen profile link" target=_blank>
+		<img src="img/codepen-logo.svg">
+	</a>
+	<a fxFlex="90" fxLayout="column" fxLayoutAlign="center center" href="{{data.links.codewars}}" title="Codewars profile link" target=_blank>
+		<img src="img/codewars-logo.svg">
+		<img *ngIf="data.userConfig.username" src="{{'https://www.codewars.com/users/' + data.userConfig.username.codewars + '/badges/large'}}" [checkImageLoad]="true" (showImage)="showImage('codewars')">
+	</a>
+	<a fxFlex="90" fxLayout="row" fxLayoutAlign="center center" href="{{data.links.hackerrank}}" title="Hackerrank profile link" target=_blank>
+		<img src="img/hackerrank-logo.svg">
+	</a>
+</span>

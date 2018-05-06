@@ -2,13 +2,15 @@
 
 ![build](https://travis-ci.org/rfprod/portfolio.svg?branch=master)
 
-A portfolio microapp based on `AngularJS`, `GitHub API`, `Codewars API` (codewars server does not allow CORS for now, integration should be probably done using server-side script or not at all), and `CodePen API`.
+A portfolio microapp based on `Angular`, `GitHub API`.
 
 ## User stories
 
-* User can see a page divided in sections representing precence of portfolio's subject on networks: Codewars, GitHub, CodePen.
+* User can see a page divided in sections representing presence of portfolio's subject on networks: Codewars, GitHub, CodePen, Hackerrank.
 * Each section contains a logo of the respective network along with some basic public data available over respective API if any.
 * Each section is clickable and opens a new browser tab with portfolio subject's profile on the selected network.
+* User can send an email to portfolio's subject using a contact dialog.
+* User can see featured applications grid section.
 
 ## Project structure
 

@@ -139,10 +139,6 @@ export class AppIndexComponent implements OnInit, OnDestroy {
 		return def.promise;
 	}
 
-	public toggleApps(): void {
-		console.log('TODO: toggle apps sidenav');
-	}
-
 	private dialogInstance: MatDialogRef<AppContactComponent>;
 
 	public showContactDialog(): void {

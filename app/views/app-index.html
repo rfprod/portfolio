@@ -11,13 +11,13 @@
 
 		<span fxFlex="90">
 			<a md-icon-button *ngIf="app.urls.web" href="{{app.urls.web}}" title="web link" target=_blank>
-				<span class="material-icons">web</span>
+				<mat-icon class="material-icons">web</mat-icon>
 			</a>
 			<a md-icon-button *ngIf="app.urls.android" href="{{app.urls.android}}" title="android link" target=_blank>
-				<span class="material-icons">android</span>
+				<mat-icon class="material-icons">android</mat-icon>
 			</a>
 			<a md-icon-button *ngIf="app.urls.repo" href="{{app.urls.repo}}" title="repo link" target=_blank>
-				<span class="material-icons">code</span>
+				<mat-icon class="material-icons">code</mat-icon>
 			</a>
 		</span>
 	</span>
@@ -30,7 +30,11 @@
 	<div fxFlex="90" fxLayout="row wrap" fxLayoutAlign="center center">
 		<div fxFlex="100" fxLayout="row" fxLayoutAlign="center center">
 			<span fxFlex="0 1 auto">{{data.github.login}} is 
-				<span *ngIf="data.github.hireable">HIREABLE</span>
+				<span *ngIf="data.github.hireable" title="send email">
+					HIREABLE <button mat-icon-button (click)="showContactDialog()" color="primary">
+						<mat-icon class="material-icons">email</mat-icon>
+					</button>
+				</span>
 				<span *ngIf="!data.github.hireable">NOT HIREABLE</span>
 			</span>
 		</div>

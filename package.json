@@ -6,6 +6,10 @@
 	"repository": "https://github.com/rfprod/portfolio.git",
 	"author": "rfprod",
 	"license": "MIT",
+	"engines": {
+		"node": ">= 8.1.0",
+		"npm": ">= 5.1.0"
+	},
 	"dependencies": {
 		"@angular/animations": "5.2.10",
 		"@angular/cdk": "^5.2.5",
@@ -56,7 +60,7 @@
 		"systemjs": "0.21.3",
 		"traceur": "^0.0.111",
 		"tslib": "^1.9.0",
-		"tslint": "^5.9.1",
+		"tslint": "^5.10.0",
 		"typescript": "^2.8.3",
 		"web-animations-js": "^2.3.1",
 		"zone.js": "^0.8.26"

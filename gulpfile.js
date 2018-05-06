@@ -138,7 +138,7 @@ gulp.task('build-system-js', () => {
 			mangle: true
 		})
 		.pipe(replace(/GITHUB_ACCESS_TOKEN/, (match, offset) => {
-			console.log('gulp replaced ' + match + ' at ' + offset + 'with actual github access token' );
+			console.log('gulp replaced ' + match + ' at ' + offset + ' with actual github access token' );
 			return process.env.GITHUB_ACCESS_TOKEN;
 		}))
 		.pipe(gulp.dest('./app/js'));

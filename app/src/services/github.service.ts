@@ -1,18 +1,16 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 
 import { CustomHttpHandlersService } from './custom-http-handlers.service';
 
-import { Observable } from 'rxjs/Rx';
-import 'rxjs/add/operator/timeout';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+import { Observable } from 'rxjs';
+import { timeout, take, map, catchError } from 'rxjs/operators';
 
 @Injectable()
 export class GithubService {
 
 	constructor(
-		private http: Http,
+		private http: HttpClient,
 		private handlers: CustomHttpHandlersService,
 		@Inject('Window') private window: Window
 	) {
@@ -28,23 +26,29 @@ export class GithubService {
 	};
 
 	public getProfile(username: string): Observable<any> {
-		return this.http.get(this.baseUrl + this.endpoints.user(username))
-			.timeout(10000)
-			.map(this.handlers.extractObject)
-			.catch(this.handlers.handleError);
+		return this.http.get(this.baseUrl + this.endpoints.user(username)).pipe(
+			timeout(10000),
+			take(1),
+			map(this.handlers.extractObject),
+			catchError(this.handlers.handleError)
+		);
 	}
 
 	public getRepos(username: string): Observable<any> {
-		return this.http.get(this.baseUrl + this.endpoints.repos(username))
-			.timeout(10000)
-			.map(this.handlers.extractArray)
-			.catch(this.handlers.handleError);
+		return this.http.get(this.baseUrl + this.endpoints.repos(username)).pipe(
+			timeout(10000),
+			take(1),
+			map(this.handlers.extractArray),
+			catchError(this.handlers.handleError)
+		);
 	}
 
 	public getRepoLanguages(username: string, repo: string): Observable<any> {
-		return this.http.get(this.baseUrl + this.endpoints.languages(username, repo))
-			.timeout(10000)
-			.map(this.handlers.extractObject)
-			.catch(this.handlers.handleError);
+		return this.http.get(this.baseUrl + this.endpoints.languages(username, repo)).pipe(
+			timeout(10000),
+			take(1),
+			map(this.handlers.extractObject),
+			catchError(this.handlers.handleError)
+		);
 	}
 }

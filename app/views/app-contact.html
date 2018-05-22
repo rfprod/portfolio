@@ -1,11 +1,11 @@
-<h2 mat-dialog-title fxFlex="0 1 auto">Contact form</h2>
+<h2 mat-dialog-title>Contact form</h2>
 
-<mat-dialog-content fxFlex="1 1 auto">
+<mat-dialog-content>
 
 	<form fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="10px" [formGroup]="contactForm" (ngSubmit)="submitForm()" novalidate class="mat-body-2">
 
 		<mat-form-field fxFlex>
-			<input matInput type="text" name="name" [formControl]="contactForm.controls.name" placeholder="Your name" />
+			<input matInput type="text" name="name" [formControl]="contactForm.controls.name" placeholder="Your name" [autofocus]="true" />
 			<mat-error *ngIf="contactForm.controls.name.invalid" class="mat-body-1">{{inputError}}</mat-error>
 		</mat-form-field>
 
@@ -37,7 +37,7 @@
 	</form>
 
 </mat-dialog-content>
-<mat-dialog-actions fxFlex="0 1 auto" fxLayoutAlign="center center">
+<mat-dialog-actions fxLayoutAlign="center center">
 
 	<button mat-button tabindex="-1" (click)="submitForm()" [disabled]="contactForm.invalid || contactForm.pristine" matTooltip="Confirm" color="accent">
 		<mat-icon class="metarial-icons">done</mat-icon><span [fxHide.xs]="true"> Send Message</span>

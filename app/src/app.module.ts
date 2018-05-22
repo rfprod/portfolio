@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { APP_ROUTES } from './app.routes';
 
@@ -23,6 +23,8 @@ import { AppComponent } from './app.component';
 import { AppIndexComponent } from './components/app-index.component';
 import { AppContactComponent } from './components/app-contact.component';
 
+import { AutofocusDirective } from './directives/autofocus.directive';
+
 import { EventEmitterService } from './services/event-emitter.service';
 import { CustomDeferredService } from './services/custom-deferred.service';
 import { CustomHttpHandlersService } from './services/custom-http-handlers.service';
@@ -32,10 +34,10 @@ import { SendEmailService } from './services/send-email.service';
 import { GithubService } from './services/github.service';
 
 @NgModule({
-	declarations: [ AppComponent, AppIndexComponent, AppContactComponent ],
+	declarations: [ AppComponent, AppIndexComponent, AppContactComponent, AutofocusDirective ],
 	entryComponents: [ AppContactComponent ],
 	imports 		: [ BrowserModule, BrowserAnimationsModule, FlexLayoutModule, CustomMaterialModule, FormsModule,
-									ReactiveFormsModule, HttpModule, RouterModule.forRoot(APP_ROUTES) ],
+									ReactiveFormsModule, HttpClientModule, RouterModule.forRoot(APP_ROUTES) ],
 	providers 	: [ { provide: APP_BASE_HREF, useValue: '/' }, { provide: LocationStrategy, useClass: PathLocationStrategy },
 									{ provide: 'Window', useValue: window }, CustomDeferredService, CustomHttpHandlersService,
 									EventEmitterService, UserConfigService, SendEmailService, GithubService ],

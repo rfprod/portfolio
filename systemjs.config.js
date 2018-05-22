@@ -1,5 +1,5 @@
 /*
-*	SystemJS configuration for Angular
+*	SystemJS configuration for Angular 6
 */
 (function (global) { // eslint-disable-line no-unused-vars
 
@@ -9,9 +9,15 @@
 
 	var map = {
 		'app': 																	'./app/src',
-		'rxjs/Rx': 															'npm:rxjs/bundles/Rx.js',
-		'rxjs': 																'npm:rxjs',
+
+		'rxjs': 																'npm:rxjs/bundles/rxjs.umd.js',
+		'rxjs/ajax': 														'npm:rxjs/ajax',
 		'rxjs/operators': 											'npm:rxjs/operators',
+		'rxjs/testing': 												'npm:rxjs/testing',
+		'rxjs/util': 														'npm:rxjs/util',
+		'rxjs/webSocket': 											'npm:rxjs/webSocket',
+		'rxjs/internal': 												'npm:rxjs/internal',
+
 		'tslib': 																'npm:tslib/tslib.js',
 		'traceur': 															'npm:traceur/bin',
 		'@angular/animations': 									'npm:@angular/animations/bundles/animations.umd.js',
@@ -48,15 +54,22 @@
 		'@angular/cdk/scrolling': 							'npm:@angular/cdk/bundles/cdk-scrolling.umd.js',
 		'@angular/cdk/stepper': 								'npm:@angular/cdk/bundles/cdk-stepper.umd.js',
 		'@angular/cdk/table': 									'npm:@angular/cdk/bundles/cdk-table.umd.js',
+		'@angular/cdk/text-field': 							'npm:@angular/cdk/bundles/cdk-text-field.umd.js',
+		'@angular/cdk/tree': 										'npm:@angular/cdk/bundles/cdk-tree.umd.js',
 		'@angular/material-moment-adapter': 		'npm:@angular/material-moment-adapter/bundles/material-moment-adapter.umd.js',
 		'moment': 															'npm:moment/min/moment-with-locales.min.js'
 	};
 
 	var packages = {
-		'app': 												{ main: 'app', defaultExtension: 'js' },
-		'rxjs': 											{ defaultExtension: 'js' },
-		'rxjs/operators': 						{ main: '../operators', defaultExtension: 'js' },
-		'traceur': 										{ main: 'traceur', defaultExtension: 'js' }
+		'app': 													{ main: 'app', defaultExtension: 'js' },
+		'traceur': 											{ main: 'traceur', defaultExtension: 'js' },
+
+		'rxjs/ajax': 										{ main: 'index', defaultExtension: 'js' },
+		'rxjs/operators': 							{ main: 'index', defaultExtension: 'js' },
+		'rxjs/testing': 								{ main: 'index', defaultExtension: 'js' },
+		'rxjs/util': 										{ main: 'index', defaultExtension: 'js' },
+		'rxjs/webSocket': 							{ main: 'index', defaultExtension: 'js' },
+		'rxjs/internal': 								{ main: 'Rx', defaultExtension: 'js' }
 	};
 
 	var config = {

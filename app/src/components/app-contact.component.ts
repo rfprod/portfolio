@@ -7,8 +7,6 @@ import { CustomDeferredService } from '../services/custom-deferred.service';
 
 import { SendEmailService } from '../services/send-email.service';
 
-import 'rxjs/add/operator/first';
-
 @Component({
 	selector: 'app-contact',
 	templateUrl: '/views/app-contact.html',
@@ -69,7 +67,7 @@ export class AppContactComponent implements OnInit, OnDestroy {
 		this.emitter.emitSpinnerStartEvent();
 		const def = new CustomDeferredService<any>();
 		const formData: any = this.contactForm.value;
-		this.sendEmailService.sendEmail(formData).first().subscribe(
+		this.sendEmailService.sendEmail(formData).subscribe(
 			(data: any) => {
 				console.log('sendMessage:', data);
 				this.emitter.emitSpinnerStopEvent();

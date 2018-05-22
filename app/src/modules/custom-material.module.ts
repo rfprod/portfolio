@@ -15,9 +15,13 @@ import {
 	// misc
 	MatOptionModule, MatRippleModule,
 	// icons
-	MatIconRegistry
+	MatIconRegistry,
+	// tree
+	MatTreeModule
 
 } from '@angular/material';
+
+import { OverlayModule } from '@angular/cdk/overlay';
 
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
@@ -59,7 +63,11 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 		// data table
 		MatTableModule, MatSortModule, MatPaginatorModule,
 		// misc
-		MatOptionModule, MatRippleModule
+		MatOptionModule, MatRippleModule,
+		// cdk
+		OverlayModule,
+		// tree
+		MatTreeModule
 	],
 	exports: [
 		// form controls
@@ -75,7 +83,11 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 		// data table
 		MatTableModule, MatSortModule, MatPaginatorModule,
 		// misc
-		MatOptionModule, MatRippleModule
+		MatOptionModule, MatRippleModule,
+		// cdk
+		OverlayModule,
+		// tree
+		MatTreeModule
 	]
 })
 export class CustomMaterialModule {}

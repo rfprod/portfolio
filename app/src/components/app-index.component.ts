@@ -10,8 +10,6 @@ import { CustomDeferredService } from '../services/custom-deferred.service';
 import { UserConfigService } from '../services/user-config.service';
 import { GithubService } from '../services/github.service';
 
-import 'rxjs/add/operator/first';
-
 @Component({
 	selector: 'app-index',
 	templateUrl: '/views/app-index.html',
@@ -48,7 +46,7 @@ export class AppIndexComponent implements OnInit, OnDestroy {
 
 	private getUserConfig(): Promise<any> {
 		const def = new CustomDeferredService<any>();
-		this.userCongigService.getData().first().subscribe(
+		this.userCongigService.getData().subscribe(
 			(data: any) => {
 				this.data.userConfig = data;
 				def.resolve();
@@ -63,7 +61,7 @@ export class AppIndexComponent implements OnInit, OnDestroy {
 
 	private getGithubProfile(): Promise<any> {
 		const def = new CustomDeferredService<any>();
-		this.githubService.getProfile(this.data.userConfig.username.github).first().subscribe(
+		this.githubService.getProfile(this.data.userConfig.username.github).subscribe(
 			(data: any) => {
 				this.data.github = data;
 				def.resolve();
@@ -78,7 +76,7 @@ export class AppIndexComponent implements OnInit, OnDestroy {
 
 	private getGithubRepos(): Promise<any> {
 		const def = new CustomDeferredService<any>();
-		this.githubService.getRepos(this.data.userConfig.username.github).first().subscribe(
+		this.githubService.getRepos(this.data.userConfig.username.github).subscribe(
 			(data: any) => {
 				this.data.githubRepos = data;
 				for (let i = 0, max = this.data.githubRepos.length; i < max; i++) {
@@ -96,7 +94,7 @@ export class AppIndexComponent implements OnInit, OnDestroy {
 
 	private getGithubRepoLanguages(repoName: string): Promise<any> {
 		const def = new CustomDeferredService<any>();
-		this.githubService.getRepoLanguages(this.data.userConfig.username.github, repoName).first().subscribe(
+		this.githubService.getRepoLanguages(this.data.userConfig.username.github, repoName).subscribe(
 			(data: any) => {
 				loop:
 				for (const [lang, value] of Object.entries(data)) {
@@ -122,6 +120,7 @@ export class AppIndexComponent implements OnInit, OnDestroy {
 	}
 
 	private dialogInstance: MatDialogRef<AppContactComponent>;
+	private dialogSub: any;
 
 	public showContactDialog(): void {
 		console.log('TODO: show contact dialog');
@@ -135,8 +134,9 @@ export class AppIndexComponent implements OnInit, OnDestroy {
 				domain: this.window.location.origin
 			}
 		});
-		this.dialogInstance.afterClosed().first().subscribe((result: any) => {
+		this.dialogSub = this.dialogInstance.afterClosed().subscribe((result: any) => {
 			console.log('app contact dialog closed with result', result);
+			this.dialogSub.unsubscribe();
 			this.dialogInstance = undefined;
 		});
 	}

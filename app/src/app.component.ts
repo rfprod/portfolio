@@ -5,9 +5,6 @@ import { DateAdapter } from '@angular/material';
 
 import { EventEmitterService } from './services/event-emitter.service';
 
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/takeUntil';
-
 @Component({
 	selector: 'root',
 	template: `
@@ -29,7 +26,7 @@ export class AppComponent implements OnInit, OnDestroy {
 		console.log('this.el.nativeElement', this.el.nativeElement);
 	}
 
-	private ngUnsubscribe: Subject<void> = new Subject();
+	private subscriptions: any[] = [];
 
 	public showSpinner: boolean = false;
 
@@ -42,14 +39,16 @@ export class AppComponent implements OnInit, OnDestroy {
 		this.showSpinner = false;
 	}
 
-	private setDatepickersLocale(key: string): void {
+	private setDatepickerLocale(): void {
 		this.dateAdapter.setLocale('en');
 	}
 
 	public ngOnInit(): void {
 		console.log('ngOnInit: AppComponent initialized');
 
-		this.emitter.getEmitter().takeUntil(this.ngUnsubscribe).subscribe((event: any) => {
+		this.setDatepickerLocale();
+
+		let sub = this.emitter.getEmitter().subscribe((event: any) => {
 			console.log('app consuming event:', event);
 			if (event.spinner) {
 				if (event.spinner === 'start') {
@@ -61,16 +60,21 @@ export class AppComponent implements OnInit, OnDestroy {
 				}
 			}
 		});
+		this.subscriptions.push(sub);
 
-		this.dateAdapter.localeChanges.takeUntil(this.ngUnsubscribe).subscribe(() => {
+		sub = this.dateAdapter.localeChanges.subscribe(() => {
 			console.log('dateAdapter.localeChanges, changed according to the language');
 		});
+		this.subscriptions.push(sub);
 	}
 
 	public ngOnDestroy(): void {
 		console.log('ngOnDestroy: AppComponent destroyed');
-		this.ngUnsubscribe.next();
-		this.ngUnsubscribe.complete();
+		if (this.subscriptions.length) {
+			for (const sub of this.subscriptions) {
+				sub.unsubscribe();
+			}
+		}
 	}
 
 }

@@ -216,13 +216,13 @@ gulp.task('move-vendor-fonts', () => {
 
 
 gulp.task('eslint', () => {
-	return gulp.src(['./*.js', './functions/index.js', './test/**/*.js']) // uses ignore list from .eslintignore
+	return gulp.src(['./*.js', './functions/index.js', './test/*.js', './test/e2e/*.js']) // uses ignore list from .eslintignore
 		.pipe(eslint('./.eslintrc.json'))
 		.pipe(eslint.format());
 });
 
 gulp.task('tslint', () => {
-	return gulp.src(['./app/*.ts', './app/**/*.ts', '!./app/{css,views}/', './test/client/**/*.ts'])
+	return gulp.src(['./app/*.ts', './app/**/*.ts', '!./app/{css,views}/', './test/unit/*.ts', './test/unit/**/*.ts'])
 		.pipe(tslint({
 			formatter: 'verbose' // 'verbose' - extended info | 'prose' - brief info
 		}))
@@ -240,8 +240,9 @@ gulp.task('watch', () => {
 	gulp.watch(['./gulpfile.js'], ['pack-vendor-js', 'pack-vendor-css', 'move-vendor-fonts', 'server']);
 	gulp.watch('./app/css/*.scss', ['sass-autoprefix-minify-css']);
 	gulp.watch(['./app/*.js', './app/components/**/*.js','./app/views/**/*.js','./karma.conf.js'], ['client-unit-test']);
-	gulp.watch(['./app/*.ts', './app/**/*.ts', './test/client/**/*.ts', './tslint.json'], ['spawn-rebuild-app']);
-	gulp.watch(['./*.js', './functions/index.js', './test/**/*.js'], ['eslint']);
+	gulp.watch(['./app/*.ts', './app/**/*.ts', './tslint.json'], ['spawn-rebuild-app']);
+	gulp.watch(['./test/unit/*.ts', './test/unit/**/*.ts'], ['tsc']);
+	gulp.watch(['./*.js', './functions/index.js', './test/*.js', './test/e2e/*.js'], ['eslint']);
 });
 
 

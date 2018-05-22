@@ -27,27 +27,29 @@ module.exports = function(config){
 			{ pattern: 'systemjs.config.js', included: false, watched: false },
 			{ pattern: 'systemjs.karma.config.js', included: false, watched: false },
 			{ pattern: 'systemjs.config.extras.js', included: false, watched: false },
-			{ pattern: 'node_modules/traceur/bin/traceur.js', included: false, watched: false },
 			
 			'node_modules/hammerjs/hammer.js',
 			{ pattern: 'node_modules/@angular/**', included: false, watched: false },
 			{ pattern: 'node_modules/rxjs/**', included: false, watched: false },
+
 			{ pattern: 'node_modules/tslib/**', included: false, watched: false },
 			{ pattern: 'node_modules/traceur/**', included: false, watched: false },
 
 			'test/karma.test-shim.js',
-			{ pattern: 'test/client/**', included: false, watched: false },
+			{ pattern: 'test/unit/**', included: false, watched: false },
 
-			{ pattern: 'public/app/**', included: false, watched: false },
+			{ pattern: 'app/src/**', included: false, watched: false },
 
-			{ pattern: 'public/webfonts/**', included: false, watched: false },
+			{ pattern: 'app/views/**', included: false, watched: false },
 
-			{ pattern: 'public/img/**', included: false, watched: false },
+			{ pattern: 'app/webfonts/**', included: false, watched: false },
+
+			{ pattern: 'app/img/**', included: false, watched: false },
 		],
 
 		proxies: {
-			'/public/webfonts/': '/base/public/webfonts/',
-			'/public/img/': '/base/public/img/'
+			'/app/webfonts/': '/base/public/webfonts/',
+			'/app/img/': '/base/public/img/'
 		},
 
 		// exclude: [],

@@ -49,6 +49,10 @@ export class AppIndexComponent implements OnInit, OnDestroy {
 		this.userCongigService.getData().subscribe(
 			(data: any) => {
 				this.data.userConfig = data;
+				this.data.links.codewars += data.username.codewars;
+				this.data.links.hackerrank += data.username.hackerrank;
+				this.data.links.github += data.username.github;
+				this.data.links.codepen += data.username.codepen;
 				def.resolve();
 			},
 			(error: any) => {

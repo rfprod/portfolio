@@ -1,5 +1,5 @@
 /*
-*	SystemJS configuration for Angular
+*	SystemJS configuration for Angular 6
 */
 (function (global) { // eslint-disable-line no-unused-vars
 

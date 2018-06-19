@@ -1,5 +1,5 @@
-<span fxFlex="20" fxShow="data.userConfig.apps.length > 0" fxLayout="row wrap" fxLayoutAlign="center stretch" [fxHide.xs]="false" [fxHide.sm]="false" id="img-shrink-container">
-	<span fxFlex="90" fxLayout="row wrap" fxLayoutAlign="" *ngFor="let app of data.userConfig.apps">
+<span fxFlex="20" fxFlex.xs="30" fxShow="data.userConfig.apps.length > 0" fxLayout="row wrap" fxLayoutAlign="center stretch" [fxHide.xs]="false" [fxHide.sm]="false" id="img-shrink-container">
+	<span fxFlex="90" fxLayout="row wrap" *ngFor="let app of data.userConfig.apps; let j = index">
 		<h4 fxFlex="90">{{app.name}}</h4>
 
 		<a fxFlex="90" fxLayout="row" fxLayoutAlign="center center" *ngIf="app.urls.web" href="{{app.urls.web}}" title="web link" target=_blank>
@@ -20,10 +20,14 @@
 				<mat-icon class="material-icons">code</mat-icon>
 			</a>
 		</span>
+
+		<mat-divider *ngIf="j < data.userConfig.apps.length - 1" fxFlex="100"></mat-divider>
 	</span>
 </span>
 
-<span fxFlex="50" fxFlex.xs="80" fxFlex.xs="80" fxLayout="row wrap" fxLayoutAlign="center center">
+<mat-divider vertical="true"></mat-divider>
+
+<span fxFlex="50" fxFlex.xs="70" fxFlex.sm="80" fxLayout="row wrap" fxLayoutAlign="center center">
 	<a fxFlex="90" fxLayout="row" fxLayoutAlign="center center" href="{{data.links.github}}" title="Github profile link" target=_blank>
 		<img src="img/github-logo.svg" (load)="imgLoaded('githubLogo')" (error)="imgError('githubLogo')" (showImage)="showImage('githubLogo')">
 	</a>
@@ -39,65 +43,76 @@
 			</span>
 		</div>
 		<div fxFlex="100" fxShow="data.github.login" fxLayout="row wrap" fxLayoutAlign="center center">
-			<span>
-				<span fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
-					<span fxFlex>Location</span>
-					<span fxFlex>{{data.github.location}}</span>
-				</span>
-				<span fxFlex="100" *ngIf="data.github.bio" fxLayoutAlign="center center" fxLayoutGap="20px">
-					<span fxFlex>{{data.github.bio}}</span>
-				</span>
-				<span fxFlex="100" *ngIf="data.github.email" fxLayoutAlign="center center" fxLayoutGap="20px">
-					<span fxFlex>Email</span>
-					<span fxFlex>{{data.github.email}}</span>
-				</span>
-				<span fxFlex="100" *ngIf="data.github.company" fxLayoutAlign="center center" fxLayoutGap="20px">
-					<span fxFlex>Company</span>
-					<span fxFlex>{{data.github.company}}</span>
-				</span>
-				<span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
-					<span fxFlex>Created</span>
-					<span fxFlex>{{data.github.created_at | date}}</span>
-				</span>
-				<span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
-					<span fxFlex>Updated</span>
-					<span fxFlex>{{data.github.updated_at | date}}</span>
-				</span>
-				<span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
-					<span fxFlex>Gists</span>
-					<span fxFlex>{{data.github.public_gists}}</span>
-				</span>
-				<span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
-					<span fxFlex>Repos</span>
-					<span fxFlex>{{data.github.public_repos}}</span>
-				</span>
+			<span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+				<mat-divider fxFlex></mat-divider>
+				<span fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">Location</span>
+				<mat-divider fxFlex="2"></mat-divider>
+				<span fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="start center">{{data.github.location}}</span>
+				<mat-divider fxFlex></mat-divider>
+			</span>
+			<span fxFlex="100" *ngIf="data.github.bio" fxLayout="row" fxLayoutAlign="center center">
+				{{data.github.bio}}
+			</span>
+			<span fxFlex="100" *ngIf="data.github.email" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+				<span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Email</span>
+				<mat-divider fxFlex="2"></mat-divider>
+				<span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{data.github.email}}</span>
+			</span>
+			<span fxFlex="100" *ngIf="data.github.company" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+				<span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Company</span>
+				<mat-divider fxFlex="2"></mat-divider>
+				<span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{data.github.company}}</span>
+			</span>
+			<span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+				<span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Created</span>
+				<mat-divider fxFlex="2"></mat-divider>
+				<span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{data.github.created_at | date}}</span>
+			</span>
+			<span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+				<span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Updated</span>
+				<mat-divider fxFlex="2"></mat-divider>
+				<span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{data.github.updated_at | date}}</span>
+			</span>
+			<span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+				<span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Gists</span>
+				<mat-divider fxFlex="2"></mat-divider>
+				<span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{data.github.public_gists}}</span>
+			</span>
+			<span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+				<span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Repos</span>
+				<mat-divider fxFlex="2"></mat-divider>
+				<span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{data.github.public_repos}}</span>
 			</span>
 		</div>
 
-		<div fxFlex="100" fxShow="data.github.login" fxLayout="row wrap" fxLayoutAlign="center center">
-			<span>
-				<span fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="15px">
-					<span fxFlex *ngFor="let lang of data.githubLanguagesKeys">
-						{{lang}}
-						<br>
-						{{data.githubLanguages[lang]}}
-					</span>
-				</span>
+		<mat-divider fxFlex="100"></mat-divider>
+
+		<div fxFlex="100" fxShow="data.github.login" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="15px">
+			<span fxFlex="0 1 auto" *ngFor="let lang of data.githubLanguagesKeys">
+				{{lang}}
+				<br>
+				{{data.githubLanguages[lang]}}
 			</span>
 		</div>
+
+		<mat-divider fxFlex="100"></mat-divider>
 
 	</div>
 </span>
 
+<mat-divider vertical="true"></mat-divider>
+
 <span fxFlex="30" fxLayout="row wrap" fxLayoutAlign="center stretch" [fxHide.xs]="true" [fxHide.sm]="true" id="img-shrink-container">
-	<a fxFlex="90" fxLayout="row" fxLayoutAlign="center center" href="{{data.links.codepen}}" title="Codepen profile link" target=_blank>
+	<a fxFlex="100" fxLayout="row" fxLayoutAlign="center center" href="{{data.links.codepen}}" title="Codepen profile link" target=_blank>
 		<img src="img/codepen-logo.svg" (load)="imgLoaded('codepenLogo')" (error)="imgError('codepenLogo')" (showImage)="showImage('codepenLogo')">
 	</a>
-	<a fxFlex="90" fxLayout="column" fxLayoutAlign="center center" href="{{data.links.codewars}}" title="Codewars profile link" target=_blank>
+	<mat-divider fxFlex="90"></mat-divider>
+	<a fxFlex="100" fxLayout="column" fxLayoutAlign="center center" href="{{data.links.codewars}}" title="Codewars profile link" target=_blank>
 		<img src="img/codewars-logo.svg" (load)="imgLoaded('codewarsLogo')" (error)="imgError('codewarsLogo')" (showImage)="showImage('codewarsLogo')">
 		<img *ngIf="data.userConfig.username" src="{{'https://www.codewars.com/users/' + data.userConfig.username.codewars + '/badges/large'}}" (load)="imgLoaded('codewarsBadge')" (error)="imgError('codewarsBadge')" (showImage)="showImage('codewarsBadge')">
 	</a>
-	<a fxFlex="90" fxLayout="row" fxLayoutAlign="center center" href="{{data.links.hackerrank}}" title="Hackerrank profile link" target=_blank>
+	<mat-divider fxFlex="90"></mat-divider>
+	<a fxFlex="100" fxLayout="row" fxLayoutAlign="center center" href="{{data.links.hackerrank}}" title="Hackerrank profile link" target=_blank>
 		<img src="img/hackerrank-logo.svg" (load)="imgLoaded('hackerrankLogo')" (error)="imgError('hackerrankLogo')" (showImage)="showImage('hackerrankLogo')">
 	</a>
 </span>

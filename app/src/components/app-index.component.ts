@@ -129,10 +129,10 @@ export class AppIndexComponent implements OnInit, OnDestroy {
 	public showContactDialog(): void {
 		console.log('TODO: show contact dialog');
 		this.dialogInstance = this.dialog.open(AppContactComponent, {
-			height: '90vh',
+			height: '80vh',
 			width: '90vw',
-			maxWidth: '90vw',
-			maxHeight: '90vh',
+			maxWidth: '1204px',
+			maxHeight: '768px',
 			disableClose: false,
 			data: {
 				domain: this.window.location.origin

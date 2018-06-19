@@ -38,6 +38,7 @@
 		'@angular/flex-layout/extended': 				'npm:@angular/flex-layout/bundles/flex-layout-extended.umd.js',
 		'@angular/flex-layout/flex': 						'npm:@angular/flex-layout/bundles/flex-layout-flex.umd.js',
 		'@angular/flex-layout/server': 					'npm:@angular/flex-layout/bundles/flex-layout-server.umd.js',
+		'@angular/flex-layout/grid': 						'npm:@angular/flex-layout/bundles/flex-layout-grid.umd.js',
 		'@angular/material': 										'npm:@angular/material/bundles/material.umd.js',
 		'@angular/cdk': 												'npm:@angular/cdk/bundles/cdk.umd.js',
 		'@angular/cdk/a11y': 										'npm:@angular/cdk/bundles/cdk-a11y.umd.js',

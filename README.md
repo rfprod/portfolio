@@ -60,8 +60,6 @@ npm run protractor
 
 both unit and e2e
 
-continuous
-
 ```
 npm test
 ```
@@ -91,5 +89,11 @@ MAILER_RECIPIENT_EMAIL=recipient_email_address@any_domain.tld
 ```
 
 To use Gmail you may need to configure [Allow Less Secure Apps](https://www.google.com/settings/security/lesssecureapps) in your Gmail account unless you are using 2FA in which case you would have to create an [Application Specific password](https://security.google.com/settings/security/apppasswords). You may also need to unlock your account with [Allow access to your Google account](https://accounts.google.com/DisplayUnlockCaptcha) to use SMTP.
+
+### Firebase documentation
+
+* [`Firebase Web: Getting started`](https://firebase.google.com/docs/web/setup)
+* [`Firebase Web: API Reference`](https://firebase.google.com/docs/reference/js/)
+* [`Firebase Web: Codelabs`](https://codelabs.developers.google.com/codelabs/firebase-web/#0)
 
 * [`LICENSE`](LICENSE)

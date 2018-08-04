@@ -4,9 +4,7 @@
 		"ignore": [
 			"firebase.json",
 			"**/.*",
-			"**/node_modules/**",
-			"app/components",
-			"app/php"
+			"**/node_modules/**"
 		],
 		"headers": [
 			{

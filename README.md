@@ -96,4 +96,4 @@ To use Gmail you may need to configure [Allow Less Secure Apps](https://www.goog
 * [`Firebase Web: API Reference`](https://firebase.google.com/docs/reference/js/)
 * [`Firebase Web: Codelabs`](https://codelabs.developers.google.com/codelabs/firebase-web/#0)
 
-* [`LICENSE`](LICENSE)
+[`LICENCE`](LICENSE)

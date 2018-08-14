@@ -1,50 +1,30 @@
 'use strict';
 
-const gulp = require('gulp'),
-	runSequence = require('run-sequence'),
-	webserver = require('gulp-webserver'),
-	concat = require('gulp-concat'),
-	rename = require('gulp-rename'),
-	replace = require('gulp-replace'),
-	eslint = require('gulp-eslint'),
-	tslint = require('gulp-tslint'),
-	plumber = require('gulp-plumber'),
-	uglify = require('gulp-uglify'),
-	karmaServer = require('karma').Server,
-	sass = require('gulp-sass'),
-	cssnano = require('gulp-cssnano'),
-	autoprefixer = require('gulp-autoprefixer'),
-	systemjsBuilder = require('gulp-systemjs-builder'),
-	spawn = require('child_process').spawn,
-	exec = require('child_process').exec;
-let httpServer,
-	protractor,
-	tsc;
+const gulp = require('gulp');
+const runSequence = require('run-sequence');
+const webserver = require('gulp-webserver');
+const concat = require('gulp-concat');
+const rename = require('gulp-rename');
+const replace = require('gulp-replace');
+const eslint = require('gulp-eslint');
+const tslint = require('gulp-tslint');
+const plumber = require('gulp-plumber');
+const uglify = require('gulp-uglify');
+const karmaServer = require('karma').Server;
+const sass = require('gulp-sass');
+const cssnano = require('gulp-cssnano');
+const autoprefixer = require('gulp-autoprefixer');
+const systemjsBuilder = require('gulp-systemjs-builder');
+const spawn = require('child_process').spawn;
+
+let httpServer;
+let protractor;
+let tsc;
 
 /**
  *	load .env variables
  */
 require('dotenv').load();
-
-function killProcessByName(name){
-	exec('pgrep ' + name, (error, stdout, stderr) => {
-		if (error) {
-			// throw error;
-			console.log('killProcessByName, error', error);
-		}
-		if (stderr) console.log('stderr: ',stderr);
-		if (stdout) {
-			const runningProcessesIDs = stdout.match(/\d+/);
-			runningProcessesIDs.forEach((id) => {
-				exec('kill -9 ' + id, (error, stdout, stderr) => {
-					if (error) throw error;
-					if (stderr) console.log('stdout: ', stdout);
-					if (stdout) console.log('stderr: ', stderr);
-				});
-			});
-		}
-	});
-}
 
 gulp.task('server', (done) => {
 	if (httpServer) httpServer.emit('kill');
@@ -270,14 +250,10 @@ gulp.task('spawn-rebuild-app', (done) => {
 
 
 gulp.task('default', (done) => {
-	runSequence('compile-and-build', 'server', /*'run-tests',*/ 'watch', done);
+	runSequence('compile-and-build', 'server', 'watch', done);
 });
 
 
 process.on('exit', (code) => {
 	console.log(`PROCESS EXIT CODE ${code}`);
-	// if (httpServer) httpServer.emit('kill');
-	// if (protractor) protractor.kill();
-	// if (tsc) tsc.kill();
-	// killProcessByName('gulp');
 });

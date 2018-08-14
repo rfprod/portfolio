@@ -91,7 +91,7 @@ module.exports = function(config){
 
 		autoWatch: true,
 		singleRun: true,
-		logLevel: config.LOG_DEBUG,
+		logLevel: config.LOG_ERROR,
 		colors: true
 
 	});

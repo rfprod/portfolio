@@ -34,10 +34,8 @@
 		"no-console": "off"
 	},
 	"globals": {
-		// app
 		"angular": true,
 		"System": true,
-		// testing
 		"it": true,
 		"describe": true,
 		"jasmine": true,
@@ -47,7 +45,6 @@
 		"spyOn": true,
 		"protractor": true,
 		"browser": true,
-		"expect": true,
 		"element": true,
 		"by": true
 	}

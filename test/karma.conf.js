@@ -38,18 +38,18 @@ module.exports = function(config){
 			'test/karma.test-shim.js',
 			{ pattern: 'test/unit/**', included: false, watched: false },
 
-			{ pattern: 'app/src/**', included: false, watched: false },
+			{ pattern: 'public/src/**', included: false, watched: false },
 
-			{ pattern: 'app/views/**', included: false, watched: false },
+			{ pattern: 'public/views/**', included: false, watched: false },
 
-			{ pattern: 'app/webfonts/**', included: false, watched: false },
+			{ pattern: 'public/webfonts/**', included: false, watched: false },
 
-			{ pattern: 'app/img/**', included: false, watched: false },
+			{ pattern: 'public/img/**', included: false, watched: false },
 		],
 
 		proxies: {
-			'/app/webfonts/': '/base/public/webfonts/',
-			'/app/img/': '/base/public/img/'
+			'/public/webfonts/': '/base/public/webfonts/',
+			'/public/img/': '/base/public/img/'
 		},
 
 		// exclude: [],

@@ -7,17 +7,17 @@ node_modules
 *.log
 
 # compiled client app
-app/src/*.js
-app/src/*.js.map
-app/src/**/*.js
-app/src/**/*.js.map
+public/src/*.js
+public/src/*.js.map
+public/src/**/*.js
+public/src/**/*.js.map
 
 # build
-app/js/*.*
-!app/js/.gitkeep
-app/webfonts/*.*
-!app/webfonts/.gitkeep
-app/css/*.css
+public/js/*.*
+!public/js/.gitkeep
+public/webfonts/*.*
+!public/webfonts/.gitkeep
+public/css/*.css
 
 # compiled client tests
 test/unit/*.js

@@ -4,11 +4,12 @@
 (function (global) { // eslint-disable-line no-unused-vars
 
 	var paths = {
-		'npm:': './node_modules/'
+		'npm:': './node_modules/',
+		'pub:': './public/'
 	};
 
 	var map = {
-		'app': 																	'./app/src',
+		'app': 																	'pub:src',
 
 		'rxjs': 																'npm:rxjs/bundles/rxjs.umd.js',
 		'rxjs/ajax': 														'npm:rxjs/ajax',

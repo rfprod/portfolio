@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { AutofocusDirective } from '../../../app/src/directives/autofocus.directive';
+import { AutofocusDirective } from '../../../public/src/directives/autofocus.directive';
 
 import { DummyComponent } from '../mocks/index';
 

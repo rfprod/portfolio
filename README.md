@@ -14,18 +14,19 @@ A portfolio microapp based on `Angular`, `GitHub API`.
 
 ## Project structure
 
-* `./app` - application
-  * `./app/src` - application source root
-  	* `./app/src/components` - application components source
-  	* `./app/src/directives` - application directives source
-  	* `./app/src/modules` - application modules source
-  	* `./app/src/services` - application services source
-  * `./app/css` - stylesheets
-  * `./app/data/config.json` - application config containing containing social profiles, and apps references
-  * `./app/js` - bundled application components
-  * `./app/img` - Codewars, GitHub, Codepen svg logos
-  * `./app/webfonts` - application fonts
-  * `./app/views` - view components' html templates
+* `./functions` - firebase function
+* `./public` - client
+  * `./public/src` - client source root
+  	* `./public/src/components` - client components source
+  	* `./public/src/directives` - client  directives source
+  	* `./public/src/modules` - client modules source
+  	* `./public/src/services` - client services source
+  * `./public/css` - stylesheets
+  * `./public/data/config.json` - client app config containing social profiles, and apps references
+  * `./public/js` - bundled client application components
+  * `./public/img` - Codewars, GitHub, Codepen svg logos
+  * `./public/webfonts` - fonts
+  * `./public/views` - view components' html templates
 * `./test` - unit, e2e configs, and scenarios
 
 ## Installation

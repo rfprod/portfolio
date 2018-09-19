@@ -4,16 +4,16 @@ import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/t
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { EventEmitterService } from '../../app/src/services/event-emitter.service';
-import { CustomDeferredService } from '../../app/src/services/custom-deferred.service';
+import { EventEmitterService } from '../../public/src/services/event-emitter.service';
+import { CustomDeferredService } from '../../public/src/services/custom-deferred.service';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import '../../node_modules/hammerjs/hammer.js';
-import { CustomMaterialModule } from '../../app/src/modules/custom-material.module';
+import { CustomMaterialModule } from '../../public/src/modules/custom-material.module';
 
 import { DummyComponent } from './mocks/index';
 
-import { AppComponent } from '../../app/src/app.component';
+import { AppComponent } from '../../public/src/app.component';
 
 describe('AppComponent', () => {
 

@@ -4,12 +4,14 @@
 (function (global) { // eslint-disable-line no-unused-vars
 
 	var paths = {
-		'npm:': './base/node_modules/'
+		'npm:': './base/node_modules/',
+		'pub:': './base/public/',
+		'tst:': './base/test/'
 	};
 
 	var map = {
-		'app': 																	'./base/app/src',
-		'mocks': 																'./base/test/unit/mocks',
+		'app': 																	'pub:src',
+		'mocks': 																'tst:unit/mocks',
 
 		'rxjs': 																'npm:rxjs/bundles/rxjs.umd.js',
 		'rxjs/ajax': 														'npm:rxjs/ajax',

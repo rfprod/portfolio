@@ -28,7 +28,7 @@ require('dotenv').load();
 
 gulp.task('server', (done) => {
 	if (httpServer) httpServer.emit('kill');
-	httpServer = gulp.src('./app').pipe(webserver({
+	httpServer = gulp.src('./public').pipe(webserver({
 		host: 'localhost',
 		port: 7070,
 		livereload: true,
@@ -39,7 +39,7 @@ gulp.task('server', (done) => {
 			*	returns index.html if condition is met
 			*	this ignores all requests to api endpoint, and to files with extensions
 			*/
-			if (req.url.match(/^\/(__|app|css|data|img|js|views|webfonts)\/.*$/)) {
+			if (req.url.match(/^\/(__|public|css|data|img|js|views|webfonts)\/.*$/)) {
 				console.log('httpServer middleware SPA config, pass request:', req.url);
 			} else {
 				console.log('httpServer middleware SPA config, replace url:', req.url);
@@ -121,11 +121,11 @@ gulp.task('build-system-js', () => {
 			console.log('gulp replaced ' + match + ' at ' + offset + ' with actual github access token' );
 			return process.env.GITHUB_ACCESS_TOKEN;
 		}))
-		.pipe(gulp.dest('./app/js'));
+		.pipe(gulp.dest('./public/js'));
 });
 
 gulp.task('sass-autoprefix-minify-css', () => {
-	return gulp.src('./app/css/*.scss')
+	return gulp.src('./public/css/*.scss')
 		.pipe(plumber())
 		.pipe(concat('packed-app.css'))
 		.pipe(sass().on('error', sass.logError))
@@ -135,7 +135,7 @@ gulp.task('sass-autoprefix-minify-css', () => {
 		.pipe(cssnano())
 		.pipe(plumber.stop())
 		.pipe(rename('bundle.min.css'))
-		.pipe(gulp.dest('./app/css'));
+		.pipe(gulp.dest('./public/css'));
 });
 
 gulp.task('pack-vendor-js', () => {
@@ -156,7 +156,7 @@ gulp.task('pack-vendor-js', () => {
 		.pipe(uglify())
 		.pipe(plumber.stop())
 		.pipe(rename('vendor-bundle.min.js'))
-		.pipe(gulp.dest('./app/js'));
+		.pipe(gulp.dest('./public/js'));
 });
 
 gulp.task('pack-vendor-css', () => {
@@ -177,7 +177,7 @@ gulp.task('pack-vendor-css', () => {
 		.pipe(cssnano())
 		.pipe(plumber.stop())
 		.pipe(rename('vendor-bundle.min.css'))
-		.pipe(gulp.dest('./app/css'));
+		.pipe(gulp.dest('./public/css'));
 });
 
 gulp.task('move-vendor-fonts', () => {
@@ -191,7 +191,7 @@ gulp.task('move-vendor-fonts', () => {
 		'./node_modules/material-design-icon-fonts/iconfont/*.woff',
 		'./node_modules/material-design-icon-fonts/iconfont/*.ttf'
 	])
-		.pipe(gulp.dest('./app/webfonts'));
+		.pipe(gulp.dest('./public/webfonts'));
 });
 
 
@@ -202,7 +202,7 @@ gulp.task('eslint', () => {
 });
 
 gulp.task('tslint', () => {
-	return gulp.src(['./app/*.ts', './app/**/*.ts', '!./app/{css,views}/', './test/unit/*.ts', './test/unit/**/*.ts'])
+	return gulp.src(['./public/*.ts', './public/**/*.ts', '!./public/{css,views}/', './test/client/*.ts', './test/client/**/*.ts'])
 		.pipe(tslint({
 			formatter: 'verbose' // 'verbose' - extended info | 'prose' - brief info
 		}))
@@ -218,10 +218,10 @@ gulp.task('lint', (done) => {
 
 gulp.task('watch', () => {
 	gulp.watch(['./gulpfile.js'], ['pack-vendor-js', 'pack-vendor-css', 'move-vendor-fonts', 'server']);
-	gulp.watch('./app/css/*.scss', ['sass-autoprefix-minify-css']);
-	gulp.watch(['./app/*.js', './app/components/**/*.js','./app/views/**/*.js','./karma.conf.js'], ['client-unit-test']);
-	gulp.watch(['./app/*.ts', './app/**/*.ts', './tslint.json'], ['spawn-rebuild-app']);
-	gulp.watch(['./test/unit/*.ts', './test/unit/**/*.ts'], ['tsc']);
+	gulp.watch('./public/css/*.scss', ['sass-autoprefix-minify-css']);
+	gulp.watch(['./public/src/**/*.js', './karma.conf.js'], ['client-unit-test']);
+	gulp.watch(['./public/src/**/*.ts', './tslint.json'], ['spawn-rebuild-app']);
+	gulp.watch(['./test/client/*.ts', './test/client/**/*.ts'], ['tsc']);
 	gulp.watch(['./*.js', './functions/index.js', './test/*.js', './test/e2e/*.js'], ['eslint']);
 });
 

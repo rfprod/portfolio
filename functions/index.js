@@ -21,7 +21,7 @@ require('dotenv').load();
 /**
  *	initialize admin SDK to access Firebase Realtime Database
  */
-admin.initializeApp(functions.config().firebase);
+admin.initializeApp();
 
 /**
  * nodemailer usage notice:

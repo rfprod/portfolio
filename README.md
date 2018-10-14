@@ -1,6 +1,9 @@
 # Portfolio
 
-![build](https://travis-ci.org/rfprod/portfolio.svg?branch=master)
+![TravisCI build status](https://travis-ci.org/rfprod/portfolio.svg?branch=master)
+
+[![Azure Pipelines Build Status](https://rfprod.visualstudio.com/Portfolio/_apis/build/status/Portfolio-CI)](https://rfprod.visualstudio.com/Portfolio/_build/latest?definitionId=4)
+
 
 A portfolio microapp based on `Angular`, `GitHub API`.
 

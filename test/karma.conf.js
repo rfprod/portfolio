@@ -36,7 +36,7 @@ module.exports = function(config){
 			{ pattern: 'node_modules/traceur/**', included: false, watched: false },
 
 			'test/karma.test-shim.js',
-			{ pattern: 'test/unit/**', included: false, watched: false },
+			{ pattern: 'test/client/**', included: false, watched: false },
 
 			{ pattern: 'public/src/**', included: false, watched: false },
 

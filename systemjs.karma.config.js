@@ -1,5 +1,5 @@
 /*
-*	SystemJS configuration for Angular 6
+*	SystemJS configuration for Angular
 */
 (function (global) { // eslint-disable-line no-unused-vars
 
@@ -11,7 +11,7 @@
 
 	var map = {
 		'app': 																	'pub:src',
-		'mocks': 																'tst:unit/mocks',
+		'mocks': 																'tst:client/mocks',
 
 		'rxjs': 																'npm:rxjs/bundles/rxjs.umd.js',
 		'rxjs/ajax': 														'npm:rxjs/ajax',

@@ -1,6 +1,8 @@
 const testUtils = require('./test-utils');
 const headlessChromeFlags = testUtils.headlessChromeFlags();
 
+const os = require('os');
+
 module.exports = function(config){
 	config.set({
 
@@ -49,12 +51,11 @@ module.exports = function(config){
 
 		proxies: {
 			'/public/webfonts/': '/base/public/webfonts/',
-			'/public/img/': '/base/public/img/'
+			'/public/img/': '/base/public/img/',
+			'/views': '/base/public/views'
 		},
 
-		// exclude: [],
-
-		frameworks: ['jasmine'],
+		frameworks: ['parallel', 'jasmine'],
 
 		browserNoActivityTimeout: 20000,
 		browserDisconnectTimeout: 20000,
@@ -72,16 +73,42 @@ module.exports = function(config){
 		browsers: ['ChromeHeadless'],
 		
 		plugins: [
+			'karma-parallel',
 			'karma-redirect-preprocessor',
 			'karma-chrome-launcher',
+			'karma-html-reporter',
+			'karma-sourcemap-loader',
+			'karma-coverage',
 			'karma-jasmine'
 		],
 
-		preprocessors: {
-			'public/**/*.html': ['redirect']
+		parallelOptions: {
+			executors: Math.ceil(os.cpus().length / 2),
+			shardStrategy: 'description-length'
 		},
 
-		reporters: ['progress'],
+		preprocessors: {
+			'public/**/*.html': ['redirect'],
+			'public/src/**/!(*.spec|*.mock).js': ['coverage'],
+			'public/src/*.js': ['sourcemap']
+		},
+
+		reporters: ['progress', 'coverage', 'html'],
+		coverageReporter: {
+			dir: 'public/logs/',
+			reporters: [
+				{ type: 'json', subdir: 'coverage'}
+			]
+		},
+		htmlReporter: {
+			outputDir: 'public/logs/unit',
+			templatePath: null,
+			focusOnFailures: true,
+			namedFiles: false,
+			pageTitle: 'Portfolio Client Unit Tests',
+			urlFriendlyName: true,
+			reportName: 'client'
+		},
 
 		failOnEmptyTestSuite: false,
 
@@ -91,8 +118,15 @@ module.exports = function(config){
 
 		autoWatch: true,
 		singleRun: true,
+		colors: true,
+
 		logLevel: config.LOG_ERROR,
-		colors: true
+		browserConsoleLogOptions: {
+			level: 'debug',
+			format: '%b %T %m',
+			path: 'public/logs/unit/browser-console.log',
+			terminal: false
+		}
 
 	});
 };

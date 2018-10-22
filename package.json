@@ -70,15 +70,28 @@
 		"start": "gulp",
 		"pretest": "npm install",
 		"test": "gulp run-tests",
-		"client-test": "gulp client-unit-test",
+		"create-unit-test-directory": "mkdir -p ./public/logs/unit",
+		"preclient-test": "npm run create-unit-test-directory",
+		"client-test": "npm run clear-client-reports && gulp client-unit-test && npm run client-coverage-report && npm run logs-index",
+		"client-coverage-report": "remap-istanbul -i ./public/logs/coverage/coverage-final.json -o ./public/logs/coverage/html-report -t html && echo '# coverage html-report generated, path: ./public/logs/coverage/html-report'",
+		"clear-client-reports": "rm -rf ./public/logs/coverage ./public/logs/unit/client && echo '# client coverage and spec reports cleared'",
 		"lint": "gulp lint",
 		"clear-ts-build": "find ./public/ ./test/client/ -type f -name \"*.js\" -exec rm {} \\; && npm run clear-js-maps",
 		"clear-js-maps": "find ./public/ ./test/client/ -type f -regex \".*\\.js\\..*\" -exec rm {} \\;",
+		"clear-logs": "find ./public/logs/ -type f -name '*[^.gitkeep]*' -delete && find ./public/logs/ -type d -empty -name '*[^.gitkeep]*' -delete",
+		"logs-index": "gulp generate-logs-index",
 		"preupdate-webdriver": "npm install",
 		"update-webdriver": "webdriver-manager update",
 		"preprotractor": "npm run update-webdriver",
 		"protractor": "protractor test/protractor.conf.js",
 		"tsc": "tsc",
 		"tsc:w": "tsc -w"
+	},
+	"devDependencies": {
+		"karma-coverage": "^1.1.2",
+		"karma-html-reporter": "^0.2.7",
+		"karma-parallel": "^0.3.0",
+		"karma-sourcemap-loader": "^0.3.7",
+		"remap-istanbul": "^0.12.0"
 	}
 }

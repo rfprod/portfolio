@@ -16,6 +16,7 @@ const cssnano = require('gulp-cssnano');
 const autoprefixer = require('gulp-autoprefixer');
 const systemjsBuilder = require('gulp-systemjs-builder');
 const spawn = require('child_process').spawn;
+const fs = require('fs');
 
 let httpServer;
 let protractor;
@@ -25,6 +26,66 @@ let tsc;
  *	load .env variables
  */
 require('dotenv').load();
+
+gulp.task('generate-logs-index', (done) => {
+	const logsIndexHTML = `
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<style>
+				body {
+					height: 100%;
+					margin: 0;
+					padding: 0 1em;
+					display: flex;
+					flex-direction: row;
+					flex-wrap: wrap;
+					align-items: flex-start;
+					align-content: flex-start;
+					justify-content: stretch;
+				}
+				.flex-100 {
+					flex: 100%;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+				}
+				.flex-item {
+					flex: 1 1 auto;
+					display: flex;
+					flex-direction: row;
+					flex-wrap: wrap;
+					align-items: center;
+					justify-content: center;
+					border: 1px rgba(0, 0, 0, 0.3) dotted;
+				}
+				a {
+					text-transform: uppercase;
+				}
+			</style>
+		</head>
+		<body>
+			<h1 class="flex-100">Portfolio Reports and Documentation Index</h1>
+
+			<h2 class="flex-100">Reports</h2>
+
+				<span class="flex-item">
+					<h3 class="flex-100">Client Unit</h3>
+					<a class="flex-item" href="unit/client/index.html" target=_blank>Spec</a>
+					<a class="flex-item" href="coverage/html-report/index.html" target=_blank>Coverage</a>
+					<small class="flex-100"><a href="unit/browser-console.log" target=_blank>browser-console.log</a></small>
+				</span>
+
+		</body>
+	</html>
+	`;
+
+	fs.writeFile('./public/logs/index.html', logsIndexHTML, (err) => {
+		if (err) throw err;
+		console.log('# > LOGS index.html > was created');
+		done();
+	});
+});
 
 gulp.task('server', (done) => {
 	if (httpServer) httpServer.emit('kill');

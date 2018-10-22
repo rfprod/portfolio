@@ -4,16 +4,26 @@ node_modules
 # firebase cache
 .firebase/
 
-# environment variables and logs
+# environment variables
 *.env
 .*.env
+
+# logs
 *.log
+public/logs/*
+!public/logs/*.gitkeep
 
 # compiled client app
 public/src/*.js
 public/src/*.js.map
 public/src/**/*.js
 public/src/**/*.js.map
+
+# compiled client tests
+test/client/*.js
+test/client/*.js.map
+test/client/**/*.js
+test/client/**/*.js.map
 
 # build
 public/js/*.*
@@ -27,3 +37,5 @@ test/unit/*.js
 test/unit/*.js.map
 test/unit/**/*.js
 test/unit/**/*.js.map
+
+

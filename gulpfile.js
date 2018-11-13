@@ -100,7 +100,7 @@ gulp.task('server', (done) => {
 			*	returns index.html if condition is met
 			*	this ignores all requests to api endpoint, and to files with extensions
 			*/
-			if (req.url.match(/^\/(__|public|css|data|img|js|views|webfonts)\/.*$/)) {
+			if (req.url.match(/^\/((__|public|css|data|img|js|views|webfonts)\/|robots).*$/)) {
 				console.log('httpServer middleware SPA config, pass request:', req.url);
 			} else {
 				console.log('httpServer middleware SPA config, replace url:', req.url);

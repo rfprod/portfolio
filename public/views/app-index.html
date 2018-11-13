@@ -3,10 +3,10 @@
 		<h4 fxFlex="90">{{app.name}}</h4>
 
 		<a fxFlex="90" fxLayout="row" fxLayoutAlign="center center" *ngIf="app.urls.web" href="{{app.urls.web}}" title="web link" target=_blank>
-			<img src="{{app.logo}}" title="{{app.name}}">
+			<img src="{{app.logo}}" title="{{app.name}}" alt="{{app.name}}">
 		</a>
 		<a fxFlex="90" fxLayout="row" fxLayoutAlign="center center" *ngIf="!app.urls.web" title="{{app.name}}">
-			<img src="{{app.logo}}" title="{{app.name}}">
+			<img src="{{app.logo}}" title="{{app.name}}" alt="{{app.name}}">
 		</a>
 
 		<span fxFlex="90">

@@ -1,0 +1,8 @@
+user-agent: *
+disallow: /src/
+
+user-agent: *
+disallow: /logs/
+
+user-agent: *
+disallow: /data/

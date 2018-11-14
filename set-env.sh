@@ -128,7 +128,7 @@ if [ 1 -gt $# ]; then
 			printf " ${LIGHT_BLUE}  >> invalid value, user choise: ${RED}$userChoice ${DEFAULT} \n"
 			;;
 	esac
-elif [ 10 -eq $# ]
+elif [ 10 -eq $# ]; then
 	# map arguments
 	githubAccessToken=$1
 	firebaseDeployToken=$2
@@ -177,7 +177,6 @@ elif [ 10 -eq $# ]
 	printf "${YELLOW}  >> OK: ${GREEN}environment variables set in ${YELLOW}./functions/.env${LIGHT_BLUE} file${DEFAULT} \n\n"
 	cat ./functions/.env
 	printf "\n\n"
-
 else
 	printf "${LIGHT_RED} >> ERROR: ${LIGHT_BLUE}you should provide either no arguments at all or 10 for the following keys in this partucular sequence (latter  case is not safe, env files will be rewritten without prompting for confirmation, it's intended for CI usage):\n
 		- ${YELLOW}GITHUB_ACCESS_TOKEN${LIGHT_BLUE}\n

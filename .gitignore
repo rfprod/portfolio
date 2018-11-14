@@ -33,9 +33,9 @@ public/webfonts/*.*
 public/css/*.css
 
 # compiled client tests
-test/unit/*.js
-test/unit/*.js.map
-test/unit/**/*.js
-test/unit/**/*.js.map
+test/client/*.js
+test/client/*.js.map
+test/client/**/*.js
+test/client/**/*.js.map
 
 

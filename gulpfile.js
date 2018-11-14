@@ -210,7 +210,6 @@ gulp.task('pack-vendor-js', () => {
 		'./node_modules/core-js/client/shim.js',
 		'./node_modules/zone.js/dist/zone.min.js',
 		'./node_modules/reflect-metadata/Reflect.js',
-		'./node_modules/web-animations-js/web-animations.min.js'
 	])
 		.pipe(plumber())
 		.pipe(concat('vendor-bundle.js'))

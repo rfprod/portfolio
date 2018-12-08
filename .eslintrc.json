@@ -1,42 +1,42 @@
 {
-	"root": true,
-	"env": {
-		"browser": true,
-		"es6": true,
-		"node": true
-	},
-	"extends": "eslint:recommended",
-	"parserOptions": {
-		"ecmaVersion": 2017,
-		"ecmaFeatures": {
-			"jsx": true
-		},
-		"sourceType": "module"
-	},
-	"rules": {
-		"indent": [
-			"error",
-			"tab",
-			{ "SwitchCase": 1 }
-		],
-		"linebreak-style": [
-			"error",
-			"unix"
-		],
-		"quotes": [
-			"error",
-			"single"
-		],
-		"semi": [
-			"error",
-			"always"
-		],
-		"no-console": "off"
-	},
-	"globals": {
-		"it": true,
-		"describe": true,
-		"jasmine": true,
-		"beforeEach": true
-	}
+  "root": true,
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": 2017,
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "rules": {
+    "indent": [
+      "error",
+      "tab",
+      { "SwitchCase": 1 }
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "no-console": "off"
+  },
+  "globals": {
+    "it": true,
+    "describe": true,
+    "jasmine": true,
+    "beforeEach": true
+  }
 }

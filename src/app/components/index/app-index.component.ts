@@ -70,15 +70,15 @@ export class AppIndexComponent implements OnInit, OnDestroy {
     githubRepos: [] as string[],
     githubLanguages: {} as any,
     githubLanguagesKeys: [] as string[],
-    initialized: true
+    initialized: false
   };
 
   /**
    * Check component data mode state.
    */
   private checkDataState(): void {
-    if (Object.keys(this.data.github).length && this.data.githubRepos.length && this.data.githubLanguages.length) {
-      this.data.initialized = false;
+    if (Object.keys(this.data.github).length) {
+      this.data.initialized = true;
     }
   }
 

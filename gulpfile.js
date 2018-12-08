@@ -2,13 +2,13 @@
 
 const gulp = require('gulp');
 const runSequence = require('run-sequence');
-const eslint = require('gulp-eslint');
 const spawn = require('child_process').spawn;
 
 /**
  * Lints JS code.
  */
 gulp.task('eslint', () => {
+  const eslint = require('gulp-eslint');
   // uses ignore list from .eslintignore
   return gulp.src(['./*.js', './functions/**/*.js', './test/**/*.js'])
     .pipe(eslint('./.eslintrc.json'))
@@ -35,7 +35,7 @@ let ngServer;
  */
 gulp.task('ng-serve', (done) => {
   if (ngServer) ngServer.kill();
-  ngServer = spawn('ng', ['serve'], {stdio: 'inherit'});
+  ngServer = spawn('npm run', ['start-cli'], {stdio: 'inherit'});
   ngServer.on('close', (code) => {
     if (code === 8) {
       console.log('Error detected...');

@@ -90,11 +90,12 @@ body {
 
 	#spinner {
 		display: flex;
-		position: fixed;
+    position: fixed;
+    top: 0;
 		align-items: center;
-		justify-content: center;
+		justify-content: start;
 		width: 100vw;
-		height: 100vh;
+		height: auto!important;
 		z-index: 1000;
 		background: rgba(0, 0, 0, 0.15);
 	}

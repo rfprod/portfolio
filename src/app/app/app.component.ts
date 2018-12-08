@@ -10,10 +10,10 @@ import { EventEmitterService } from '../services/emitter/event-emitter.service';
 @Component({
   selector: 'root',
   template: `
-    <router-outlet></router-outlet>
     <span id="spinner" *ngIf="showSpinner">
       <mat-progress-bar mode="indeterminate" aria-label="Application progress bar"></mat-progress-bar>
     </span>
+    <router-outlet></router-outlet>
   `
 })
 export class AppComponent implements OnInit, OnDestroy {

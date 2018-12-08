@@ -10,6 +10,9 @@ import { CustomDeferredService } from '../../services/deferred/custom-deferred.s
 import { UserConfigService } from '../../services/user-config/user-config.service';
 import { GithubService } from '../../services/github/github.service';
 
+/**
+ * Application index component.
+ */
 @Component({
   selector: 'app-index',
   templateUrl: './app-index.html',
@@ -19,6 +22,15 @@ import { GithubService } from '../../services/github/github.service';
 })
 export class AppIndexComponent implements OnInit, OnDestroy {
 
+  /**
+   * 
+   * @param el Element reference
+   * @param dialog Material dialog
+   * @param emitter Event emitter
+   * @param userCongigService User configuration service
+   * @param githubService Github service
+   * @param window Window reference
+   */
   constructor(
     private el: ElementRef,
     private dialog: MatDialog,
@@ -30,20 +42,40 @@ export class AppIndexComponent implements OnInit, OnDestroy {
     console.log('this.el.nativeElement', this.el.nativeElement);
   }
 
-  public data: any = {
+  /**
+   * Component data.
+   */
+  public data: {
+    links: {
+      codewars: string;
+      hackerrank:string;
+      github: string;
+      codepen: string;
+    };
+    userConfig: any,
+    github: any,
+    githubRepos: any[],
+    githubLanguages: any,
+    githubLanguagesKeys: string[],
+    initialModels: boolean
+  } = {
     links: {
       codewars: 'https://www.codewars.com/users/' as string,
       hackerrank: 'https://www.hackerrank.com/' as string,
       github: 'https://github.com/' as string,
       codepen: 'https://codepen.io/' as string
-    } as any,
+    },
     userConfig: {} as any,
     github: {} as any,
-    githubRepos: [] as any[],
+    githubRepos: [] as string[],
     githubLanguages: {} as any,
-    githubLanguagesKeys: [] as string[]
+    githubLanguagesKeys: [] as string[],
+    initialModels: true
   };
 
+  /**
+   * Gets user config.
+   */
   private getUserConfig(): Promise<any> {
     const def = new CustomDeferredService<any>();
     this.userCongigService.getData().subscribe(
@@ -63,6 +95,9 @@ export class AppIndexComponent implements OnInit, OnDestroy {
     return def.promise;
   }
 
+  /**
+   * Gets user Github profile.
+   */
   private getGithubProfile(): Promise<any> {
     const def = new CustomDeferredService<any>();
     this.githubService.getProfile(this.data.userConfig.username.github).subscribe(
@@ -78,6 +113,9 @@ export class AppIndexComponent implements OnInit, OnDestroy {
     return def.promise;
   }
 
+  /**
+   * Gets user Github repos.
+   */
   private getGithubRepos(): Promise<any> {
     const def = new CustomDeferredService<any>();
     this.githubService.getRepos(this.data.userConfig.username.github).subscribe(
@@ -96,6 +134,10 @@ export class AppIndexComponent implements OnInit, OnDestroy {
     return def.promise;
   }
 
+  /**
+   * Gets user Github repo languages.
+   * @param repoName repository name
+   */
   private getGithubRepoLanguages(repoName: string): Promise<any> {
     const def = new CustomDeferredService<any>();
     this.githubService.getRepoLanguages(this.data.userConfig.username.github, repoName).subscribe(
@@ -123,9 +165,18 @@ export class AppIndexComponent implements OnInit, OnDestroy {
     return def.promise;
   }
 
+  /**
+   * Material dialog instance.
+   */
   private dialogInstance: MatDialogRef<AppContactComponent>;
+  /**
+   * Material dialog subscription.
+   */
   private dialogSub: any;
 
+  /**
+   * Shows contact dialog.
+   */
   public showContactDialog(): void {
     console.log('TODO: show contact dialog');
     this.dialogInstance = this.dialog.open(AppContactComponent, {
@@ -145,6 +196,9 @@ export class AppIndexComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Images 'show' state.
+   */
   public imgShow: any = {
     githubLogo: true as boolean,
     codepenLogo: true as boolean,
@@ -153,18 +207,33 @@ export class AppIndexComponent implements OnInit, OnDestroy {
     hackerrankLogo: true as boolean
   };
 
+  /**
+   * Image show event handler.
+   * @param imageKey image key
+   */
   public showImage(imageKey: string): boolean {
     return this.imgShow[imageKey];
   }
 
+  /**
+   * Image loaded event handler.
+   * @param imageKey image key
+   */
   public imgLoaded(imageKey: string): void {
     this.imgShow[imageKey] = true;
   }
 
+  /**
+   * Image error event handler.
+   * @param imageKey image key
+   */
   public imgError(imageKey: string): void {
     this.imgShow[imageKey] = false;
   }
 
+  /**
+   * Lifecycle hook called on component initialization.
+   */
   public ngOnInit(): void {
     console.log('ngOnInit: AppIndexComponent initialized');
 
@@ -174,6 +243,7 @@ export class AppIndexComponent implements OnInit, OnDestroy {
       .then(() => this.getGithubRepos())
       .then(() => {
         console.log('AppIndex init done');
+        this.data.initialModels = false;
         this.emitter.emitSpinnerStopEvent();
       })
       .catch((error: any) => {
@@ -181,6 +251,10 @@ export class AppIndexComponent implements OnInit, OnDestroy {
         this.emitter.emitSpinnerStopEvent();
       });
   }
+
+  /**
+   * Lifecycle hook called on component destruction.
+   */
   public ngOnDestroy(): void {
     console.log('ngOnDestroy: AppIndexComponent destroyed');
   }

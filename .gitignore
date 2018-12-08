@@ -17,7 +17,7 @@ functions/.*.env
 
 # dependencies
 /node_modules
-functions/node_modules
+/functions/node_modules
 
 # logs
 test/logs/

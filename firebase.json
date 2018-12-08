@@ -30,7 +30,7 @@
 				]
 			},
 			{
-				"source": "/sendEmail",
+				"source": "/api/(sendEmail|githubUser|githubUserRepos|githubUserReposLanguages)",
 				"headers": [
 					{
 						"key": "Cache-Control",
@@ -49,15 +49,27 @@
 		],
 		"rewrites": [
 			{
-				"source": "/sendEmail",
+				"source": "/api/sendEmail",
 				"function": "sendEmail"
+			},
+      {
+				"source": "/api/githubUser",
+				"function": "githubUser"
+			},
+      {
+				"source": "/api/githubUserRepos",
+				"function": "githubUserRepos"
+			},
+      {
+				"source": "/api/githubUserReposLanguages",
+				"function": "githubUserReposLanguages"
 			},
 			{
 				"source": "/robots.txt",
 				"destination": "/robots.txt"
 			},
 			{
-				"source": "**/!(sendEmail)",
+				"source": "**/!(sendEmail|githubUser|githubUserRepos|githubUserReposLanguages)",
 				"destination": "/index.html"
 			}
 		]

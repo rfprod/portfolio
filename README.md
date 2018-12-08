@@ -1,7 +1,5 @@
 # Portfolio
 
-![TravisCI build status](https://travis-ci.org/rfprod/portfolio.svg?branch=master)
-
 [![Azure Pipelines Build Status](https://rfprod.visualstudio.com/Portfolio/_apis/build/status/Portfolio-CI)](https://rfprod.visualstudio.com/Portfolio/_build/latest?definitionId=4)
 
 
@@ -14,59 +12,31 @@ A portfolio microapp based on `Angular`, `GitHub API`.
 * Each section is clickable and opens a new browser tab with portfolio subject's profile on the selected network.
 * User can send an email to portfolio's subject using a contact dialog.
 * User can see featured applications grid section.
+* User can see portfolio's subject general github statistics.
 
-## Project structure
+## Development server
 
-* `./functions` - firebase function
-* `./public` - client
-  * `./public/src` - client source root
-  	* `./public/src/components` - client components source
-  	* `./public/src/directives` - client  directives source
-  	* `./public/src/modules` - client modules source
-  	* `./public/src/services` - client services source
-  * `./public/css` - stylesheets
-  * `./public/data/config.json` - client app config containing social profiles, and apps references
-  * `./public/js` - bundled client application components
-  * `./public/img` - Codewars, GitHub, Codepen svg logos
-  * `./public/webfonts` - fonts
-  * `./public/views` - view components' html templates
-* `./test` - unit, e2e configs, and scenarios
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Installation
+## Code scaffolding
 
-```
-npm install
-```
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Startup
+## Build
 
-```
-npm start
-```
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-## Testing
+## Running unit tests
 
-### Unit
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-single run
+## Running end-to-end tests
 
-```
-npm run client-test
-```
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
-### End to End
+## Angular CLI help
 
-```
-npm run protractor
-```
-
-### Run all tests
-
-both unit and e2e
-
-```
-npm test
-```
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
 ### Client env variables
 
@@ -99,5 +69,7 @@ To use Gmail you may need to configure [Allow Less Secure Apps](https://www.goog
 * [`Firebase Web: Getting started`](https://firebase.google.com/docs/web/setup)
 * [`Firebase Web: API Reference`](https://firebase.google.com/docs/reference/js/)
 * [`Firebase Web: Codelabs`](https://codelabs.developers.google.com/codelabs/firebase-web/#0)
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.4.
 
 [`LICENCE`](LICENSE)

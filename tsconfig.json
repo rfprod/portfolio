@@ -1,47 +1,41 @@
 {
-	"compilerOptions": {
-		"allowSyntheticDefaultImports": true,
-		"alwaysStrict": true,
-		"importHelpers": true,
-		"baseUrl": ".",
-		"paths": {
-			"tslib": ["node_modules/tslib/tslib.d.ts"],
-			"rxjs": ["node_modules/rxjs/bundles/rxjs.umd.js"],
-			"*": ["*"]
-		},
-		"emitDecoratorMetadata": true,
-		"esModuleInterop": true,
-		"experimentalDecorators": true,
-		"forceConsistentCasingInFileNames": true,
-		"lib": ["es5", "es2015", "es2017", "dom", "scripthost"],
-		"module": "commonjs",
-		"moduleResolution": "node",
-		"noImplicitAny": false,
-		"removeComments": true,
-		"sourceMap": true,
-		"suppressImplicitAnyIndexErrors": true,
-		"target": "es5",
-		"typeRoots": ["./node_modules/@types"],
-		"types": ["node", "jasmine", "hammerjs", "core-js"]
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./public/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "module": "es2015",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "types": ["node", "jasmine", "hammerjs", "core-js"],
+    "allowSyntheticDefaultImports": true,
+    "alwaysStrict": true,
+    "importHelpers": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["es5", "es2015", "es2017", "es2018", "dom", "scripthost"],
+    "noImplicitAny": false,
+    "removeComments": true,
+    "suppressImplicitAnyIndexErrors": true
 	},
-	"angularCompilerOptions": {
-		"fullTemplateTypeCheck": true,
-		"preserveWhiteSpace": false,
-		"strictInjectionParameters": true
-	},
-	"include": [
-		"public/src",
-		"public/views",
-		"test/client"
-	],
-	"exclude": [
-		".git",
-		"functions",
-		"node_modules",
-		"public/css",
-		"public/img",
-		"public/js",
-		"test/*.*",
-		"test/e2e"
-	]
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "preserveWhiteSpace": false,
+    "strictInjectionParameters": true
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    ".git",
+    "functions",
+    "node_modules",
+    "public"
+  ]
 }

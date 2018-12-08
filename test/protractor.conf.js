@@ -1,53 +1,28 @@
-const testUtils = require('./test-utils');
-const isDocker = testUtils.isDocker();
+// Protractor configuration file, see link for more information
+// https://github.com/angular/protractor/blob/master/lib/config.ts
+
+const { SpecReporter } = require('jasmine-spec-reporter');
 
 exports.config = {
-
-	useAllAngular2AppRoots: true,
-
-	onPrepare: function() {
-		browser.angularAppRoot('html');
-		browser.driver.get('http://localhost:7070/app/index.html');
-
-		return browser.getProcessedConfig().then((/*config*/) => {
-			// console.log('config:', config);
-		});
-	},
-
-	specs: [
-		'e2e/scenarios.js'
-	],
-
-	capabilities: {
-		browserName: 'chrome',
-		chromeOptions: {
-			args: (!isDocker) ? [
-				'--headless',
-				'--disable-gpu',
-				'--window-size=1680x1024'
-			] : [
-				'--headless',
-				'--disable-gpu',
-				'--window-size=1680x1024',
-				'--no-sandbox'
-			]
-		}
-	},
-
-	chromeOnly: true,
-
-	directConnect: true,
-
-	baseUrl: 'http://localhost:7070/',
-
-	framework: 'jasmine',
-
-	allScriptsTimeout: 5000000,
-
-	getPageTimeout: 5000000,
-
-	jasmineNodeOpts: {
-		showColors: true,
-		defaultTimeoutInterval: 5000000
-	}
+  allScriptsTimeout: 11000,
+  specs: [
+    require('path').join(__dirname + '/../src/') + '**/*.e2e-spec.ts'
+  ],
+  capabilities: {
+    'browserName': 'chrome'
+  },
+  directConnect: true,
+  baseUrl: 'http://localhost:4200/',
+  framework: 'jasmine',
+  jasmineNodeOpts: {
+    showColors: true,
+    defaultTimeoutInterval: 30000,
+    print: function() {}
+  },
+  onPrepare() {
+    require('ts-node').register({
+      project: require('path').join(__dirname, '/../src/tsconfig.e2e.json')
+    });
+    jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
+  }
 };

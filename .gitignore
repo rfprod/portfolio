@@ -1,41 +1,53 @@
-# dependencies
-node_modules
-
 # firebase cache
 .firebase/
 
 # environment variables
 *.env
 .*.env
+functions/.env
+functions/.*.env
+
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/public
+/tmp
+/out-tsc
+/src/webfonts
+
+# dependencies
+/node_modules
+functions/node_modules
 
 # logs
-*.log
-public/logs/*
-!public/logs/*.gitkeep
+test/logs/
 
-# compiled client app
-public/src/*.js
-public/src/*.js.map
-public/src/**/*.js
-public/src/**/*.js.map
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
 
-# compiled client tests
-test/client/*.js
-test/client/*.js.map
-test/client/**/*.js
-test/client/**/*.js.map
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
-# build
-public/js/*.*
-!public/js/.gitkeep
-public/webfonts/*.*
-!public/webfonts/.gitkeep
-public/css/*.css
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
 
-# compiled client tests
-test/client/*.js
-test/client/*.js.map
-test/client/**/*.js
-test/client/**/*.js.map
-
-
+# System Files
+.DS_Store
+Thumbs.db

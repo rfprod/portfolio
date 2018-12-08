@@ -1,6 +1,0 @@
-node_modules
-app/js/*.*
-!app/js/.gitkeep
-app/fonts/*.*
-!app/fonts/.gitkeep
-app/css/*.css

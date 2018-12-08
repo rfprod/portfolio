@@ -34,18 +34,9 @@
 		"no-console": "off"
 	},
 	"globals": {
-		"angular": true,
-		"System": true,
 		"it": true,
 		"describe": true,
 		"jasmine": true,
-		"beforeEach": true,
-		"inject": true,
-		"expect": true,
-		"spyOn": true,
-		"protractor": true,
-		"browser": true,
-		"element": true,
-		"by": true
+		"beforeEach": true
 	}
 }

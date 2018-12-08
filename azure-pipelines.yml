@@ -8,22 +8,24 @@ steps:
 - task: NodeTool@0
   displayName: 'Use specific node version'
   inputs:
-    version: '8.12.0'
+    versionSpec: '8.12.0'
 
 # all envitonment variables should be defined in vsts UI
 - script: |
     npm install -g npm@6.4.1
     npm update
-    bash install.sh
-    npm install -g typescript
-    npm install -g gulp-cli
-    npm install -g firebase-tools
-    bash set-env.sh GITHUB_ACCESS_TOKEN FIREBASE_DEPLOY_TOKEN MAILER_HOST MAILER_PORT MAILER_EMAIL MAILER_CLIENT_ID MAILER_CLIENT_SECRET MAILER_REFRESH_TOKEN MAILER_ACCESS_TOKEN MAILER_RECIPIENT_EMAIL
-    gulp compile-and-build
-    rm ./.env ./functions/.env
-    npm run create-unit-test-directory
-    gulp client-unit-test
+    bash shell/install.sh
+    npm install -g typescript@3.1.6
+    npm install -g gulp-cli@latest
+    npm install -g @angular/cli@latest
+    npm install -g firebase-tools@latest
+    bash shell/set-env.sh GITHUB_ACCESS_TOKEN FIREBASE_DEPLOY_TOKEN MAILER_HOST MAILER_PORT MAILER_EMAIL MAILER_CLIENT_ID MAILER_CLIENT_SECRET MAILER_REFRESH_TOKEN MAILER_ACCESS_TOKEN MAILER_RECIPIENT_EMAIL
+    npm run test-single-run
+    npm run ng-e2e
+    npm run ng-build-prod
     firebase deploy --token $FIREBASE_DEPLOY_TOKEN
+    rm ./.env ./functions/.env
+    rm -rf ./public
   env:
     GITHUB_ACCESS_TOKEN: $(GITHUB_ACCESS_TOKEN)
     FIREBASE_DEPLOY_TOKEN: $(FIREBASE_DEPLOY_TOKEN)

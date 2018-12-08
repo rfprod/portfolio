@@ -74,15 +74,6 @@ export class AppIndexComponent implements OnInit, OnDestroy {
   };
 
   /**
-   * Check component data mode state.
-   */
-  private checkDataState(): void {
-    if (Object.keys(this.data.github).length) {
-      this.data.initialized = true;
-    }
-  }
-
-  /**
    * Gets user config.
    */
   private getUserConfig(): Promise<any> {
@@ -111,7 +102,11 @@ export class AppIndexComponent implements OnInit, OnDestroy {
     const def = new CustomDeferredService<any>();
     this.githubService.getProfile(this.data.userConfig.username.github).subscribe(
       (data: any) => {
-        this.data.github = data;
+        console.log('getGithubProfile, data', data);
+        if (typeof data === 'object') {
+          this.data.github = data;
+          this.data.initialized = true;
+        }
         def.resolve();
       },
       (error: any) => {
@@ -252,7 +247,6 @@ export class AppIndexComponent implements OnInit, OnDestroy {
       .then(() => this.getGithubRepos())
       .then(() => {
         console.log('AppIndex init done');
-        this.checkDataState();
         this.emitter.emitSpinnerStopEvent();
       })
       .catch((error: any) => {

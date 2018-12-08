@@ -1,6 +1,9 @@
 resources:
 - repo: self
 
+trigger:
+- master
+
 pool:
   vmImage: 'ubuntu-16.04'
 

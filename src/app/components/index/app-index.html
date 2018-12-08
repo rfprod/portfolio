@@ -31,9 +31,9 @@
   <a fxFlex="90" fxLayout="row" fxLayoutAlign="center center" href="{{data.links.github}}" title="Github profile link" target=_blank>
     <img src="assets/github-logo.svg" (load)="imgLoaded('githubLogo')" (error)="imgError('githubLogo')" (showImage)="showImage('githubLogo')">
   </a>
-  <div fxFlex="90" fxLayout="row wrap" fxLayoutAlign="center center">
+  <div fxFlex="90" fxLayout="row wrap" fxLayoutAlign="center center" *ngIf="data.initialized">
     <div fxFlex="100" fxLayout="row" fxLayoutAlign="center center">
-      <span fxFlex="0 1 auto" *ngIf="!data.initialModels">{{data.github.login}} is 
+      <span fxFlex="0 1 auto">{{data.github.login}} is 
         <span *ngIf="data.github.hireable" title="send email">
           HIREABLE <button mat-icon-button (click)="showContactDialog()" color="primary">
             <mat-icon class="material-icons">email</mat-icon>
@@ -42,7 +42,7 @@
         <span *ngIf="!data.github.hireable">NOT HIREABLE</span>
       </span>
     </div>
-    <div fxFlex="100" *ngIf="!data.initialModels" fxLayout="row wrap" fxLayoutAlign="center center">
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center">
       <span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
         <mat-divider fxFlex></mat-divider>
         <span fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">Location</span>
@@ -87,7 +87,7 @@
 
     <mat-divider fxFlex="100"></mat-divider>
 
-    <div fxFlex="100" (*ngIf)="!data.initialModels" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="15px">
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="15px">
       <span fxFlex="0 1 auto" *ngFor="let lang of data.githubLanguagesKeys">
         {{lang}}
         <br>

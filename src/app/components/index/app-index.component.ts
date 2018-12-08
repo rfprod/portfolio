@@ -57,7 +57,7 @@ export class AppIndexComponent implements OnInit, OnDestroy {
     githubRepos: any[],
     githubLanguages: any,
     githubLanguagesKeys: string[],
-    initialModels: boolean
+    initialized: boolean
   } = {
     links: {
       codewars: 'https://www.codewars.com/users/' as string,
@@ -70,8 +70,17 @@ export class AppIndexComponent implements OnInit, OnDestroy {
     githubRepos: [] as string[],
     githubLanguages: {} as any,
     githubLanguagesKeys: [] as string[],
-    initialModels: true
+    initialized: true
   };
+
+  /**
+   * Check component data mode state.
+   */
+  private checkDataState(): void {
+    if (Object.keys(this.data.github).length && this.data.githubRepos.length && this.data.githubLanguages.length) {
+      this.data.initialized = false;
+    }
+  }
 
   /**
    * Gets user config.
@@ -243,7 +252,7 @@ export class AppIndexComponent implements OnInit, OnDestroy {
       .then(() => this.getGithubRepos())
       .then(() => {
         console.log('AppIndex init done');
-        this.data.initialModels = false;
+        this.checkDataState();
         this.emitter.emitSpinnerStopEvent();
       })
       .catch((error: any) => {

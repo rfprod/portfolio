@@ -44,15 +44,19 @@ requires manual `.env` file creation in the project root with the following cont
 
 ```
 GITHUB_ACCESS_TOKEN=github-access-token
+FIREBASE_DEPLOY_TOKEN=firebase-deploy-token
 ```
 
-this value will be used when building application bundle
+this value will be used when building application bundle,
+
+here GITHUB_ACCESS_TOKEN is used in development setup, when application API requests are handled by nodejs server, not firebase functions (both use common general request handlers, dev server uses nested routing `/api/same-route-as-functions`).
 
 ### Firebase deploment (hosting + cloud functions)
 
 requires manual `.env` file creation in the directory `./functions/` with the following contents
 
 ```
+GITHUB_ACCESS_TOKEN=github-access-token
 MAILER_HOST=smtp.gmail.com
 MAILER_PORT=465
 MAILER_EMAIL=sender_email_address@gmail.com

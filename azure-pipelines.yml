@@ -15,7 +15,7 @@ steps:
 
 # all envitonment variables should be defined in vsts UI
 - script: |
-    npm install -g npm@6.4.1
+    npm install -g npm@6.7.0
     npm update
     bash shell/install.sh
     npm install -g typescript@3.1.6

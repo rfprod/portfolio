@@ -1,7 +1,6 @@
 'use strict';
 
 const gulp = require('gulp');
-const runSequence = require('run-sequence');
 const spawn = require('child_process').spawn;
 
 /**
@@ -18,53 +17,9 @@ gulp.task('eslint', () => {
 /**
  * Default start serquence.
  */
-gulp.task('default', (done) => {
-  runSequence('server', 'ng-serve', done);
-});
-
-/**
- * Angular CLI dev server.
- */
-let ngServer;
-
-/**
- * @name ng-serve
- * @member {Function}
- * @summary Starts project using Angular CLI.
- * @description Starts project using Angular CLI.
- */
-gulp.task('ng-serve', (done) => {
-  if (ngServer) ngServer.kill();
-  ngServer = spawn('npm run', ['start-cli'], {stdio: 'inherit'});
-  ngServer.on('close', (code) => {
-    if (code === 8) {
-      console.log('Error detected...');
-    }
-  });
+gulp.task('default', gulp.series('server', 'ng-serve', (done) => {
   done();
-});
-
-/**
- * NodeJS server instance.
- */
-let node;
-
-/**
- * @name server
- * @member {Function}
- * @summary Starts application server.
- * @description Starts client application server.
- */
-gulp.task('server', (done) => {
-  if (node) node.kill();
-  node = spawn('node', ['server.js'], {stdio: 'inherit'});
-  node.on('close', (code) => {
-    if (code === 8) {
-      console.log('Error detected, waiting for changes...');
-    }
-  });
-  done();
-});
+}));
 
 process.on('exit', (code) => {
   console.log(`PROCESS EXIT CODE ${code}`);

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ElementRef, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 
 import { MatDialog, MatDialogRef } from '@angular/material';
 
@@ -9,6 +9,7 @@ import { CustomDeferredService } from '../../services/deferred/custom-deferred.s
 
 import { UserConfigService } from '../../services/user-config/user-config.service';
 import { GithubService } from '../../services/github/github.service';
+import { UtilsService } from 'src/app/services/utils/utils.service';
 
 /**
  * Application index component.
@@ -27,20 +28,24 @@ export class AppIndexComponent implements OnInit, OnDestroy {
    * @param el Element reference
    * @param dialog Material dialog
    * @param emitter Event emitter
-   * @param userCongigService User configuration service
+   * @param userConfigService User configuration service
    * @param githubService Github service
+   * @param utils Utilities service
    * @param window Window reference
    */
   constructor(
-    private el: ElementRef,
     private dialog: MatDialog,
     private emitter: EventEmitterService,
-    private userCongigService: UserConfigService,
+    private userConfigService: UserConfigService,
     private githubService: GithubService,
+    private utils: UtilsService,
     @Inject('Window') private window: Window
-  ) {
-    console.log('this.el.nativeElement', this.el.nativeElement);
-  }
+  ) {}
+
+  /**
+   * Component subscriptions.
+   */
+  private subscriptions: any[] = [];
 
   /**
    * Component data.
@@ -78,7 +83,7 @@ export class AppIndexComponent implements OnInit, OnDestroy {
    */
   private getUserConfig(): Promise<any> {
     const def = new CustomDeferredService<any>();
-    this.userCongigService.getData().subscribe(
+    this.userConfigService.getData().subscribe(
       (data: any) => {
         this.data.userConfig = data;
         this.data.links.codewars += data.username.codewars;
@@ -260,5 +265,6 @@ export class AppIndexComponent implements OnInit, OnDestroy {
    */
   public ngOnDestroy(): void {
     console.log('ngOnDestroy: AppIndexComponent destroyed');
+    this.utils.unsubscribeFromAll(this.subscriptions);
   }
 }

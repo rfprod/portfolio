@@ -32,25 +32,35 @@ import { CustomHttpHandlersService } from './services/http-handlers/custom-http-
 import { UserConfigService } from './services/user-config/user-config.service';
 import { SendEmailService } from './services/send-email/send-email.service';
 import { GithubService } from './services/github/github.service';
+import { UtilsService } from './services/utils/utils.service';
 
 /**
  * Root application module.
  */
 @NgModule({
   declarations: [
-    AppComponent, AppIndexComponent, AppContactComponent, AutofocusDirective
+    AppComponent,
+    AppIndexComponent, AppContactComponent,
+    AutofocusDirective
   ],
   entryComponents: [ AppContactComponent ],
   imports : [
-    BrowserModule, BrowserAnimationsModule, FlexLayoutModule, CustomMaterialModule,
-    FormsModule, ReactiveFormsModule, HttpClientModule, AppRoutingModule
+    BrowserModule, BrowserAnimationsModule,
+    FlexLayoutModule,
+    CustomMaterialModule,
+    FormsModule, ReactiveFormsModule,
+    HttpClientModule,
+    AppRoutingModule
   ],
   providers : [
     { provide: APP_BASE_HREF, useValue: '/' },
     { provide: LocationStrategy, useClass: PathLocationStrategy },
     { provide: 'Window', useValue: window },
     CustomDeferredService, CustomHttpHandlersService,
-    EventEmitterService, UserConfigService, SendEmailService, GithubService
+    EventEmitterService,
+    UserConfigService,
+    SendEmailService, GithubService,
+    UtilsService
   ],
   schemas 		: [ CUSTOM_ELEMENTS_SCHEMA ],
   bootstrap 	: [ AppComponent ]

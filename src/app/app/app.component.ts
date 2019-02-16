@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { DateAdapter } from '@angular/material';
 
 import { EventEmitterService } from '../services/emitter/event-emitter.service';
+import { UtilsService } from '../services/utils/utils.service';
 
 /**
  * Application root component.
@@ -19,17 +20,15 @@ import { EventEmitterService } from '../services/emitter/event-emitter.service';
 export class AppComponent implements OnInit, OnDestroy {
 
   /**
-   * @param el Element reference
    * @param dateAdapter Date adapter
    * @param emitter Event emitter
+   * @param utils Utilities service
    */
   constructor(
-    private el: ElementRef,
     private dateAdapter: DateAdapter<any>,
-    private emitter: EventEmitterService
-  ) {
-    console.log('this.el.nativeElement', this.el.nativeElement);
-  }
+    private emitter: EventEmitterService,
+    private utils: UtilsService
+  ) {}
 
   /**
    * Component subscriptions.
@@ -45,14 +44,12 @@ export class AppComponent implements OnInit, OnDestroy {
    * Shows progress spinner.
    */
   private startSpinner(): void {
-    console.log('spinner start');
     this.showSpinner = true;
   }
   /**
    * Hides progress spinner.
    */
   private stopSpinner(): void {
-    console.log('spinner stop');
     this.showSpinner = false;
   }
 
@@ -109,11 +106,7 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   public ngOnDestroy(): void {
     console.log('ngOnDestroy: AppComponent destroyed');
-    if (this.subscriptions.length) {
-      for (const sub of this.subscriptions) {
-        sub.unsubscribe();
-      }
-    }
+    this.utils.unsubscribeFromAll(this.subscriptions);
   }
 
 }

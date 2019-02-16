@@ -12,6 +12,7 @@ import { CustomMaterialModule } from '../modules/material/custom-material.module
 import { DummyComponent } from '../../mocks/index';
 
 import { AppComponent } from './app.component';
+import { UtilsService } from '../services/utils/utils.service';
 
 describe('AppComponent', () => {
 
@@ -31,7 +32,8 @@ describe('AppComponent', () => {
       ],
       providers: [
         { provide: 'Window', useValue: window },
-        EventEmitterService
+        EventEmitterService,
+        UtilsService
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     }).compileComponents().then(() => {

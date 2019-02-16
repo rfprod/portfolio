@@ -1,118 +1,143 @@
-<span fxFlex="20" fxFlex.xs="30" fxShow="data.userConfig.apps.length > 0" fxLayout="row wrap" fxLayoutAlign="center stretch" [fxHide.xs]="false" [fxHide.sm]="false" id="img-shrink-container">
-  <span fxFlex="90" fxLayout="row wrap" *ngFor="let app of data.userConfig.apps; let j = index">
-    <h4 fxFlex="90">{{app.name}}</h4>
-
-    <a fxFlex="90" fxLayout="row" fxLayoutAlign="center center" *ngIf="app.urls.web" href="{{app.urls.web}}" title="web link" target=_blank>
-      <img src="{{app.logo}}" title="{{app.name}}" alt="{{app.name}}">
+<span fxFlex="100" fxLayout="row wrap">
+  <span fxFlex="100" fxFlex.xs="100" fxFlex.sm="100" fxLayout="row wrap" fxLayoutAlign="center center">
+    <a fxFlex="90" fxLayout="row" fxLayoutAlign="center center" href="{{data.links.github}}" title="Github profile link" target=_blank>
+      <img src="assets/github-logo.svg" (load)="imgLoaded('githubLogo')" (error)="imgError('githubLogo')" (showImage)="showImage('githubLogo')">
     </a>
-    <a fxFlex="90" fxLayout="row" fxLayoutAlign="center center" *ngIf="!app.urls.web" title="{{app.name}}">
-      <img src="{{app.logo}}" title="{{app.name}}" alt="{{app.name}}">
-    </a>
+    <div fxFlex="90" fxLayout="row wrap" fxLayoutAlign="center center" *ngIf="data.initialized">
+      <div fxFlex="100" fxLayout="row" fxLayoutAlign="center center">
+        <span fxFlex="0 1 auto">{{data.github.login}} is 
+          <span *ngIf="data.github.hireable" title="send email">
+            HIREABLE <button mat-icon-button (click)="showContactDialog()" color="primary">
+              <mat-icon class="material-icons">email</mat-icon>
+            </button>
+          </span>
+          <span *ngIf="!data.github.hireable">NOT HIREABLE</span>
+        </span>
+      </div>
+      <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center">
+        <span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+          <mat-divider fxFlex></mat-divider>
+          <span fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">Location</span>
+          <mat-divider fxFlex="2"></mat-divider>
+          <span fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="start center">{{data.github.location}}</span>
+          <mat-divider fxFlex></mat-divider>
+        </span>
+        <span fxFlex="100" *ngIf="data.github.bio" fxLayout="row" fxLayoutAlign="center center">
+          {{data.github.bio}}
+        </span>
+        <span fxFlex="100" *ngIf="data.github.email" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+          <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Email</span>
+          <mat-divider fxFlex="2"></mat-divider>
+          <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{data.github.email}}</span>
+        </span>
+        <span fxFlex="100" *ngIf="data.github.company" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+          <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Company</span>
+          <mat-divider fxFlex="2"></mat-divider>
+          <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{data.github.company}}</span>
+        </span>
+        <span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+          <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Created</span>
+          <mat-divider fxFlex="2"></mat-divider>
+          <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{data.github.created_at | date}}</span>
+        </span>
+        <span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+          <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Updated</span>
+          <mat-divider fxFlex="2"></mat-divider>
+          <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{data.github.updated_at | date}}</span>
+        </span>
+        <span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+          <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Gists</span>
+          <mat-divider fxFlex="2"></mat-divider>
+          <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{data.github.public_gists}}</span>
+        </span>
+        <span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+          <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Repos</span>
+          <mat-divider fxFlex="2"></mat-divider>
+          <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{data.github.public_repos}}</span>
+        </span>
+      </div>
 
-    <span fxFlex="90">
-      <a md-icon-button *ngIf="app.urls.web" href="{{app.urls.web}}" title="web link" target=_blank>
-        <mat-icon class="material-icons">web</mat-icon>
-      </a>
-      <a md-icon-button *ngIf="app.urls.android" href="{{app.urls.android}}" title="android link" target=_blank>
-        <mat-icon class="material-icons">android</mat-icon>
-      </a>
-      <a md-icon-button *ngIf="app.urls.repo" href="{{app.urls.repo}}" title="repo link" target=_blank>
-        <mat-icon class="material-icons">code</mat-icon>
-      </a>
+      <mat-divider fxFlex="100"></mat-divider>
+
+      <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="15px">
+        <span fxFlex="0 1 auto" *ngFor="let lang of data.githubLanguagesKeys">
+          {{lang}}
+          <br>
+          {{data.githubLanguages[lang]}}
+        </span>
+      </div>
+
+      <mat-divider fxFlex="100"></mat-divider>
+
+    </div>
+  </span>
+
+  <span fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center">
+
+    <span fxFlex="100" fxShow="data.userConfig.apps.length > 0" fxLayout="row wrap" fxLayoutAlign="center stretch" id="img-shrink-container">
+
+      <mat-grid-list fxFlex="100" fxLayoutFill cols="{{data.userConfig.apps.length}}">
+        <mat-grid-tile *ngFor="let app of data.userConfig.apps; let j = index">
+
+          <mat-grid-tile-header fxLayoutGap="10px">
+            <h4>{{app.name}}</h4>
+            <span>
+              <a md-icon-button *ngIf="app.urls.web" href="{{app.urls.web}}" title="web link" target=_blank>
+                <mat-icon class="material-icons">web</mat-icon>
+              </a>
+              <a md-icon-button *ngIf="app.urls.android" href="{{app.urls.android}}" title="android link" target=_blank>
+                <mat-icon class="material-icons">android</mat-icon>
+              </a>
+              <a md-icon-button *ngIf="app.urls.repo" href="{{app.urls.repo}}" title="repo link" target=_blank>
+                <mat-icon class="material-icons">code</mat-icon>
+              </a>
+            </span>
+          </mat-grid-tile-header>
+
+          <span fxFlex="100">
+            <a fxFlex="90" fxLayout="row" fxLayoutAlign="center center" *ngIf="app.urls.web" href="{{app.urls.web}}" title="web link" target=_blank>
+              <img src="{{app.logo}}" title="{{app.name}}" alt="{{app.name}}">
+            </a>
+            <a fxFlex="90" fxLayout="row" fxLayoutAlign="center center" *ngIf="!app.urls.web" title="{{app.name}}">
+              <img src="{{app.logo}}" title="{{app.name}}" alt="{{app.name}}">
+            </a>
+          </span>
+
+        </mat-grid-tile>
+      </mat-grid-list>
+
     </span>
 
-    <mat-divider *ngIf="j < data.userConfig.apps.length - 1" fxFlex="100"></mat-divider>
+    <span fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center start" id="img-shrink-container">
+
+      <mat-grid-list fxFlex="100" fxLayoutFill cols="3">
+        <mat-grid-tile>
+          <span fxFlex="100">
+            <a fxFlex="100" fxLayout="row" fxLayoutAlign="center center" href="{{data.links.codepen}}" title="Codepen profile link" target=_blank>
+              <img src="assets/codepen-logo.svg" (load)="imgLoaded('codepenLogo')" (error)="imgError('codepenLogo')" (showImage)="showImage('codepenLogo')">
+            </a>
+          </span>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <span fxFlex="100">
+            <a fxFlex="100" fxLayout="column" fxLayoutAlign="center center" href="{{data.links.codewars}}" title="Codewars profile link" target=_blank>
+              <img src="assets/codewars-logo.svg" (load)="imgLoaded('codewarsLogo')" (error)="imgError('codewarsLogo')" (showImage)="showImage('codewarsLogo')">
+              <img *ngIf="data.userConfig.username" src="{{'https://www.codewars.com/users/' + data.userConfig.username.codewars + '/badges/large'}}" (load)="imgLoaded('codewarsBadge')" (error)="imgError('codewarsBadge')" (showImage)="showImage('codewarsBadge')">
+            </a>
+          </span>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <span fxFlex="100">
+            <a fxFlex="100" fxLayout="row" fxLayoutAlign="center center" href="{{data.links.hackerrank}}" title="Hackerrank profile link" target=_blank>
+              <img src="assets/hackerrank-logo.svg" (load)="imgLoaded('hackerrankLogo')" (error)="imgError('hackerrankLogo')" (showImage)="showImage('hackerrankLogo')">
+            </a>
+          </span>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+    </span>
+
   </span>
-</span>
-
-<mat-divider vertical="true"></mat-divider>
-
-<span fxFlex="50" fxFlex.xs="70" fxFlex.sm="80" fxLayout="row wrap" fxLayoutAlign="center center">
-  <a fxFlex="90" fxLayout="row" fxLayoutAlign="center center" href="{{data.links.github}}" title="Github profile link" target=_blank>
-    <img src="assets/github-logo.svg" (load)="imgLoaded('githubLogo')" (error)="imgError('githubLogo')" (showImage)="showImage('githubLogo')">
-  </a>
-  <div fxFlex="90" fxLayout="row wrap" fxLayoutAlign="center center" *ngIf="data.initialized">
-    <div fxFlex="100" fxLayout="row" fxLayoutAlign="center center">
-      <span fxFlex="0 1 auto">{{data.github.login}} is 
-        <span *ngIf="data.github.hireable" title="send email">
-          HIREABLE <button mat-icon-button (click)="showContactDialog()" color="primary">
-            <mat-icon class="material-icons">email</mat-icon>
-          </button>
-        </span>
-        <span *ngIf="!data.github.hireable">NOT HIREABLE</span>
-      </span>
-    </div>
-    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center">
-      <span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
-        <mat-divider fxFlex></mat-divider>
-        <span fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">Location</span>
-        <mat-divider fxFlex="2"></mat-divider>
-        <span fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="start center">{{data.github.location}}</span>
-        <mat-divider fxFlex></mat-divider>
-      </span>
-      <span fxFlex="100" *ngIf="data.github.bio" fxLayout="row" fxLayoutAlign="center center">
-        {{data.github.bio}}
-      </span>
-      <span fxFlex="100" *ngIf="data.github.email" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
-        <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Email</span>
-        <mat-divider fxFlex="2"></mat-divider>
-        <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{data.github.email}}</span>
-      </span>
-      <span fxFlex="100" *ngIf="data.github.company" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
-        <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Company</span>
-        <mat-divider fxFlex="2"></mat-divider>
-        <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{data.github.company}}</span>
-      </span>
-      <span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
-        <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Created</span>
-        <mat-divider fxFlex="2"></mat-divider>
-        <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{data.github.created_at | date}}</span>
-      </span>
-      <span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
-        <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Updated</span>
-        <mat-divider fxFlex="2"></mat-divider>
-        <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{data.github.updated_at | date}}</span>
-      </span>
-      <span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
-        <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Gists</span>
-        <mat-divider fxFlex="2"></mat-divider>
-        <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{data.github.public_gists}}</span>
-      </span>
-      <span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
-        <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Repos</span>
-        <mat-divider fxFlex="2"></mat-divider>
-        <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{data.github.public_repos}}</span>
-      </span>
-    </div>
-
-    <mat-divider fxFlex="100"></mat-divider>
-
-    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="15px">
-      <span fxFlex="0 1 auto" *ngFor="let lang of data.githubLanguagesKeys">
-        {{lang}}
-        <br>
-        {{data.githubLanguages[lang]}}
-      </span>
-    </div>
-
-    <mat-divider fxFlex="100"></mat-divider>
-
-  </div>
-</span>
-
-<mat-divider vertical="true"></mat-divider>
-
-<span fxFlex="30" fxLayout="row wrap" fxLayoutAlign="center stretch" [fxHide.xs]="true" [fxHide.sm]="true" id="img-shrink-container">
-  <a fxFlex="100" fxLayout="row" fxLayoutAlign="center center" href="{{data.links.codepen}}" title="Codepen profile link" target=_blank>
-    <img src="assets/codepen-logo.svg" (load)="imgLoaded('codepenLogo')" (error)="imgError('codepenLogo')" (showImage)="showImage('codepenLogo')">
-  </a>
-  <mat-divider fxFlex="90"></mat-divider>
-  <a fxFlex="100" fxLayout="column" fxLayoutAlign="center center" href="{{data.links.codewars}}" title="Codewars profile link" target=_blank>
-    <img src="assets/codewars-logo.svg" (load)="imgLoaded('codewarsLogo')" (error)="imgError('codewarsLogo')" (showImage)="showImage('codewarsLogo')">
-    <img *ngIf="data.userConfig.username" src="{{'https://www.codewars.com/users/' + data.userConfig.username.codewars + '/badges/large'}}" (load)="imgLoaded('codewarsBadge')" (error)="imgError('codewarsBadge')" (showImage)="showImage('codewarsBadge')">
-  </a>
-  <mat-divider fxFlex="90"></mat-divider>
-  <a fxFlex="100" fxLayout="row" fxLayoutAlign="center center" href="{{data.links.hackerrank}}" title="Hackerrank profile link" target=_blank>
-    <img src="assets/hackerrank-logo.svg" (load)="imgLoaded('hackerrankLogo')" (error)="imgError('hackerrankLogo')" (showImage)="showImage('hackerrankLogo')">
-  </a>
 </span>

@@ -9,6 +9,9 @@ import { SendEmailService } from '../../services/send-email/send-email.service';
 
 import { IContactForm } from '../../interfaces/index';
 
+/**
+ * Application contact component.
+ */
 @Component({
   selector: 'app-contact',
   templateUrl: './app-contact.html',
@@ -18,6 +21,14 @@ import { IContactForm } from '../../interfaces/index';
 })
 export class AppContactComponent implements OnInit, OnDestroy {
 
+  /**
+   * 
+   * @param data Dialog data
+   * @param dialogRef Dialog reference
+   * @param fb Form builder
+   * @param emitter Event emitter service
+   * @param sendEmailService Send email service
+   */
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<AppContactComponent>,

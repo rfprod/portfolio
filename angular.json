@@ -24,7 +24,8 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              { "glob": "**/MaterialIcons-*.*", "input": "node_modules/material-design-icon-fonts/iconfont/", "output": "/assets/" }
             ],
             "styles": [
               "node_modules/roboto-fontface/css/roboto/roboto-fontface.css",

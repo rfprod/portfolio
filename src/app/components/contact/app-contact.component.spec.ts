@@ -20,6 +20,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { DummyComponent, DialogRefMock } from '../../../mocks/index';
 
 import { AppContactComponent } from './app-contact.component';
+import { UtilsService } from 'src/app/services/utils/utils.service';
 
 describe('AppContactComponent', () => {
 
@@ -51,6 +52,7 @@ describe('AppContactComponent', () => {
         },
         EventEmitterService,
         CustomHttpHandlersService,
+        UtilsService,
         {
           provide: SendEmailService,
           useFactory: (http, handlers, window) => new SendEmailService(http, handlers, window),

@@ -19,6 +19,7 @@ import { CustomMaterialModule } from '../../modules/material/custom-material.mod
 import { DummyComponent } from '../../../mocks/index';
 
 import { AppIndexComponent } from '../../components/index/app-index.component';
+import { UtilsService } from 'src/app/services/utils/utils.service';
 
 describe('AppIndexComponent', () => {
 
@@ -43,6 +44,7 @@ describe('AppIndexComponent', () => {
         { provide: 'Window', useValue: window },
         EventEmitterService,
         CustomHttpHandlersService,
+        UtilsService,
         {
           provide: UserConfigService,
           useFactory: (http, handlers, window) => new UserConfigService(http, handlers, window),

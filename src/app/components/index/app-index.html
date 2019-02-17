@@ -1,9 +1,9 @@
 <span fxFlex="100" fxLayout="row wrap">
   <span fxFlex="100" fxFlex.xs="100" fxFlex.sm="100" fxLayout="row wrap" fxLayoutAlign="center center">
-    <a fxFlex="90" fxLayout="row" fxLayoutAlign="center center" href="{{data.links.github}}" title="Github profile link" target=_blank>
-      <img src="assets/github-logo.svg" (load)="imgLoaded('githubLogo')" (error)="imgError('githubLogo')" (showImage)="showImage('githubLogo')">
-    </a>
     <div fxFlex="90" fxLayout="row wrap" fxLayoutAlign="center center" *ngIf="data.initialized">
+      <span fxFlex="100" *ngIf="data.github.bio" fxLayout="row" fxLayoutAlign="center center">
+        {{data.github.bio}}
+      </span>
       <div fxFlex="100" fxLayout="row" fxLayoutAlign="center center">
         <span fxFlex="0 1 auto">{{data.github.login}} is 
           <span *ngIf="data.github.hireable" title="send email">
@@ -21,9 +21,6 @@
           <mat-divider fxFlex="2"></mat-divider>
           <span fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="start center">{{data.github.location}}</span>
           <mat-divider fxFlex></mat-divider>
-        </span>
-        <span fxFlex="100" *ngIf="data.github.bio" fxLayout="row" fxLayoutAlign="center center">
-          {{data.github.bio}}
         </span>
         <span fxFlex="100" *ngIf="data.github.email" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
           <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Email</span>
@@ -59,6 +56,8 @@
 
       <mat-divider fxFlex="100"></mat-divider>
 
+      <h4>Languages</h4>
+
       <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="15px">
         <span fxFlex="0 1 auto" *ngFor="let lang of data.githubLanguagesKeys">
           {{lang}}
@@ -72,72 +71,42 @@
     </div>
   </span>
 
-  <span fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center">
+  <span fxFlex="100" *ngIf="data.initialized">
+    <mat-tree [dataSource]="treeDataSource" [treeControl]="treeControl">
+      <!-- This is the tree node template for leaf nodes -->
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+        <!-- use a disabled button to provide padding for tree leaf -->
+        <button mat-icon-button disabled></button>
+        <a [ngStyle]="{padding: '0 10px 0 10px'}" href="{{node.link}}" title="{{node.name}}" target=_blank fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px">
+          <img [ngStyle]="{height: '46px', width: 'auto!important'}" [src]="node.imgRef" (load)="imgLoaded(node.name)" (error)="imgError(node.name)" (showImage)="showImage(node.name)">
+          <span fxFlex="0 1 auto">{{node.name}}</span>
+        </a>
+        <mat-toolbar fxFlex="100" fxLayout="row" faLayoutAlign="start center" fxLayoutGap="15px">
+          <a md-icon-button href="{{node.link}}" title="{{node.name}}" target=_blank>
+            <mat-icon class="material-icons">open_in_new</mat-icon>
+          </a>
+          <a md-icon-button *ngIf="node.urls" href="{{node.urls.web}}" title="web app link" target=_blank>
+            <mat-icon class="material-icons">web</mat-icon>
+          </a>
+          <a md-icon-button *ngIf="node.urls" href="{{node.urls.android}}" title="android link" target=_blank>
+            <mat-icon class="material-icons">android</mat-icon>
+          </a>
+          <a md-icon-button *ngIf="node.urls" href="{{node.urls.repo}}" title="repo link" target=_blank>
+            <mat-icon class="material-icons">code</mat-icon>
+          </a>
+        </mat-toolbar>
 
-    <span fxFlex="100" fxShow="data.userConfig.apps.length > 0" fxLayout="row wrap" fxLayoutAlign="center stretch" id="img-shrink-container">
-
-      <mat-grid-list fxFlex="100" fxLayoutFill cols="{{data.userConfig.apps.length}}">
-        <mat-grid-tile *ngFor="let app of data.userConfig.apps; let j = index">
-
-          <mat-grid-tile-header fxLayoutGap="10px">
-            <h4>{{app.name}}</h4>
-            <span>
-              <a md-icon-button *ngIf="app.urls.web" href="{{app.urls.web}}" title="web link" target=_blank>
-                <mat-icon class="material-icons">web</mat-icon>
-              </a>
-              <a md-icon-button *ngIf="app.urls.android" href="{{app.urls.android}}" title="android link" target=_blank>
-                <mat-icon class="material-icons">android</mat-icon>
-              </a>
-              <a md-icon-button *ngIf="app.urls.repo" href="{{app.urls.repo}}" title="repo link" target=_blank>
-                <mat-icon class="material-icons">code</mat-icon>
-              </a>
-            </span>
-          </mat-grid-tile-header>
-
-          <span fxFlex="100">
-            <a fxFlex="90" fxLayout="row" fxLayoutAlign="center center" *ngIf="app.urls.web" href="{{app.urls.web}}" title="web link" target=_blank>
-              <img src="{{app.logo}}" title="{{app.name}}" alt="{{app.name}}">
-            </a>
-            <a fxFlex="90" fxLayout="row" fxLayoutAlign="center center" *ngIf="!app.urls.web" title="{{app.name}}">
-              <img src="{{app.logo}}" title="{{app.name}}" alt="{{app.name}}">
-            </a>
-          </span>
-
-        </mat-grid-tile>
-      </mat-grid-list>
-
-    </span>
-
-    <span fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center start" id="img-shrink-container">
-
-      <mat-grid-list fxFlex="100" fxLayoutFill cols="3">
-        <mat-grid-tile>
-          <span fxFlex="100">
-            <a fxFlex="100" fxLayout="row" fxLayoutAlign="center center" href="{{data.links.codepen}}" title="Codepen profile link" target=_blank>
-              <img src="assets/codepen-logo.svg" (load)="imgLoaded('codepenLogo')" (error)="imgError('codepenLogo')" (showImage)="showImage('codepenLogo')">
-            </a>
-          </span>
-        </mat-grid-tile>
-
-        <mat-grid-tile>
-          <span fxFlex="100">
-            <a fxFlex="100" fxLayout="column" fxLayoutAlign="center center" href="{{data.links.codewars}}" title="Codewars profile link" target=_blank>
-              <img src="assets/codewars-logo.svg" (load)="imgLoaded('codewarsLogo')" (error)="imgError('codewarsLogo')" (showImage)="showImage('codewarsLogo')">
-              <img *ngIf="data.userConfig.username" src="{{'https://www.codewars.com/users/' + data.userConfig.username.codewars + '/badges/large'}}" (load)="imgLoaded('codewarsBadge')" (error)="imgError('codewarsBadge')" (showImage)="showImage('codewarsBadge')">
-            </a>
-          </span>
-        </mat-grid-tile>
-
-        <mat-grid-tile>
-          <span fxFlex="100">
-            <a fxFlex="100" fxLayout="row" fxLayoutAlign="center center" href="{{data.links.hackerrank}}" title="Hackerrank profile link" target=_blank>
-              <img src="assets/hackerrank-logo.svg" (load)="imgLoaded('hackerrankLogo')" (error)="imgError('hackerrankLogo')" (showImage)="showImage('hackerrankLogo')">
-            </a>
-          </span>
-        </mat-grid-tile>
-      </mat-grid-list>
-
-    </span>
-
+      </mat-tree-node>
+      <!-- This is the tree node template for expandable nodes -->
+      <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
+          <mat-icon class="mat-icon-rtl-mirror">
+            {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+          </mat-icon>
+        </button>
+        {{node.name}}
+      </mat-tree-node>
+    </mat-tree>
   </span>
+
 </span>

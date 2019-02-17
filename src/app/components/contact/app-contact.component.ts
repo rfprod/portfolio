@@ -2,12 +2,12 @@ import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, ValidatorFn } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
-import { EventEmitterService } from '../../services/emitter/event-emitter.service';
-import { CustomDeferredService } from '../../services/deferred/custom-deferred.service';
+import { EventEmitterService } from 'src/app/services/emitter/event-emitter.service';
+import { CustomDeferredService } from 'src/app/services/deferred/custom-deferred.service';
 
-import { SendEmailService } from '../../services/send-email/send-email.service';
+import { SendEmailService } from 'src/app/services/send-email/send-email.service';
 
-import { IContactForm } from '../../interfaces/index';
+import { IContactForm } from 'src/app/interfaces/index';
 
 /**
  * Application contact component.

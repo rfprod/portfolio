@@ -7,19 +7,19 @@ import { HttpClientTestingModule, HttpTestingController, TestRequest } from '@an
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { EventEmitterService } from '../../services/emitter/event-emitter.service';
+import { EventEmitterService } from 'src/app/services/emitter/event-emitter.service';
 
-import { CustomHttpHandlersService } from '../../services/http-handlers/custom-http-handlers.service';
+import { CustomHttpHandlersService } from 'src/app/services/http-handlers/custom-http-handlers.service';
 
-import { SendEmailService } from '../../services/send-email/send-email.service';
+import { SendEmailService } from 'src/app/services/send-email/send-email.service';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { CustomMaterialModule } from '../../modules/material/custom-material.module';
+import { CustomMaterialModule } from 'src/app/modules/material/custom-material.module';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
-import { DummyComponent, DialogRefMock } from '../../../mocks/index';
+import { DummyComponent, DialogRefMock } from 'src/mocks/index';
 
-import { AppContactComponent } from './app-contact.component';
+import { AppContactComponent } from 'src/app/components/contact/app-contact.component';
 import { UtilsService } from 'src/app/services/utils/utils.service';
 
 describe('AppContactComponent', () => {

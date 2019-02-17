@@ -4,15 +4,15 @@ import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/t
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { EventEmitterService } from '../services/emitter/event-emitter.service';
+import { EventEmitterService } from 'src/app/services/emitter/event-emitter.service';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { CustomMaterialModule } from '../modules/material/custom-material.module';
+import { CustomMaterialModule } from 'src/app/modules/material/custom-material.module';
 
-import { DummyComponent } from '../../mocks/index';
+import { DummyComponent } from 'src/mocks/index';
 
-import { AppComponent } from './app.component';
-import { UtilsService } from '../services/utils/utils.service';
+import { AppComponent } from 'src/app/app/app.component';
+import { UtilsService } from 'src/app/services/utils/utils.service';
 
 describe('AppComponent', () => {
 

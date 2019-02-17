@@ -6,19 +6,19 @@ import { HttpClient, HttpRequest } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController, TestRequest } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { EventEmitterService } from '../../services/emitter/event-emitter.service';
+import { EventEmitterService } from 'src/app/services/emitter/event-emitter.service';
 
-import { CustomHttpHandlersService } from '../../services/http-handlers/custom-http-handlers.service';
+import { CustomHttpHandlersService } from 'src/app/services/http-handlers/custom-http-handlers.service';
 
-import { UserConfigService } from '../../services/user-config/user-config.service';
-import { GithubService } from '../../services/github/github.service';
+import { UserConfigService } from 'src/app/services/user-config/user-config.service';
+import { GithubService } from 'src/app/services/github/github.service';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { CustomMaterialModule } from '../../modules/material/custom-material.module';
+import { CustomMaterialModule } from 'src/app/modules/material/custom-material.module';
 
-import { DummyComponent } from '../../../mocks/index';
+import { DummyComponent } from 'src/mocks/index';
 
-import { AppIndexComponent } from '../../components/index/app-index.component';
+import { AppIndexComponent } from 'src/app/components/index/app-index.component';
 import { UtilsService } from 'src/app/services/utils/utils.service';
 
 describe('AppIndexComponent', () => {
@@ -81,12 +81,7 @@ describe('AppIndexComponent', () => {
     this.component = component;
 
     expect(this.component.data).toEqual(jasmine.objectContaining({
-      links: {
-        codewars: jasmine.any(String),
-        hackerrank: jasmine.any(String),
-        github: jasmine.any(String),
-        codepen: jasmine.any(String)
-      },
+      profiles: jasmine.any(Array),
       userConfig: jasmine.any(Object),
       github: jasmine.any(Object),
       githubRepos: jasmine.any(Array),
@@ -101,11 +96,10 @@ describe('AppIndexComponent', () => {
     expect(this.component.dialogSub).toBeUndefined();
     expect(this.component.showContactDialog).toEqual(jasmine.any(Function));
     expect(this.component.imgShow).toEqual(jasmine.objectContaining({
-      githubLogo: jasmine.any(Boolean),
-      codepenLogo: jasmine.any(Boolean),
-      codewarsLogo: jasmine.any(Boolean),
-      codewarsBadge: jasmine.any(Boolean),
-      hackerrankLogo: jasmine.any(Boolean)
+      github: jasmine.any(Boolean),
+      codepen: jasmine.any(Boolean),
+      codewars: jasmine.any(Boolean),
+      hackerrank: jasmine.any(Boolean)
     }));
     expect(this.component.showImage).toEqual(jasmine.any(Function));
     expect(this.component.imgLoaded).toEqual(jasmine.any(Function));

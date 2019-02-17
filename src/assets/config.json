@@ -5,33 +5,58 @@
     "codewars": "rfprod",
     "codepen": "rfprod"
   },
+  "profiles": [
+    {
+      "name": "Codepen",
+      "link": "https://codepen.io/rfprod",
+      "imgRef": "assets/codepen-logo.svg"
+    },
+    {
+      "name": "Codewars",
+      "link": "https://www.codewars.com/users/rfprod",
+      "imgRef": "assets/codewars-logo.svg"
+    },
+    {
+      "name": "Hackerrank",
+      "link": "https://www.hackerrank.com/rfprod",
+      "imgRef": "assets/hackerrank-logo.svg"
+    },
+    {
+      "name": "Github",
+      "link": "https://www.github.com/rfprod",
+      "imgRef": "assets/github-logo.svg"
+    }
+  ],
   "apps": [
     {
       "name": "WhoAmI microservice",
-      "logo": "assets/heroku-logo.svg",
+      "imgRef": "assets/heroku-logo.svg",
       "urls": {
         "repo": "https://github.com/rfprod/whoami",
         "web": "https://whoami-microsrvc.herokuapp.com/",
         "android": ""
-      }
+      },
+      "tag": "angularjs"
     },
     {
       "name": "SPAMT",
-      "logo": "assets/heroku-logo.svg",
+      "imgRef": "assets/heroku-logo.svg",
       "urls": {
         "repo": "https://github.com/rfprod/spamt",
         "web": "https://spamt.herokuapp.com/",
         "android": ""
-      }
+      },
+      "tag": "angular"
     },
     {
       "name": "Protractor Bot",
-      "logo": "assets/protractor-logo.svg",
+      "imgRef": "assets/protractor-logo.svg",
       "urls": {
         "repo": "https://github.com/rfprod/protractor-bot",
         "web": "",
         "android": ""
-      }
+      },
+      "tag": "other"
     }
   ]
 }

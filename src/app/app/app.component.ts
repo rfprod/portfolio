@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { DateAdapter } from '@angular/material';
 
-import { EventEmitterService } from '../services/emitter/event-emitter.service';
-import { UtilsService } from '../services/utils/utils.service';
+import { EventEmitterService } from 'src/app/services/emitter/event-emitter.service';
+import { UtilsService } from 'src/app/services/utils/utils.service';
 
 /**
  * Application root component.

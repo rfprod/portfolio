@@ -38,7 +38,7 @@ export class AppComponent implements OnInit, OnDestroy {
   /**
    * Indicates if spinner should be shown ow not.
    */
-  public showSpinner: boolean = false;
+  public showSpinner: boolean = true;
 
   /**
    * Shows progress spinner.

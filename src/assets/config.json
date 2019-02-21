@@ -29,6 +29,26 @@
   ],
   "apps": [
     {
+      "name": "Angular elements NodeJS widget server starter",
+      "imgRef": "assets/firebase-seeklogo.com.svg",
+      "urls": {
+        "repo": "https://github.com/rfprod/ng2elements",
+        "web": "https://ng2elements.firebaseapp.com/ng-elements-app",
+        "android": ""
+      },
+      "tag": "angular"
+    },
+    {
+      "name": "Angular application starter kit",
+      "imgRef": "assets/firebase-seeklogo.com.svg",
+      "urls": {
+        "repo": "https://github.com/rfprod/ng2ns",
+        "web": "https://ngns-cfefa.firebaseapp.com",
+        "android": ""
+      },
+      "tag": "angular"
+    },
+    {
       "name": "WhoAmI microservice",
       "imgRef": "assets/heroku-logo.svg",
       "urls": {

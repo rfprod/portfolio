@@ -123,6 +123,16 @@ exports.sendEmail = functions.https.onRequest((req, res) => {
 const handlers = require('./handlers/index');
 
 /**
+ * Get Github access token function handler.
+ */
+exports.githubUser = functions.https.onRequest((req, res) => {
+  if (req.method !== 'GET') {
+    res.status(403).json({error: 'Forbidden method'});
+  }
+  handlers.githubAccessToken(req, res);
+});
+
+/**
  * Get Github user function handler.
  */
 exports.githubUser = functions.https.onRequest((req, res) => {

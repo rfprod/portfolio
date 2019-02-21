@@ -1,77 +1,81 @@
 {
-	"hosting": {
-		"public": "public",
-		"ignore": [
-			"firebase.json",
-			"**/.*",
-			"**/node_modules/**"
-		],
-		"headers": [
-			{
-				"source": "**",
-				"headers": [
-					{
-						"key": "Access-Control-Allow-Origin",
-						"value": "https://rfprod-2cda1.firebaseapp.com https://rfprod.tk"
-					},
-					{
-						"key": "Access-Control-Allow-Methods",
-						"value": "GET,PUT,POST,DELETE,OPTIONS,HEAD"
-					}
-				]
-			},
-			{
-				"source": "**/*.@(jpg|jpeg|gif|png|svg)",
-				"headers": [
-					{
-						"key": "Cache-Control",
-						"value": "max-age=7200"
-					}
-				]
-			},
-			{
-				"source": "/api/(sendEmail|githubUser|githubUserRepos|githubUserReposLanguages)",
-				"headers": [
-					{
-						"key": "Cache-Control",
-						"value": "public, no-cache, no-store, must-ravalidate, max-age=0"
-					},
-					{
-						"key": "Expires",
-						"value": "-1"
-					},
-					{
-						"key": "Pragme",
-						"value": "no-cache"
-					}
-				]
-			}
-		],
-		"rewrites": [
-			{
-				"source": "/api/sendEmail",
-				"function": "sendEmail"
-			},
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "headers": [
       {
-				"source": "/api/githubUser",
-				"function": "githubUser"
-			},
+        "source": "**",
+        "headers": [
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "https://rfprod-2cda1.firebaseapp.com https://rfprod.tk"
+          },
+          {
+            "key": "Access-Control-Allow-Methods",
+            "value": "GET,PUT,POST,DELETE,OPTIONS,HEAD"
+          }
+        ]
+      },
       {
-				"source": "/api/githubUserRepos",
-				"function": "githubUserRepos"
-			},
+        "source": "**/*.@(jpg|jpeg|gif|png|svg)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=7200"
+          }
+        ]
+      },
       {
-				"source": "/api/githubUserReposLanguages",
-				"function": "githubUserReposLanguages"
-			},
-			{
-				"source": "/robots.txt",
-				"destination": "/robots.txt"
-			},
-			{
-				"source": "**/!(sendEmail|githubUser|githubUserRepos|githubUserReposLanguages)",
-				"destination": "/index.html"
-			}
-		]
-	}
+        "source": "/api/(githubAccessToken|sendEmail|githubUser|githubUserRepos|githubUserReposLanguages)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, no-cache, no-store, must-ravalidate, max-age=0"
+          },
+          {
+            "key": "Expires",
+            "value": "-1"
+          },
+          {
+            "key": "Pragme",
+            "value": "no-cache"
+          }
+        ]
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "/api/githubAccessToken",
+        "function": "githubAccessToken"
+      },
+      {
+        "source": "/api/sendEmail",
+        "function": "sendEmail"
+      },
+      {
+        "source": "/api/githubUser",
+        "function": "githubUser"
+      },
+      {
+        "source": "/api/githubUserRepos",
+        "function": "githubUserRepos"
+      },
+      {
+        "source": "/api/githubUserReposLanguages",
+        "function": "githubUserReposLanguages"
+      },
+      {
+        "source": "/robots.txt",
+        "destination": "/robots.txt"
+      },
+      {
+        "source": "**/!(githubAccessToken|sendEmail|githubUser|githubUserRepos|githubUserReposLanguages)",
+        "destination": "/index.html"
+      }
+    ]
+  }
 }

@@ -196,6 +196,31 @@ export class AppIndexComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Gets Github access token.
+   */
+  private getGithubAccessTokenFromServer(): Promise<any> {
+    console.log('getGithubAccessTokenFromServer');
+    const def = new CustomDeferredService<any>();
+    if (!this.githubService.githubAccessToken || this.githubService.githubAccessToken === 'GITHUB_ACCESS_TOKEN') {
+      this.githubService.getGithubAccessToken().subscribe(
+        (data: { token: string }) => {
+          this.githubService.githubAccessToken = data.token;
+          console.log('this.githubService.githubAccessToken', this.githubService.githubAccessToken);
+          def.resolve();
+        },
+        (error: string) => {
+          this.githubService.githubAccessToken = error;
+          console.log('this.githubService.githubAccessToken', this.githubService.githubAccessToken);
+          def.reject();
+        }
+      );
+    } else {
+      def.resolve();
+    }
+    return def.promise;
+  }
+
+  /**
    * Gets user Github profile.
    */
   private getGithubProfile(): Promise<any> {
@@ -341,7 +366,8 @@ export class AppIndexComponent implements OnInit, OnDestroy {
     console.log('ngOnInit: AppIndexComponent initialized');
 
     this.emitter.emitSpinnerStartEvent();
-    this.getUserConfig()
+    this.getGithubAccessTokenFromServer()
+      .then(() => this.getUserConfig())
       .then(() => this.getGithubProfile())
       .then(() => this.getGithubRepos())
       .then(() => {

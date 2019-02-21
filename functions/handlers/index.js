@@ -2,6 +2,8 @@
 
 const request = require('request');
 
+require('dotenv').load();
+
 /**
  * Utility function for making request.
  * @param {String} reqUrl request url
@@ -61,6 +63,11 @@ module.exports = {
     apiBaseUrl: githubApiBaseUrl,
     apiAccessToken: githubApiAccessToken,
     apiEndpoints: githubApiEndpoints
+  },
+
+  githubAccessToken: (req, res) => {
+    const token = process.env.GITHUB_ACCESS_TOKEN;
+    res.json({ token });
   },
 
   /**

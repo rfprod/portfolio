@@ -9,6 +9,8 @@ const handlers = require('../../functions/handlers/index');
  */
 module.exports = (app) => {
 
+  app.get('/api/githubAccessToken', handlers.githubAccessToken);
+
   /**
    * Github user.
    */

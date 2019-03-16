@@ -50,7 +50,7 @@ const cwd = __dirname;
 /**
  *  load .env variables
  */
-require('dotenv').load();
+require('dotenv').config();
 
 /**
  * @name routes

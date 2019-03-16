@@ -77,11 +77,11 @@
       <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
         <!-- use a disabled button to provide padding for tree leaf -->
         <button mat-icon-button disabled></button>
-        <a [ngStyle]="{padding: '0 10px 0 10px'}" href="{{node.link}}" title="{{node.name}}" target=_blank fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px">
-          <img [ngStyle]="{height: '46px', width: 'auto!important'}" [src]="node.imgRef" (load)="imgLoaded(node.name)" (error)="imgError(node.name)" (showImage)="showImage(node.name)">
-          <span fxFlex="0 1 auto">{{node.name}}</span>
-        </a>
         <mat-toolbar fxFlex="100" fxLayout="row" faLayoutAlign="start center" fxLayoutGap="15px">
+          <a [ngStyle]="{padding: '0 10px 0 10px'}" href="{{node.link}}" title="{{node.name}}" target=_blank fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px">
+            <img [ngStyle]="{height: '46px', width: 'auto!important'}" [src]="node.imgRef" (load)="imgLoaded(node.name)" (error)="imgError(node.name)" (showImage)="showImage(node.name)">
+          </a>
+          <span fxFlex="0 1 auto">{{node.name}}</span>
           <a md-icon-button href="{{node.link}}" title="{{node.name}}" target=_blank>
             <mat-icon class="material-icons">open_in_new</mat-icon>
           </a>

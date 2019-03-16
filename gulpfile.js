@@ -3,7 +3,7 @@
 const gulp = require('gulp');
 const spawn = require('child_process').spawn;
 
-require('dotenv').load();
+require('dotenv').config();
 
 let setEnv;
 

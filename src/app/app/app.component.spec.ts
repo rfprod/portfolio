@@ -52,7 +52,7 @@ describe('AppComponent', () => {
 
     expect(this.component.subscriptions).toEqual(jasmine.any(Array));
     expect(this.component.showSpinner).toEqual(jasmine.any(Boolean));
-    expect(this.component.showSpinner).toBeFalsy();
+    expect(this.component.showSpinner).toBeTruthy();
     expect(this.component.startSpinner).toEqual(jasmine.any(Function));
     expect(this.component.stopSpinner).toEqual(jasmine.any(Function));
     expect(this.component.setDatepickerLocale).toEqual(jasmine.any(Function));
@@ -63,6 +63,7 @@ describe('AppComponent', () => {
   it('should control spinner correctly', function() {
     this.component = component;
 
+    this.component.stopSpinner();
     expect(this.component.showSpinner).toBeFalsy();
     this.component.startSpinner();
     expect(this.component.showSpinner).toBeTruthy();
@@ -76,6 +77,7 @@ describe('AppComponent', () => {
     
     this.component.ngOnInit();
 
+    this.emitter.emitEvent({ spinner: 'stop' });
     expect(this.component.showSpinner).toBeFalsy();
     this.emitter.emitEvent({ spinner: 'start' });
     expect(this.component.showSpinner).toBeTruthy();

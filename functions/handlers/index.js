@@ -2,7 +2,7 @@
 
 const request = require('request');
 
-require('dotenv').load();
+require('dotenv').config();
 
 /**
  * Utility function for making request.

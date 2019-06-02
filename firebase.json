@@ -73,7 +73,7 @@
         "destination": "/robots.txt"
       },
       {
-        "source": "**/!(githubAccessToken|sendEmail|githubUser|githubUserRepos|githubUserReposLanguages)",
+        "source": "**/!(*.*|githubAccessToken|sendEmail|githubUser|githubUserRepos|githubUserReposLanguages)",
         "destination": "/index.html"
       }
     ]

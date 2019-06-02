@@ -58,7 +58,12 @@
 
       <h4>Languages</h4>
 
-      <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="15px">
+      <div
+        fxFlex="100"
+        fxLayout="row wrap"
+        fxLayoutAlign="center center"
+        fxLayoutGap="15px">
+
         <span fxFlex="0 1 auto" *ngFor="let lang of data.githubLanguagesKeys">
           {{lang}}
           <br>
@@ -77,35 +82,99 @@
       <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
         <!-- use a disabled button to provide padding for tree leaf -->
         <button mat-icon-button disabled></button>
-        <mat-toolbar fxFlex="100" fxLayout="row" faLayoutAlign="start center" fxLayoutGap="15px">
-          <a [ngStyle]="{padding: '0 10px 0 10px'}" href="{{node.link}}" title="{{node.name}}" target=_blank fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px">
-            <img [ngStyle]="{height: '46px', width: 'auto!important'}" [src]="node.imgRef" (load)="imgLoaded(node.name)" (error)="imgError(node.name)" (showImage)="showImage(node.name)">
+        <span
+          fxFlex="100"
+          fxLayout="row wrap"
+          faLayoutAlign="start center"
+          fxLayoutGap="15px"
+          [ngStyle]="{'border-bottom': '1px #000000 dotted', padding: '5px 0 5px 0'}">
+
+          <a
+            [ngStyle]="{padding: '0 10px 0 10px'}"
+            href="{{node.link}}" 
+            title="{{node.name}}"
+            target=_blank
+            fxLayout="row"
+            fxLayoutAlign="center center"
+            fxLayoutGap="15px">
+
+            <img
+              [ngStyle]="{height: '46px', width: 'auto!important'}"
+              [src]="node.imgRef"
+              (load)="imgLoaded(node.name)"
+              (error)="imgError(node.name)"
+              (showImage)="showImage(node.name)">
+
           </a>
-          <span fxFlex="0 1 auto">{{node.name}}</span>
-          <a md-icon-button href="{{node.link}}" title="{{node.name}}" target=_blank>
+          <span
+            fxFlex="0 1 auto"
+            fxFlexAlign="center"
+            [ngStyle]="{'text-align': center}">
+            {{node.name}}
+          </span>
+          <a
+            md-icon-button
+            href="{{node.link}}"
+            title="{{node.name}}"
+            fxFlexAlign="center"
+            [ngStyle]="{'text-align': center}"
+            target=_blank>
+
             <mat-icon class="material-icons">open_in_new</mat-icon>
           </a>
-          <a md-icon-button *ngIf="node.urls" href="{{node.urls.web}}" title="web app link" target=_blank>
+          <a
+            md-icon-button
+            *ngIf="node.urls"
+            href="{{node.urls.web}}"
+            title="web app link"
+            fxFlexAlign="center"
+            [ngStyle]="{'text-align': center}"
+            target=_blank>
+
             <mat-icon class="material-icons">web</mat-icon>
           </a>
-          <a md-icon-button *ngIf="node.urls" href="{{node.urls.android}}" title="android link" target=_blank>
+          <a
+            md-icon-button
+            *ngIf="node.urls"
+            href="{{node.urls.android}}"
+            title="android link"
+            fxFlexAlign="center"
+            [ngStyle]="{'text-align': center}"
+            target=_blank>
+
             <mat-icon class="material-icons">android</mat-icon>
           </a>
-          <a md-icon-button *ngIf="node.urls" href="{{node.urls.repo}}" title="repo link" target=_blank>
+          <a
+            md-icon-button
+            *ngIf="node.urls"
+            href="{{node.urls.repo}}"
+            title="repo link"
+            fxFlexAlign="center"
+            [ngStyle]="{'text-align': center}"
+            target=_blank>
+
             <mat-icon class="material-icons">code</mat-icon>
           </a>
-        </mat-toolbar>
+        </span>
 
       </mat-tree-node>
       <!-- This is the tree node template for expandable nodes -->
-      <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
-        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
+      <mat-tree-node
+        *matTreeNodeDef="let node; when: hasChild"
+        matTreeNodePadding>
+
+        <button
+          mat-icon-button
+          matTreeNodeToggle
+          [attr.aria-label]="'toggle ' + node.name">
+
           <mat-icon class="mat-icon-rtl-mirror">
             {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
           </mat-icon>
         </button>
         {{node.name}}
       </mat-tree-node>
+
     </mat-tree>
   </span>
 

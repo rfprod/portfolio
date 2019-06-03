@@ -27,7 +27,7 @@
     <div>
       <span fxFlex fxHide="true">
         <mat-toolbar class="controls" fxLayout.xs="row wrap" fxLayoutAlign="center center">
-          <button mat-button tabindex="-1" [ngClass.xs]="{'full-width': true}" type="submit" [disabled]="contactForm.invalid || contactForm.pristine" attr.aria-label="submit" color="accent">
+          <button mat-button tabindex="-1" [ngClass]="{'full-width': false}" [ngClass.xs]="{'full-width': true}" type="submit" [disabled]="contactForm.invalid || contactForm.pristine" attr.aria-label="submit" color="accent">
             <mat-icon class="metarial-icons">done</mat-icon> Submit
           </button>
         </mat-toolbar>

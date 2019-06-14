@@ -12,7 +12,7 @@
         "headers": [
           {
             "key": "Access-Control-Allow-Origin",
-            "value": "https://rfprod-2cda1.firebaseapp.com https://rfprod.tk"
+            "value": "https://rfprod-2cda1.firebaseapp.com https://rfprod-2cda1.web.app https://rfprod.tk"
           },
           {
             "key": "Access-Control-Allow-Methods",

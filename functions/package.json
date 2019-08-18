@@ -15,5 +15,9 @@
     "nodemailer": "6.3.0",
     "request": "^2.88.0"
   },
+  "engines": {
+    "node": "10",
+    "npm": ">=6.9.0"
+  },
   "private": true
 }

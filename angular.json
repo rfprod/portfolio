@@ -34,7 +34,6 @@
             ],
             "scripts": [
               "node_modules/firebase/firebase.js",
-              "node_modules/marked/marked.min.js",
               "node_modules/hammerjs/hammer.js"
             ]
           },
@@ -100,7 +99,6 @@
             ],
             "scripts": [
               "node_modules/firebase/firebase.js",
-              "node_modules/marked/marked.min.js",
               "node_modules/hammerjs/hammer.js"
             ]
           }

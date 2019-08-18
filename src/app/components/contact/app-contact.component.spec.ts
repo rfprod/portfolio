@@ -20,14 +20,13 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { DummyComponent, DialogRefMock } from 'src/mocks/index';
 
 import { AppContactComponent } from 'src/app/components/contact/app-contact.component';
-import { UtilsService } from 'src/app/services/utils/utils.service';
 
 describe('AppContactComponent', () => {
 
   const MOCKED_MODAL_DATA: object = {};
 
   let fixture: ComponentFixture<AppContactComponent>;
-  let component: AppContactComponent;
+  let component: AppContactComponent|any;
   let emitter: EventEmitterService;
   let email: SendEmailService;
   let httpController: HttpTestingController;
@@ -52,7 +51,6 @@ describe('AppContactComponent', () => {
         },
         EventEmitterService,
         CustomHttpHandlersService,
-        UtilsService,
         {
           provide: SendEmailService,
           useFactory: (http, handlers, window) => new SendEmailService(http, handlers, window),
@@ -80,17 +78,15 @@ describe('AppContactComponent', () => {
   });
 
   it('should have variables defined', function() {
-    this.component = component;
-
-    expect(this.component.contactForm).toBeUndefined();
-    expect(this.component.textValidator).toBeDefined();
-    expect(this.component.inputError).toBeDefined();
-    expect(this.component.resetForm).toEqual(jasmine.any(Function));
-    expect(this.component.submitForm).toEqual(jasmine.any(Function));
-    expect(this.component.sendMessage).toEqual(jasmine.any(Function));
-    expect(this.component.closeDialog).toEqual(jasmine.any(Function));
-    expect(this.component.ngOnInit).toEqual(jasmine.any(Function));
-    expect(this.component.ngOnDestroy).toEqual(jasmine.any(Function));
+    expect(component.contactForm).toBeUndefined();
+    expect(component.textValidator).toBeDefined();
+    expect(component.inputError).toBeDefined();
+    expect(component.resetForm).toEqual(jasmine.any(Function));
+    expect(component.submitForm).toEqual(jasmine.any(Function));
+    expect(component.sendMessage).toEqual(jasmine.any(Function));
+    expect(component.closeDialog).toEqual(jasmine.any(Function));
+    expect(component.ngOnInit).toEqual(jasmine.any(Function));
+    expect(component.ngOnDestroy).toEqual(jasmine.any(Function));
   });
 
 });

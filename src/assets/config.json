@@ -29,34 +29,14 @@
   ],
   "apps": [
     {
-      "name": "KOS.MOS.MUSIC multimedia concentrator",
+      "name": "NX Angular starter",
       "imgRef": "assets/firebase-seeklogo.com.svg",
       "urls": {
-        "repo": "https://github.com/rfprod/kosmosmusic",
-        "web": "https://kosmosmusic-51fd1.firebaseapp.com",
-        "android": ""
-      },
-      "tag": "angular"
-    },
-    {
-      "name": "Password manager",
-      "imgRef": "assets/angular-logo.svg",
-      "urls": {
-        "repo": "https://github.com/rfprod/password-manager",
+        "repo": "https://github.com/rfprod/nx-ng-starter",
         "web": "",
         "android": ""
       },
       "tag": "angular"
-    },
-    {
-      "name": "Sample Swagger API Documentation",
-      "imgRef": "assets/swagger-logo.svg",
-      "urls": {
-        "repo": "https://github.com/rfprod/ssad",
-        "web": "",
-        "android": ""
-      },
-      "tag": "other"
     },
     {
       "name": "Angular elements NodeJS widget server starter",
@@ -79,6 +59,36 @@
       "tag": "angular"
     },
     {
+      "name": "DNBHUB multimedia concentrator",
+      "imgRef": "assets/firebase-seeklogo.com.svg",
+      "urls": {
+        "repo": "https://github.com/rfprod/dnbhub",
+        "web": "https://dnbhub.com",
+        "android": ""
+      },
+      "tag": "angular"
+    },
+    {
+      "name": "KOS.MOS.MUSIC multimedia concentrator",
+      "imgRef": "assets/firebase-seeklogo.com.svg",
+      "urls": {
+        "repo": "https://github.com/rfprod/kosmosmusic",
+        "web": "https://kosmosmusic-51fd1.firebaseapp.com",
+        "android": ""
+      },
+      "tag": "angular"
+    },
+    {
+      "name": "Password manager",
+      "imgRef": "assets/angular-logo.svg",
+      "urls": {
+        "repo": "https://github.com/rfprod/password-manager",
+        "web": "",
+        "android": ""
+      },
+      "tag": "angular"
+    },
+    {
       "name": "WhoAmI microservice",
       "imgRef": "assets/heroku-logo.svg",
       "urls": {
@@ -89,14 +99,14 @@
       "tag": "angularjs"
     },
     {
-      "name": "SPAMT",
-      "imgRef": "assets/heroku-logo.svg",
+      "name": "Sample Swagger API Documentation",
+      "imgRef": "assets/swagger-logo.svg",
       "urls": {
-        "repo": "https://github.com/rfprod/spamt",
-        "web": "https://spamt.herokuapp.com/",
+        "repo": "https://github.com/rfprod/ssad",
+        "web": "",
         "android": ""
       },
-      "tag": "angular"
+      "tag": "other"
     },
     {
       "name": "Protractor Bot",

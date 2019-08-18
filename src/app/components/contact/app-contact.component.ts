@@ -1,10 +1,24 @@
-import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, Validators, ValidatorFn } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import {
+  Component,
+  Inject,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy
+} from '@angular/core';
+
+import {
+  FormBuilder,
+  Validators,
+  ValidatorFn
+} from '@angular/forms';
+
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA
+} from '@angular/material';
 
 import { EventEmitterService } from 'src/app/services/emitter/event-emitter.service';
 import { CustomDeferredService } from 'src/app/services/deferred/custom-deferred.service';
-
 import { SendEmailService } from 'src/app/services/send-email/send-email.service';
 
 import { IContactForm } from 'src/app/interfaces/index';
@@ -14,15 +28,16 @@ import { IContactForm } from 'src/app/interfaces/index';
  */
 @Component({
   selector: 'app-contact',
-  templateUrl: './app-contact.html',
+  templateUrl: './app-contact.component.html',
   host: {
     class: 'mat-body-1'
-  }
+  },
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class AppContactComponent implements OnInit, OnDestroy {
 
   /**
-   * 
+   * Constructor.
    * @param data Dialog data
    * @param dialogRef Dialog reference
    * @param fb Form builder
@@ -35,9 +50,7 @@ export class AppContactComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private emitter: EventEmitterService,
     private sendEmailService: SendEmailService
-  ) {
-    console.log('AppContactComponent constructor', this.data);
-  }
+  ) {}
 
   /**
    * Contact form.
@@ -82,13 +95,11 @@ export class AppContactComponent implements OnInit, OnDestroy {
     const formData: any = this.contactForm.value;
     this.sendEmailService.sendEmail(formData).subscribe(
       (data: any) => {
-        console.log('sendMessage:', data);
         this.emitter.emitSpinnerStopEvent();
         def.resolve(true);
         this.closeDialog();
       },
       (error: any) => {
-        console.log('sendMessage error', error);
         this.emitter.emitSpinnerStopEvent();
         def.reject(error);
       }
@@ -98,14 +109,12 @@ export class AppContactComponent implements OnInit, OnDestroy {
 
   /**
    * Closes dialog.
+   * Report result if it was commonly closed, or modified and closed, deleted,
+   * or optionally use result provided via param.
+   * Parent controller should listen to this event
    * @param [result] result returned to parent component
    */
   public closeDialog(result?: any) {
-    /*
-    *	report result if it was commonly closed, or modified and closed, deleted,
-    *	or optional use result is provided
-    *	parent controller should listen to this event
-    */
     result = (result) ? result : 'closed';
     this.dialogRef.close(result);
   }
@@ -114,14 +123,12 @@ export class AppContactComponent implements OnInit, OnDestroy {
    * Lifecycle hook called after component is initialized.
    */
   public ngOnInit(): void {
-    console.log('ngOnInit: AppContactComponent initialized');
     this.resetForm();
   }
+
   /**
    * Lifecycle hook called after component is destroyed.
    */
-  public ngOnDestroy(): void {
-    console.log('ngOnDestroy: AppContactComponent destroyed');
-  }
+  public ngOnDestroy(): void {}
 
 }

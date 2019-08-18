@@ -11,7 +11,7 @@ describe('AutofocusDirective', () => {
   let fixture: ComponentFixture<DummyComponent>;
   let component: DummyComponent;
   let debugElement: DebugElement;
-  let directive: AutofocusDirective;
+  let directive: AutofocusDirective|any;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -28,36 +28,30 @@ describe('AutofocusDirective', () => {
     expect(directive).toBeDefined();
   });
 
-  it('should have variables and methods defined', function() {
-    this.directive = directive;
-
-    expect(this.directive.el.nativeElement.autofocus).toBeTruthy();
-    expect(this.directive.autofocusState).toEqual(jasmine.any(Boolean));
-    expect(this.directive.ngOnInit).toEqual(jasmine.any(Function));
-    expect(this.directive.ngOnChanges).toEqual(jasmine.any(Function));
+  it('should have variables and methods defined', () => {
+    expect(directive.el.nativeElement.autofocus).toBeTruthy();
+    expect(directive.autofocusState).toEqual(jasmine.any(Boolean));
+    expect(directive.ngOnInit).toEqual(jasmine.any(Function));
+    expect(directive.ngOnChanges).toEqual(jasmine.any(Function));
   });
 
-  it('ngOnInit should call directive renderer invokeElementMethod if autofocus condition is met', function() {
-    this.directive = directive;
+  it('ngOnInit should call directive renderer invokeElementMethod if autofocus condition is met', () => {
+    spyOn(directive.el.nativeElement, 'focus');
 
-    spyOn(this.directive.el.nativeElement, 'focus');
+    directive.autofocusState = null;
+    directive.ngOnInit();
+    expect(directive.el.nativeElement.focus).not.toHaveBeenCalled();
 
-    this.directive.autofocusState = null;
-    this.directive.ngOnInit();
-    expect(this.directive.el.nativeElement.focus).not.toHaveBeenCalled();
-
-    this.directive.autofocusState = undefined;
-    this.directive.ngOnInit();
-    expect(this.directive.el.nativeElement.focus).toHaveBeenCalled();
+    directive.autofocusState = undefined;
+    directive.ngOnInit();
+    expect(directive.el.nativeElement.focus).toHaveBeenCalled();
   });
 
-  it('autofocus method should set autofocusState property', function() {
-    this.directive = directive;
-
-    this.directive.autofocus = true;
-    expect(this.directive.autofocusState).toBeTruthy();
-    this.directive.autofocus = false;
-    expect(this.directive.autofocusState).toBeFalsy();
+  it('autofocus method should set autofocusState property', () => {
+    directive.autofocus = true;
+    expect(directive.autofocusState).toBeTruthy();
+    directive.autofocus = false;
+    expect(directive.autofocusState).toBeFalsy();
   });
 
 });

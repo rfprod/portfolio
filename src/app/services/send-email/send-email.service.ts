@@ -13,6 +13,7 @@ import { timeout, take, map, catchError } from 'rxjs/operators';
 export class SendEmailService {
 
   /**
+   * Constructor.
    * @param http Http client
    * @param handlers Http handlers
    * @param window window reference
@@ -21,9 +22,7 @@ export class SendEmailService {
     private http: HttpClient,
     private handlers: CustomHttpHandlersService,
     @Inject('Window') private window: Window
-  ) {
-    console.log('SendEmailService constructor');
-  }
+  ) {}
 
   /**
    * Endpoint.

@@ -15,6 +15,7 @@ import { timeout, take, map, catchError } from 'rxjs/operators';
 export class GithubService {
 
   /**
+   * Constructor.
    * @param http Http client
    * @param handlers http handlers
    * @param window window reference
@@ -23,9 +24,7 @@ export class GithubService {
     private http: HttpClient,
     private handlers: CustomHttpHandlersService,
     @Inject('Window') private window: Window
-  ) {
-    console.log('GithubService constructor, githubAccessToken', this.githubAccessToken);
-  }
+  ) {}
 
   public githubAccessToken: string = environment.githubAccessToken;
 

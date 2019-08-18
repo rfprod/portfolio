@@ -19,12 +19,11 @@ import { CustomMaterialModule } from 'src/app/modules/material/custom-material.m
 import { DummyComponent } from 'src/mocks/index';
 
 import { AppIndexComponent } from 'src/app/components/index/app-index.component';
-import { UtilsService } from 'src/app/services/utils/utils.service';
 
 describe('AppIndexComponent', () => {
 
   let fixture: ComponentFixture<AppIndexComponent>;
-  let component: AppIndexComponent;
+  let component: AppIndexComponent|any;
   let emitter: EventEmitterService;
   let userConfig: UserConfigService;
   let github: GithubService;
@@ -44,7 +43,6 @@ describe('AppIndexComponent', () => {
         { provide: 'Window', useValue: window },
         EventEmitterService,
         CustomHttpHandlersService,
-        UtilsService,
         {
           provide: UserConfigService,
           useFactory: (http, handlers, window) => new UserConfigService(http, handlers, window),
@@ -78,9 +76,7 @@ describe('AppIndexComponent', () => {
   });
 
   it('should have variables defined', function() {
-    this.component = component;
-
-    expect(this.component.data).toEqual(jasmine.objectContaining({
+    expect(component.data).toEqual(jasmine.objectContaining({
       profiles: jasmine.any(Array),
       userConfig: jasmine.any(Object),
       github: jasmine.any(Object),
@@ -88,24 +84,24 @@ describe('AppIndexComponent', () => {
       githubLanguages: jasmine.any(Object),
       githubLanguagesKeys: jasmine.any(Array)
     }));
-    expect(this.component.getUserConfig).toEqual(jasmine.any(Function));
-    expect(this.component.getGithubProfile).toEqual(jasmine.any(Function));
-    expect(this.component.getGithubRepos).toEqual(jasmine.any(Function));
-    expect(this.component.getGithubRepoLanguages).toEqual(jasmine.any(Function));
-    expect(this.component.dialogInstance).toBeUndefined();
-    expect(this.component.dialogSub).toBeUndefined();
-    expect(this.component.showContactDialog).toEqual(jasmine.any(Function));
-    expect(this.component.imgShow).toEqual(jasmine.objectContaining({
+    expect(component.getUserConfig).toEqual(jasmine.any(Function));
+    expect(component.getGithubProfile).toEqual(jasmine.any(Function));
+    expect(component.getGithubRepos).toEqual(jasmine.any(Function));
+    expect(component.getGithubRepoLanguages).toEqual(jasmine.any(Function));
+    expect(component.dialogInstance).toBeUndefined();
+    expect(component.dialogSub).toBeUndefined();
+    expect(component.showContactDialog).toEqual(jasmine.any(Function));
+    expect(component.imgShow).toEqual(jasmine.objectContaining({
       github: jasmine.any(Boolean),
       codepen: jasmine.any(Boolean),
       codewars: jasmine.any(Boolean),
       hackerrank: jasmine.any(Boolean)
     }));
-    expect(this.component.showImage).toEqual(jasmine.any(Function));
-    expect(this.component.imgLoaded).toEqual(jasmine.any(Function));
-    expect(this.component.imgError).toEqual(jasmine.any(Function));
-    expect(this.component.ngOnInit).toEqual(jasmine.any(Function));
-    expect(this.component.ngOnDestroy).toEqual(jasmine.any(Function));
+    expect(component.showImage).toEqual(jasmine.any(Function));
+    expect(component.imgLoaded).toEqual(jasmine.any(Function));
+    expect(component.imgError).toEqual(jasmine.any(Function));
+    expect(component.ngOnInit).toEqual(jasmine.any(Function));
+    expect(component.ngOnDestroy).toEqual(jasmine.any(Function));
   });
 
 });

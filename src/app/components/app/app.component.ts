@@ -1,39 +1,35 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy
+} from '@angular/core';
 
 import { DateAdapter } from '@angular/material';
 
 import { EventEmitterService } from 'src/app/services/emitter/event-emitter.service';
-import { UtilsService } from 'src/app/services/utils/utils.service';
+
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
 /**
  * Application root component.
  */
 @Component({
   selector: 'root',
-  template: `
-    <span id="spinner" *ngIf="showSpinner">
-      <mat-progress-bar mode="indeterminate" aria-label="Application progress bar"></mat-progress-bar>
-    </span>
-    <router-outlet></router-outlet>
-  `
+  templateUrl: './app.component.html',
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class AppComponent implements OnInit, OnDestroy {
 
   /**
+   * Constructor.
    * @param dateAdapter Date adapter
    * @param emitter Event emitter
-   * @param utils Utilities service
    */
   constructor(
     private dateAdapter: DateAdapter<any>,
-    private emitter: EventEmitterService,
-    private utils: UtilsService
+    private emitter: EventEmitterService
   ) {}
-
-  /**
-   * Component subscriptions.
-   */
-  private subscriptions: any[] = [];
 
   /**
    * Indicates if spinner should be shown ow not.
@@ -65,13 +61,12 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   private subscribe: { datepickerLocaleChanges: () => void, eventEmitter: () => void } = {
     datepickerLocaleChanges: () => {
-      const sub = this.dateAdapter.localeChanges.subscribe(() => {
+      this.dateAdapter.localeChanges.pipe(untilDestroyed(this)).subscribe(() => {
         console.log('dateAdapter.localeChanges, changed according to the language');
       });
-      this.subscriptions.push(sub);
     },
     eventEmitter: () => {
-      const sub = this.emitter.getEmitter().subscribe((event: any) => {
+      this.emitter.getEmitter().pipe(untilDestroyed(this)).subscribe((event: any) => {
         console.log('app consuming event:', event);
         if (event.spinner) {
           if (event.spinner === 'start') {
@@ -83,7 +78,6 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         }
       });
-      this.subscriptions.push(sub);
     }
   };
 
@@ -91,22 +85,14 @@ export class AppComponent implements OnInit, OnDestroy {
    * Lifecycle hook called on component initialization.
    */
   public ngOnInit(): void {
-    console.log('ngOnInit: AppComponent initialized');
-
     this.setDatepickerLocale();
-
     this.subscribe.eventEmitter();
-
     this.subscribe.datepickerLocaleChanges();
-
   }
 
   /**
    * Lifecycle hook called on component destruction.
    */
-  public ngOnDestroy(): void {
-    console.log('ngOnDestroy: AppComponent destroyed');
-    this.utils.unsubscribeFromAll(this.subscriptions);
-  }
+  public ngOnDestroy(): void {}
 
 }

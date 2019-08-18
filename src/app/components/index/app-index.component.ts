@@ -1,51 +1,44 @@
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy
+} from '@angular/core';
 
-import { MatDialog, MatDialogRef } from '@angular/material';
+import {
+  MatDialog,
+  MatDialogRef
+} from '@angular/material';
 
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import {
+  MatTreeFlatDataSource,
+  MatTreeFlattener
+} from '@angular/material/tree';
+
+import {
+  TreeNode,
+  FlatNode
+} from 'src/app/interfaces';
 
 import { AppContactComponent } from 'src/app/components/contact/app-contact.component';
 
 import { EventEmitterService } from 'src/app/services/emitter/event-emitter.service';
 import { CustomDeferredService } from 'src/app/services/deferred/custom-deferred.service';
-
 import { UserConfigService } from 'src/app/services/user-config/user-config.service';
 import { GithubService } from 'src/app/services/github/github.service';
-import { UtilsService } from 'src/app/services/utils/utils.service';
-
-/**
- * Tree node with nested structure.
- */
-interface TreeNode {
-  name: string; // profile + app node
-  link?: string; // profile node
-  imgRef?: string; // profile + app node
-  tag?: string; // app node
-  urls?: {
-    repo: string;
-    web: string;
-    android: string;
-  } // app node
-  children?: TreeNode[];
-}
-
-/** Flat node with expandable and level information */
-interface ExampleFlatNode {
-  expandable: boolean;
-  name: string;
-  level: number;
-}
 
 /**
  * Application index component.
  */
 @Component({
   selector: 'app-index',
-  templateUrl: './app-index.html',
+  templateUrl: './app-index.component.html',
   host: {
     class: 'mat-body-1'
-  }
+  },
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class AppIndexComponent implements OnInit, OnDestroy {
 
@@ -63,21 +56,6 @@ export class AppIndexComponent implements OnInit, OnDestroy {
       level: level,
     };
   }
-
-  /**
-   * Tree control.
-   */
-  public treeControl = new FlatTreeControl<ExampleFlatNode>(node => node.level, node => node.expandable);
-
-  /**
-   * Tree flattener.
-   */
-  public treeFlattener = new MatTreeFlattener(this.transformer, node => node.level, node => node.expandable, node => node.children);
-
-  /**
-   * Tree data source.
-   */
-  public treeDataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
   /**
    * Updates tree data with new values.
@@ -109,11 +87,11 @@ export class AppIndexComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Constructor.
    * @param dialog Material dialog
    * @param emitter Event emitter
    * @param userConfigService User configuration service
    * @param githubService Github service
-   * @param utils Utilities service
    * @param window Window reference
    */
   constructor(
@@ -121,25 +99,34 @@ export class AppIndexComponent implements OnInit, OnDestroy {
     private emitter: EventEmitterService,
     private userConfigService: UserConfigService,
     private githubService: GithubService,
-    private utils: UtilsService,
     @Inject('Window') private window: Window
   ) {
     this.updateTreeData();
   }
 
   /**
+   * Tree control.
+   */
+  public treeControl = new FlatTreeControl<FlatNode>(node => node.level, node => node.expandable);
+
+  /**
+   * Tree flattener.
+   */
+  public treeFlattener = new MatTreeFlattener(this.transformer, node => node.level, node => node.expandable, node => node.children);
+
+  /**
+   * Tree data source.
+   */
+  public treeDataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+
+  /**
    * Resolves if tree node has a child.
    * @param _ node index
    * @param node node data
    */
-  public hasChild(_: number, node: ExampleFlatNode): boolean {
+  public hasChild(_: number, node: FlatNode): boolean {
     return node.expandable;
   };
-
-  /**
-   * Component subscriptions.
-   */
-  private subscriptions: any[] = [];
 
   /**
    * Component data.
@@ -188,7 +175,6 @@ export class AppIndexComponent implements OnInit, OnDestroy {
         def.resolve();
       },
       (error: any) => {
-        console.log('getUserConfig error', error);
         def.reject(error);
       }
     );
@@ -199,18 +185,15 @@ export class AppIndexComponent implements OnInit, OnDestroy {
    * Gets Github access token.
    */
   private getGithubAccessTokenFromServer(): Promise<any> {
-    console.log('getGithubAccessTokenFromServer');
     const def = new CustomDeferredService<any>();
     if (!this.githubService.githubAccessToken || this.githubService.githubAccessToken === 'GITHUB_ACCESS_TOKEN') {
       this.githubService.getGithubAccessToken().subscribe(
         (data: { token: string }) => {
           this.githubService.githubAccessToken = data.token;
-          console.log('this.githubService.githubAccessToken', this.githubService.githubAccessToken);
           def.resolve();
         },
         (error: string) => {
           this.githubService.githubAccessToken = error;
-          console.log('this.githubService.githubAccessToken', this.githubService.githubAccessToken);
           def.reject();
         }
       );
@@ -227,7 +210,6 @@ export class AppIndexComponent implements OnInit, OnDestroy {
     const def = new CustomDeferredService<any>();
     this.githubService.getProfile(this.data.userConfig.username.github).subscribe(
       (data: any) => {
-        console.log('getGithubProfile, data', data);
         if (typeof data === 'object') {
           this.data.github = data;
           this.data.initialized = true;
@@ -235,8 +217,7 @@ export class AppIndexComponent implements OnInit, OnDestroy {
         def.resolve();
       },
       (error: any) => {
-        console.log('getGithubProfile error', error);
-        def.reject(error);
+        return def.reject(error);
       }
     );
     return def.promise;
@@ -256,8 +237,7 @@ export class AppIndexComponent implements OnInit, OnDestroy {
         def.resolve();
       },
       (error: any) => {
-        console.log('getGithubRepos error', error);
-        def.reject(error);
+        return def.reject(error);
       }
     );
     return def.promise;
@@ -287,8 +267,7 @@ export class AppIndexComponent implements OnInit, OnDestroy {
         def.resolve();
       },
       (error: any) => {
-        console.log('getGithubRepoLanguages error', error);
-        def.reject(error);
+        return def.reject(error);
       }
     );
     return def.promise;
@@ -363,8 +342,6 @@ export class AppIndexComponent implements OnInit, OnDestroy {
    * Lifecycle hook called on component initialization.
    */
   public ngOnInit(): void {
-    console.log('ngOnInit: AppIndexComponent initialized');
-
     this.emitter.emitSpinnerStartEvent();
     this.getGithubAccessTokenFromServer()
       .then(() => this.getUserConfig())
@@ -383,8 +360,5 @@ export class AppIndexComponent implements OnInit, OnDestroy {
   /**
    * Lifecycle hook called on component destruction.
    */
-  public ngOnDestroy(): void {
-    console.log('ngOnDestroy: AppIndexComponent destroyed');
-    this.utils.unsubscribeFromAll(this.subscriptions);
-  }
+  public ngOnDestroy(): void {}
 }

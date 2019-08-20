@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { timeout, take, map, catchError } from 'rxjs/operators';
 
 /**
- * Send emsil service.
+ * Send email service.
  */
 @Injectable()
 export class SendEmailService {
@@ -41,4 +41,5 @@ export class SendEmailService {
       catchError(this.handlers.handleError)
     );
   }
+
 }

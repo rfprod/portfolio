@@ -1,6 +1,7 @@
 import {
   NgModule,
-  ModuleWithProviders
+  ModuleWithProviders,
+  Provider
 } from "@angular/core";
 
 import {
@@ -16,24 +17,38 @@ import { SendEmailService } from './send-email/send-email.service';
 import { GithubService } from './github/github.service';
 
 /**
+ * Window factory.
+ */
+export function windowFactory(): Window {
+  return window;
+}
+
+/**
+ * Application services module providers.
+ */
+export const appServicesModuleProviders: Provider[] = [
+  {
+    provide: LocationStrategy,
+    useClass: PathLocationStrategy
+  },
+  {
+    provide: 'Window',
+    useFactory: windowFactory
+  },
+  CustomDeferredService,
+  CustomHttpHandlersService,
+  EventEmitterService,
+  UserConfigService,
+  SendEmailService,
+  GithubService
+];
+
+/**
  * Application services module.
  */
 @NgModule({
   providers: [
-    {
-      provide: LocationStrategy,
-      useClass: PathLocationStrategy
-    },
-    {
-      provide: 'Window',
-      useValue: window
-    },
-    CustomDeferredService,
-    CustomHttpHandlersService,
-    EventEmitterService,
-    UserConfigService,
-    SendEmailService,
-    GithubService
+    ...appServicesModuleProviders
   ]
 })
 export class AppServicesModule {
@@ -45,20 +60,7 @@ export class AppServicesModule {
     return {
       ngModule: AppServicesModule,
       providers: [
-        {
-          provide: LocationStrategy,
-          useClass: PathLocationStrategy
-        },
-        {
-          provide: 'Window',
-          useValue: window
-        },
-        CustomDeferredService,
-        CustomHttpHandlersService,
-        EventEmitterService,
-        UserConfigService,
-        SendEmailService,
-        GithubService
+        ...appServicesModuleProviders
       ]
     };
   }

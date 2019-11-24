@@ -74,21 +74,11 @@
       "tag": "angular"
     },
     {
-      "name": "KOS.MOS.MUSIC multimedia concentrator",
-      "imgRef": "assets/firebase-seeklogo.com.svg",
-      "urls": {
-        "repo": "https://github.com/rfprod/kosmosmusic",
-        "web": "https://kosmosmusic-51fd1.web.app",
-        "android": ""
-      },
-      "tag": "angular"
-    },
-    {
       "name": "Password manager",
       "imgRef": "assets/angular-logo.svg",
       "urls": {
         "repo": "https://github.com/rfprod/password-manager",
-        "web": "",
+        "web": "https://rfprod.github.io/password-manager",
         "android": ""
       },
       "tag": "angular"
@@ -98,7 +88,7 @@
       "imgRef": "assets/heroku-logo.svg",
       "urls": {
         "repo": "https://github.com/rfprod/whoami",
-        "web": "https://whoami-microsrvc.herokuapp.com/",
+        "web": "https://whoami-microsrvc.herokuapp.com",
         "android": ""
       },
       "tag": "angularjs"
@@ -108,7 +98,7 @@
       "imgRef": "assets/swagger-logo.svg",
       "urls": {
         "repo": "https://github.com/rfprod/ssad",
-        "web": "",
+        "web": "https://rfprod.github.io/ssad",
         "android": ""
       },
       "tag": "other"
@@ -118,7 +108,37 @@
       "imgRef": "assets/protractor-logo.svg",
       "urls": {
         "repo": "https://github.com/rfprod/protractor-bot",
-        "web": "",
+        "web": "https://rfprod.github.io/protractor-bot",
+        "android": ""
+      },
+      "tag": "other"
+    },
+    {
+      "name": "Sample Monorepo Architecture",
+      "imgRef": "assets/nx-logo.svg",
+      "urls": {
+        "repo": "https://github.com/rfprod/sample-monorepo-architecture",
+        "web": "https://rfprod.github.io/sample-monorepo-architecture",
+        "android": ""
+      },
+      "tag": "other"
+    },
+    {
+      "name": "Web Development Setup Debian/Ubuntu",
+      "imgRef": "assets/debian-logo.svg",
+      "urls": {
+        "repo": "https://github.com/rfprod/wdsdu",
+        "web": "https://rfprod.github.io/wdsdu",
+        "android": ""
+      },
+      "tag": "other"
+    },
+    {
+      "name": "Dictionaries: Country codes, international telephone codes",
+      "imgRef": "assets/bookdictionary-logo.svg",
+      "urls": {
+        "repo": "https://github.com/rfprod/dictionaries",
+        "web": "https://rfprod.github.io/dictionaries",
         "android": ""
       },
       "tag": "other"

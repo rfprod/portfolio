@@ -13,11 +13,11 @@
    id="Layer_1"
    x="0px"
    y="0px"
-   viewBox="0 0 183 250"
+   viewBox="0 0 400 400"
    xml:space="preserve"
    sodipodi:docname="angular-logo.svg"
-   width="183"
-   height="250"
+   width="400"
+   height="400"
    inkscape:version="0.92.3 (2405546, 2018-03-11)"><metadata
    id="metadata17"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
@@ -31,16 +31,16 @@
    guidetolerance="10"
    inkscape:pageopacity="0"
    inkscape:pageshadow="2"
-   inkscape:window-width="683"
+   inkscape:window-width="1366"
    inkscape:window-height="713"
    id="namedview13"
    showgrid="false"
    inkscape:zoom="0.944"
-   inkscape:cx="125"
-   inkscape:cy="125"
+   inkscape:cx="70.974576"
+   inkscape:cy="251.76157"
    inkscape:window-x="0"
    inkscape:window-y="27"
-   inkscape:window-maximized="0"
+   inkscape:window-maximized="1"
    inkscape:current-layer="Layer_1" />
 <style
    type="text/css"
@@ -51,15 +51,15 @@
 </style>
 <g
    id="g10"
-   transform="translate(-32.838983,-1.059322)">
+   transform="matrix(1.6622697,0,0,1.6622697,-7.965386,-15.381351)">
 	<polygon
    class="st0"
-   points="203.9,186.3 218.1,63.2 125,30 31.9,63.2 46.1,186.3 125,230 "
+   points="31.9,63.2 46.1,186.3 125,230 203.9,186.3 218.1,63.2 125,30 "
    id="polygon4"
    style="fill:#dd0031" />
 	<polygon
    class="st1"
-   points="218.1,63.2 125,30 125,52.2 125,52.1 125,153.4 125,230 203.9,186.3 "
+   points="203.9,186.3 218.1,63.2 125,30 125,52.2 125,52.1 125,153.4 125,230 "
    id="polygon6"
    style="fill:#c3002f" />
 	<path

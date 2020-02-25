@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 
-/*
-*	template note
-*	input with autofocus attribute is needed for Autofocus directive testing
-*/
-
+/**
+ * @note
+ * input with autofocus attribute is needed for Autofocus directive testing
+ */
 @Component({
-  selector: 'dummy-component',
-  template: '<span> <input autofocus="true" /> </span>'
+  selector: 'app-dummy-component',
+  template: '<span> <input autofocus="true" /> </span>',
 })
 export class DummyComponent {}

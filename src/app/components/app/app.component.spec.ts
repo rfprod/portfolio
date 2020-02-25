@@ -1,5 +1,5 @@
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -27,17 +27,17 @@ describe('AppComponent', () => {
         CustomMaterialModule, FlexLayoutModule,
         RouterTestingModule.withRoutes([
           {path: '', component: DummyComponent},
-        ])
+        ]),
       ],
       providers: [
         { provide: 'Window', useValue: window },
-        EventEmitterService
+        EventEmitterService,
       ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     }).compileComponents().then(() => {
       fixture = TestBed.createComponent(AppComponent);
       component = fixture.componentInstance;
-      emitter = TestBed.get(EventEmitterService) as EventEmitterService;
+      emitter = TestBed.inject(EventEmitterService);
     });
   }));
 
@@ -45,7 +45,7 @@ describe('AppComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should have variables and methods defined', function() {
+  it('should have variables and methods defined', () => {
     expect(component.showSpinner).toEqual(jasmine.any(Boolean));
     expect(component.showSpinner).toBeTruthy();
     expect(component.startSpinner).toEqual(jasmine.any(Function));
@@ -55,7 +55,7 @@ describe('AppComponent', () => {
     expect(component.ngOnDestroy).toEqual(jasmine.any(Function));
   });
 
-  it('should control spinner correctly', function() {
+  it('should control spinner correctly', () => {
     component.stopSpinner();
     expect(component.showSpinner).toBeFalsy();
     component.startSpinner();
@@ -64,7 +64,7 @@ describe('AppComponent', () => {
     expect(component.showSpinner).toBeFalsy();
   });
 
-  it('should listen to event emitter and take action if message is correct', function() {
+  it('should listen to event emitter and take action if message is correct', () => {
     component.ngOnInit();
 
     emitter.emitEvent({ spinner: 'stop' });
@@ -74,10 +74,10 @@ describe('AppComponent', () => {
     emitter.emitEvent({ spinner: 'stop' });
     expect(component.showSpinner).toBeFalsy();
     emitter.emitEvent({ spinner: 'ziii' });
-    expect(component.showSpinner).toBeFalsy(); // nothing happens
+    expect(component.showSpinner).toBeFalsy(); // Nothing happens
 
     emitter.emitEvent({ unrecognized_key: 'value' }); //
-    expect(component.showSpinner).toBeFalsy(); // nothing happens
+    expect(component.showSpinner).toBeFalsy(); // Nothing happens
   });
 
 });

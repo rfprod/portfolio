@@ -1,24 +1,24 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Inject,
-  OnInit,
   OnDestroy,
-  ChangeDetectionStrategy
+  OnInit,
 } from '@angular/core';
 
 import {
   FormBuilder,
+  ValidatorFn,
   Validators,
-  ValidatorFn
 } from '@angular/forms';
 
 import {
+  MAT_DIALOG_DATA,
   MatDialogRef,
-  MAT_DIALOG_DATA
-} from '@angular/material';
+} from '@angular/material/dialog';
 
-import { EventEmitterService } from 'src/app/services/emitter/event-emitter.service';
 import { CustomDeferredService } from 'src/app/services/deferred/custom-deferred.service';
+import { EventEmitterService } from 'src/app/services/emitter/event-emitter.service';
 import { SendEmailService } from 'src/app/services/send-email/send-email.service';
 
 import { IContactForm } from 'src/app/interfaces/index';
@@ -30,11 +30,24 @@ import { IContactForm } from 'src/app/interfaces/index';
   selector: 'app-contact',
   templateUrl: './app-contact.component.html',
   host: {
-    class: 'mat-body-1'
+    class: 'mat-body-1',
   },
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class AppContactComponent implements OnInit, OnDestroy {
+
+  /**
+   * Contact form.
+   */
+  public contactForm: IContactForm;
+  /**
+   * Text input error message.
+   */
+  public inputError = 'Invalid input, allowed characters: a-z A-Z а-я А-Я - . spacebar';
+  /**
+   * Common text validator.
+   */
+  private readonly textValidator: ValidatorFn = Validators.pattern(/[a-zA-Zа-яА-Я\s-.]{3,}/);
 
   /**
    * Constructor.
@@ -47,35 +60,10 @@ export class AppContactComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<AppContactComponent>,
-    private fb: FormBuilder,
-    private emitter: EventEmitterService,
-    private sendEmailService: SendEmailService
+    private readonly fb: FormBuilder,
+    private readonly emitter: EventEmitterService,
+    private readonly sendEmailService: SendEmailService,
   ) {}
-
-  /**
-   * Contact form.
-   */
-  public contactForm: IContactForm;
-  /**
-   * Common text validator.
-   */
-  private textValidator: ValidatorFn = Validators.pattern(/[a-zA-Zа-яА-Я\s-.]{3,}/);
-  /**
-   * Text input error message.
-   */
-  public inputError: string = 'Invalid input, allowed characters: a-z A-Z а-я А-Я - . spacebar';
-  /**
-   * Resets contact form.
-   */
-  private resetForm(): void {
-    this.contactForm = this.fb.group({
-      name: ['', Validators.compose([Validators.required, this.textValidator])],
-      email: ['', Validators.compose([Validators.required, Validators.email])],
-      header: ['', Validators.compose([Validators.required, this.textValidator])],
-      message: ['', Validators.compose([Validators.required, this.textValidator])],
-      domain: [ this.data.domain, Validators.compose([Validators.required])]
-    }) as IContactForm;
-  }
 
   /**
    * Submits contact form.
@@ -102,7 +90,7 @@ export class AppContactComponent implements OnInit, OnDestroy {
       (error: any) => {
         this.emitter.emitSpinnerStopEvent();
         def.reject(error);
-      }
+      },
     );
     return def.promise;
   }
@@ -130,5 +118,17 @@ export class AppContactComponent implements OnInit, OnDestroy {
    * Lifecycle hook called after component is destroyed.
    */
   public ngOnDestroy(): void {}
+  /**
+   * Resets contact form.
+   */
+  private resetForm(): void {
+    this.contactForm = this.fb.group({
+      name: ['', Validators.compose([Validators.required, this.textValidator])],
+      email: ['', Validators.compose([Validators.required, Validators.email])],
+      header: ['', Validators.compose([Validators.required, this.textValidator])],
+      message: ['', Validators.compose([Validators.required, this.textValidator])],
+      domain: [ this.data.domain, Validators.compose([Validators.required])],
+    }) as IContactForm;
+  }
 
 }

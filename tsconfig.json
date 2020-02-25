@@ -5,11 +5,11 @@
     "outDir": "./public/out-tsc",
     "sourceMap": true,
     "declaration": false,
-    "module": "es2015",
+    "module": "esnext",
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es5",
+    "target": "es6",
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -19,7 +19,7 @@
     "importHelpers": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["es5", "es2015", "es2017", "es2018", "dom", "scripthost"],
+    "lib": ["es2018", "dom", "scripthost", "esnext.asynciterable"],
     "noImplicitAny": false,
     "removeComments": true,
     "suppressImplicitAnyIndexErrors": true

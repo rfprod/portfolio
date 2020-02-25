@@ -99,7 +99,6 @@
             ],
             "scripts": [
               "node_modules/firebase/firebase.js",
-              "node_modules/hammerjs/hammer.js"
             ]
           }
         },

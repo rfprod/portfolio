@@ -1,32 +1,19 @@
 import {
   Directive,
   ElementRef,
-  OnInit,
   Input,
   OnChanges,
-  SimpleChanges
+  OnInit,
+  SimpleChanges,
 } from '@angular/core';
 
 /**
  * Autofocus directive.
  */
 @Directive({
-  selector: '[autofocus]'
+  selector: '[autofocus]',
 })
 export class AutofocusDirective implements OnInit, OnChanges {
-
-  /**
-   * Constructor.
-   * @param el Element reference
-   */
-  constructor(
-    private el: ElementRef
-  ) {}
-
-  /**
-   * Autofocus state.
-   */
-  private autofocusState: boolean = false;
 
   /**
    * Autofocus setter.
@@ -35,6 +22,19 @@ export class AutofocusDirective implements OnInit, OnChanges {
   @Input() set autofocus(state: boolean) {
     this.autofocusState = (state) ? true : false;
   }
+
+  /**
+   * Autofocus state.
+   */
+  private autofocusState = false;
+
+  /**
+   * Constructor.
+   * @param el Element reference
+   */
+  constructor(
+    private readonly el: ElementRef,
+  ) {}
 
   /**
    * Lifecycle hook called after directive is initialized.

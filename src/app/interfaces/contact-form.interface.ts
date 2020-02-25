@@ -1,4 +1,4 @@
-import { FormGroup, AbstractControl } from '@angular/forms';
+import { AbstractControl, FormGroup } from '@angular/forms';
 
 /**
  * Contact form interface.
@@ -9,6 +9,6 @@ export interface IContactForm extends FormGroup {
     email: AbstractControl,
     header: AbstractControl,
     message: AbstractControl,
-    domain: AbstractControl
-  }
+    domain: AbstractControl,
+  };
 }

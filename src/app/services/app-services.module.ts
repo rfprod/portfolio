@@ -1,20 +1,20 @@
 import {
-  NgModule,
   ModuleWithProviders,
-  Provider
-} from "@angular/core";
+  NgModule,
+  Provider,
+} from '@angular/core';
 
 import {
   LocationStrategy,
-  PathLocationStrategy
+  PathLocationStrategy,
 } from '@angular/common';
 
 import { CustomDeferredService } from './deferred/custom-deferred.service';
-import { CustomHttpHandlersService } from './http-handlers/custom-http-handlers.service';
 import { EventEmitterService } from './emitter/event-emitter.service';
-import { UserConfigService } from './user-config/user-config.service';
-import { SendEmailService } from './send-email/send-email.service';
 import { GithubService } from './github/github.service';
+import { CustomHttpHandlersService } from './http-handlers/custom-http-handlers.service';
+import { SendEmailService } from './send-email/send-email.service';
+import { UserConfigService } from './user-config/user-config.service';
 
 /**
  * Window factory.
@@ -29,18 +29,18 @@ export function windowFactory(): Window {
 export const appServicesModuleProviders: Provider[] = [
   {
     provide: LocationStrategy,
-    useClass: PathLocationStrategy
+    useClass: PathLocationStrategy,
   },
   {
     provide: 'Window',
-    useFactory: windowFactory
+    useFactory: windowFactory,
   },
   CustomDeferredService,
   CustomHttpHandlersService,
   EventEmitterService,
   UserConfigService,
   SendEmailService,
-  GithubService
+  GithubService,
 ];
 
 /**
@@ -48,20 +48,20 @@ export const appServicesModuleProviders: Provider[] = [
  */
 @NgModule({
   providers: [
-    ...appServicesModuleProviders
-  ]
+    ...appServicesModuleProviders,
+  ],
 })
 export class AppServicesModule {
 
   /**
    * Provides services.
    */
-  static forRoot(): ModuleWithProviders {
+  public static forRoot(): ModuleWithProviders {
     return {
       ngModule: AppServicesModule,
       providers: [
-        ...appServicesModuleProviders
-      ]
+        ...appServicesModuleProviders,
+      ],
     };
   }
 

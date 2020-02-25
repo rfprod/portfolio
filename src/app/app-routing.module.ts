@@ -9,17 +9,17 @@ import { AppIndexComponent } from './components/index/app-index.component';
 const ROUTES: Route[] = [
   {
     path: '',
-    component: AppIndexComponent
+    component: AppIndexComponent,
   },
   {
     path: '',
     redirectTo: '',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: '**',
-    redirectTo: ''
-  }
+    redirectTo: '',
+  },
 ];
 
 /**
@@ -27,6 +27,6 @@ const ROUTES: Route[] = [
  */
 @NgModule({
   imports: [ RouterModule.forRoot(ROUTES) ],
-  exports: [ RouterModule ]
+  exports: [ RouterModule ],
 })
 export class AppRoutingModule { }

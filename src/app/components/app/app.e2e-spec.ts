@@ -9,8 +9,8 @@ describe('workspace-project App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
-    page.navigateTo();
-    expect(page.getRootsSelectorsCount()).toEqual(1 as Expected<Promise<number>>);
+  it('should display welcome message', async () => {
+    await page.navigateTo();
+    expect(await page.getRootsSelectorsCount()).toEqual(1 as Expected<Promise<number>>);
   });
 });

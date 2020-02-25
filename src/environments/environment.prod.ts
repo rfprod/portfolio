@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  githubAccessToken: 'GITHUB_ACCESS_TOKEN'
+  githubAccessToken: 'GITHUB_ACCESS_TOKEN',
 };

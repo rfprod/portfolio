@@ -1,11 +1,11 @@
 import {
+  ChangeDetectionStrategy,
   Component,
-  OnInit,
   OnDestroy,
-  ChangeDetectionStrategy
+  OnInit,
 } from '@angular/core';
 
-import { DateAdapter } from '@angular/material';
+import { DateAdapter } from '@angular/material/core';
 
 import { EventEmitterService } from 'src/app/services/emitter/event-emitter.service';
 
@@ -17,9 +17,36 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
 @Component({
   selector: 'root',
   templateUrl: './app.component.html',
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class AppComponent implements OnInit, OnDestroy {
+
+  /**
+   * Indicates if spinner should be shown ow not.
+   */
+  public showSpinner = true;
+
+  /**
+   * Subscription methods.
+   */
+  private readonly subscribe: { datepickerLocaleChanges(): void; eventEmitter(): void; } = {
+    datepickerLocaleChanges: () => {
+      this.dateAdapter.localeChanges.pipe(untilDestroyed(this)).subscribe(() => {
+        console.log('dateAdapter.localeChanges, changed according to the language');
+      });
+    },
+    eventEmitter: () => {
+      this.emitter.getEmitter().pipe(untilDestroyed(this)).subscribe((event: any) => {
+        if (event.spinner) {
+          if (event.spinner === 'start') {
+            this.startSpinner();
+          } else if (event.spinner === 'stop') {
+            this.stopSpinner();
+          }
+        }
+      });
+    },
+  };
 
   /**
    * Constructor.
@@ -27,14 +54,23 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param emitter Event emitter
    */
   constructor(
-    private dateAdapter: DateAdapter<any>,
-    private emitter: EventEmitterService
+    private readonly dateAdapter: DateAdapter<any>,
+    private readonly emitter: EventEmitterService,
   ) {}
 
   /**
-   * Indicates if spinner should be shown ow not.
+   * Lifecycle hook called on component initialization.
    */
-  public showSpinner: boolean = true;
+  public ngOnInit(): void {
+    this.setDatepickerLocale();
+    this.subscribe.eventEmitter();
+    this.subscribe.datepickerLocaleChanges();
+  }
+
+  /**
+   * Lifecycle hook called on component destruction.
+   */
+  public ngOnDestroy(): void {}
 
   /**
    * Shows progress spinner.
@@ -55,44 +91,5 @@ export class AppComponent implements OnInit, OnDestroy {
   private setDatepickerLocale(): void {
     this.dateAdapter.setLocale('en');
   }
-
-  /**
-   * Subscription methods.
-   */
-  private subscribe: { datepickerLocaleChanges: () => void, eventEmitter: () => void } = {
-    datepickerLocaleChanges: () => {
-      this.dateAdapter.localeChanges.pipe(untilDestroyed(this)).subscribe(() => {
-        console.log('dateAdapter.localeChanges, changed according to the language');
-      });
-    },
-    eventEmitter: () => {
-      this.emitter.getEmitter().pipe(untilDestroyed(this)).subscribe((event: any) => {
-        console.log('app consuming event:', event);
-        if (event.spinner) {
-          if (event.spinner === 'start') {
-            console.log('starting spinner');
-            this.startSpinner();
-          } else if (event.spinner === 'stop') {
-            console.log('stopping spinner');
-            this.stopSpinner();
-          }
-        }
-      });
-    }
-  };
-
-  /**
-   * Lifecycle hook called on component initialization.
-   */
-  public ngOnInit(): void {
-    this.setDatepickerLocale();
-    this.subscribe.eventEmitter();
-    this.subscribe.datepickerLocaleChanges();
-  }
-
-  /**
-   * Lifecycle hook called on component destruction.
-   */
-  public ngOnDestroy(): void {}
 
 }

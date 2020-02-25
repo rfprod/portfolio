@@ -2,15 +2,15 @@
  * Tree node with nested structure.
  */
 export interface TreeNode {
-  name: string; // profile + app node
-  link?: string; // profile node
-  imgRef?: string; // profile + app node
-  tag?: string; // app node
+  name: string; // Profile + app node
+  link?: string; // Profile node
+  imgRef?: string; // Profile + app node
+  tag?: string; // App node
   urls?: {
     repo: string;
     web: string;
     android: string;
-  } // app node
+  }; // App node
   children?: TreeNode[];
 }
 

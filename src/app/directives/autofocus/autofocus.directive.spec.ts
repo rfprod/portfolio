@@ -1,5 +1,5 @@
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { AutofocusDirective } from 'src/app/directives/autofocus/autofocus.directive';
@@ -15,12 +15,12 @@ describe('AutofocusDirective', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DummyComponent, AutofocusDirective ]
+      declarations: [ DummyComponent, AutofocusDirective ],
     }).compileComponents().then(() => {
       fixture = TestBed.createComponent(DummyComponent);
       component = fixture.componentInstance;
       debugElement = fixture.debugElement.query(By.directive(AutofocusDirective));
-      directive = debugElement.injector.get(AutofocusDirective) as AutofocusDirective;
+      directive = debugElement.injector.get(AutofocusDirective);
     });
   }));
 

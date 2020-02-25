@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 
 /**
  * Event emitter service.
@@ -9,7 +9,7 @@ export class EventEmitterService {
   /**
    * Event emitter instance.
    */
-  private emitter: EventEmitter<object> = new EventEmitter();
+  private readonly emitter: EventEmitter<object> = new EventEmitter();
 
   /**
    * Returns event emitter instance.

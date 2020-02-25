@@ -1,6 +1,6 @@
 import {
+  CUSTOM_ELEMENTS_SCHEMA,
   NgModule,
-  CUSTOM_ELEMENTS_SCHEMA
 } from '@angular/core';
 
 import {
@@ -12,7 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {
   FormsModule,
-  ReactiveFormsModule
+  ReactiveFormsModule,
 } from '@angular/forms';
 
 import { HttpClientModule } from '@angular/common/http';
@@ -26,8 +26,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppServicesModule } from './services/app-services.module';
 
 import { AppComponent } from './components/app/app.component';
-import { AppIndexComponent } from './components/index/app-index.component';
 import { AppContactComponent } from './components/contact/app-contact.component';
+import { AppIndexComponent } from './components/index/app-index.component';
 
 import { AutofocusDirective } from './directives/autofocus/autofocus.directive';
 
@@ -39,10 +39,10 @@ import { AutofocusDirective } from './directives/autofocus/autofocus.directive';
     AppComponent,
     AppIndexComponent,
     AppContactComponent,
-    AutofocusDirective
+    AutofocusDirective,
   ],
   entryComponents: [
-    AppContactComponent
+    AppContactComponent,
   ],
   imports : [
     BrowserModule,
@@ -53,19 +53,19 @@ import { AutofocusDirective } from './directives/autofocus/autofocus.directive';
     FlexLayoutModule,
     CustomMaterialModule.forRoot(),
     AppServicesModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers : [
     {
       provide: APP_BASE_HREF,
-      useValue: '/'
-    }
+      useValue: '/',
+    },
   ],
   schemas: [
-    CUSTOM_ELEMENTS_SCHEMA
+    CUSTOM_ELEMENTS_SCHEMA,
   ],
   bootstrap: [
-    AppComponent
-  ]
+    AppComponent,
+  ],
 })
 export class AppModule {}

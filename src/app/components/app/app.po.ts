@@ -6,6 +6,6 @@ export class AppPage {
   }
 
   public async getRootsSelectorsCount() {
-    return element.all(by.css('root')).count();
+    return element.all(by.css('app-root')).count();
   }
 }

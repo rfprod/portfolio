@@ -68,7 +68,7 @@ module.exports = {
 
   githubAccessToken: (req, res) => {
     const token = process.env.GITHUB_ACCESS_TOKEN;
-    res.json({ token });
+    res.status(200).json({ token });
   },
 
   /**

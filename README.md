@@ -37,19 +37,6 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
-### Client env variables
-
-requires manual `.env` file creation in the project root with the following contents
-
-```
-GITHUB_ACCESS_TOKEN=github-access-token
-FIREBASE_DEPLOY_TOKEN=firebase-deploy-token
-```
-
-this value will be used when building application bundle,
-
-here GITHUB_ACCESS_TOKEN is used in development setup, when application API requests are handled by nodejs server, not firebase functions (both use common general request handlers, dev server uses nested routing `/api/same-route-as-functions`).
-
 ### Firebase deploment (hosting + cloud functions)
 
 requires manual `.env` file creation in the directory `./functions/` with the following contents

@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
 import { WINDOW } from '../app-services.module';
 import { CustomHttpHandlersService } from '../http-handlers/custom-http-handlers.service';
 
@@ -15,8 +14,9 @@ import { CustomHttpHandlersService } from '../http-handlers/custom-http-handlers
 export class GithubService {
   /**
    * Github access token.
+   * It should be fetched from the backend.
    */
-  public githubAccessToken: string = environment.githubAccessToken;
+  public githubAccessToken = '';
 
   /**
    * Github api base url.

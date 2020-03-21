@@ -128,7 +128,6 @@ function terminator(sig) {
   if (typeof sig === 'string') {
     console.log(`\n${Date(Date.now())}: Received signal ${sig} - terminating app...\n`);
     process.exit(0);
-    console.log(`${Date(Date.now())}: Node server stopped`);
   }
 }
 

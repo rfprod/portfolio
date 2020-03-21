@@ -136,7 +136,7 @@ const handlers = require('./handlers/index');
 /**
  * Get Github access token function handler.
  */
-exports.githubUser = functions.https.onRequest((req, res) => {
+exports.githubAccessToken = functions.https.onRequest((req, res) => {
   if (req.method !== 'GET') {
     res.status(403).json({ error: 'Forbidden method' });
   }

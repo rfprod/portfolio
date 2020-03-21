@@ -73,6 +73,9 @@
           "configurations": {
             "production": {
               "browserTarget": "portfolio:build:production"
+            },
+            "testing": {
+              "proxyConfig": "./proxy.conf.prod.json"
             }
           }
         },
@@ -116,7 +119,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "test/protractor.conf.js",
-            "devServerTarget": "portfolio:serve"
+            "devServerTarget": "portfolio:serve:testing"
           },
           "configurations": {
             "production": {

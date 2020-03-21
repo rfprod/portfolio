@@ -1,7 +1,7 @@
 /**
  * Tree node with nested structure.
  */
-export interface TreeNode {
+export interface ITreeNode {
   name: string; // Profile + app node
   link?: string; // Profile node
   imgRef?: string; // Profile + app node
@@ -11,13 +11,13 @@ export interface TreeNode {
     web: string;
     android: string;
   }; // App node
-  children?: TreeNode[];
+  children?: ITreeNode[];
 }
 
 /**
  * Flat node with expandable and level information
  */
-export interface FlatNode {
+export interface IFlatNode {
   expandable: boolean;
   name: string;
   level: number;

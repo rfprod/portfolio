@@ -1,20 +1,5 @@
-import {
-  ModuleWithProviders,
-  NgModule,
-  Provider,
-} from '@angular/core';
-
-import {
-  LocationStrategy,
-  PathLocationStrategy,
-} from '@angular/common';
-
-import { CustomDeferredService } from './deferred/custom-deferred.service';
-import { EventEmitterService } from './emitter/event-emitter.service';
-import { GithubService } from './github/github.service';
-import { CustomHttpHandlersService } from './http-handlers/custom-http-handlers.service';
-import { SendEmailService } from './send-email/send-email.service';
-import { UserConfigService } from './user-config/user-config.service';
+import { APP_BASE_HREF, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { InjectionToken, ModuleWithProviders, NgModule, Provider } from '@angular/core';
 
 /**
  * Window factory.
@@ -24,45 +9,39 @@ export function windowFactory(): Window {
 }
 
 /**
+ * Window injection token.
+ */
+export const WINDOW = new InjectionToken<string>('Window');
+
+/**
  * Application services module providers.
  */
 export const appServicesModuleProviders: Provider[] = [
+  {
+    provide: APP_BASE_HREF,
+    useValue: '/',
+  },
   {
     provide: LocationStrategy,
     useClass: PathLocationStrategy,
   },
   {
-    provide: 'Window',
+    provide: WINDOW,
     useFactory: windowFactory,
   },
-  CustomDeferredService,
-  CustomHttpHandlersService,
-  EventEmitterService,
-  UserConfigService,
-  SendEmailService,
-  GithubService,
 ];
 
 /**
  * Application services module.
  */
 @NgModule({
-  providers: [
-    ...appServicesModuleProviders,
-  ],
+  providers: [...appServicesModuleProviders],
 })
 export class AppServicesModule {
-
-  /**
-   * Provides services.
-   */
   public static forRoot(): ModuleWithProviders {
     return {
       ngModule: AppServicesModule,
-      providers: [
-        ...appServicesModuleProviders,
-      ],
+      providers: [...appServicesModuleProviders],
     };
   }
-
 }

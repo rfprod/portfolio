@@ -1,17 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-
-import { CustomHttpHandlersService } from '../http-handlers/custom-http-handlers.service';
-
 import { Observable } from 'rxjs';
-import { catchError, map, take } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
+import { WINDOW } from '../app-services.module';
+import { CustomHttpHandlersService } from '../http-handlers/custom-http-handlers.service';
 
 /**
  * Send email service.
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SendEmailService {
-
   /**
    * Endpoint.
    */
@@ -26,7 +26,7 @@ export class SendEmailService {
   constructor(
     private readonly http: HttpClient,
     private readonly handlers: CustomHttpHandlersService,
-    @Inject('Window') private readonly window: Window,
+    @Inject(WINDOW) private readonly window: Window,
   ) {}
 
   /**
@@ -35,10 +35,8 @@ export class SendEmailService {
    */
   public sendEmail(formData: any): Observable<any> {
     return this.http.post(this.url, formData).pipe(
-      take(1),
       map(res => this.handlers.extractObject(res)),
       catchError(error => this.handlers.handleError(error)),
     );
   }
-
 }

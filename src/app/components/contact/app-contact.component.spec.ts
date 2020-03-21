@@ -1,49 +1,49 @@
 import { HttpClient, HttpRequest } from '@angular/common/http';
-import { HttpClientTestingModule, HttpTestingController, TestRequest } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+  TestRequest,
+} from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-
-import { EventEmitterService } from 'src/app/services/emitter/event-emitter.service';
-
-import { CustomHttpHandlersService } from 'src/app/services/http-handlers/custom-http-handlers.service';
-
-import { SendEmailService } from 'src/app/services/send-email/send-email.service';
-
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { AppContactComponent } from 'src/app/components/contact/app-contact.component';
 import { CustomMaterialModule } from 'src/app/modules/material/custom-material.module';
-
+import { WINDOW } from 'src/app/services/app-services.module';
+import { EventEmitterService } from 'src/app/services/emitter/event-emitter.service';
+import { CustomHttpHandlersService } from 'src/app/services/http-handlers/custom-http-handlers.service';
+import { SendEmailService } from 'src/app/services/send-email/send-email.service';
 import { DialogRefMock, DummyComponent } from 'src/mocks/index';
 
-import { AppContactComponent } from 'src/app/components/contact/app-contact.component';
-
 describe('AppContactComponent', () => {
-
   const MOCKED_MODAL_DATA: object = {};
 
   let fixture: ComponentFixture<AppContactComponent>;
-  let component: AppContactComponent|any;
+  let component: AppContactComponent | any;
   let emitter: EventEmitterService;
-  let email: SendEmailService;
   let httpController: HttpTestingController;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AppContactComponent, DummyComponent ],
+      declarations: [AppContactComponent, DummyComponent],
       imports: [
-        BrowserDynamicTestingModule, NoopAnimationsModule, FormsModule, ReactiveFormsModule,
-        HttpClientTestingModule, CustomMaterialModule, FlexLayoutModule,
-        RouterTestingModule.withRoutes([
-          {path: '', component: DummyComponent},
-        ]),
+        BrowserDynamicTestingModule,
+        NoopAnimationsModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientTestingModule,
+        CustomMaterialModule,
+        FlexLayoutModule,
+        RouterTestingModule.withRoutes([{ path: '', component: DummyComponent }]),
       ],
       providers: [
-        { provide: 'Window', useValue: window },
-        {	provide: MAT_DIALOG_DATA, useValue: MOCKED_MODAL_DATA },
+        { provide: WINDOW, useValue: window },
+        { provide: MAT_DIALOG_DATA, useValue: MOCKED_MODAL_DATA },
         {
           provide: MatDialogRef,
           useFactory: () => new DialogRefMock(),
@@ -54,22 +54,27 @@ describe('AppContactComponent', () => {
         {
           provide: SendEmailService,
           useFactory: (http, handlers, window) => new SendEmailService(http, handlers, window),
-          deps: [HttpClient, CustomHttpHandlersService, 'Window'],
+          deps: [HttpClient, CustomHttpHandlersService, WINDOW],
         },
       ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-    }).compileComponents().then(() => {
-      fixture = TestBed.createComponent(AppContactComponent);
-      component = fixture.componentInstance;
-      emitter = TestBed.inject(EventEmitterService) as EventEmitterService;
-      spyOn(emitter, 'emitEvent').and.callThrough();
-      email = TestBed.inject(SendEmailService) as SendEmailService;
-      httpController = TestBed.inject(HttpTestingController) as HttpTestingController;
-    });
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    })
+      .compileComponents()
+      .then(() => {
+        fixture = TestBed.createComponent(AppContactComponent);
+        component = fixture.componentInstance;
+        emitter = TestBed.inject(EventEmitterService);
+        spyOn(emitter, 'emitEvent').and.callThrough();
+        httpController = TestBed.inject(HttpTestingController);
+      });
   }));
 
   afterEach(() => {
-    httpController.match((req: HttpRequest<any>): boolean => true).forEach((req: TestRequest) => req.flush({}));
+    httpController
+      .match((req: HttpRequest<any>): boolean => true)
+      .forEach((req: TestRequest) => {
+        req.flush({});
+      });
     httpController.verify();
   });
 
@@ -88,5 +93,4 @@ describe('AppContactComponent', () => {
     expect(component.ngOnInit).toEqual(jasmine.any(Function));
     expect(component.ngOnDestroy).toEqual(jasmine.any(Function));
   });
-
 });

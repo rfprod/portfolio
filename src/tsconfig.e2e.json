@@ -1,20 +1,11 @@
 {
-  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "outDir": "../out-tsc/app",
     "module": "commonjs",
+    "outDir": "../out-tsc/app",
     "target": "es5",
-    "types": [
-      "jasmine",
-      "jasminewd2",
-      "node"
-    ]
+    "types": ["jasmine", "jasminewd2", "node"]
   },
-  "exclude": [
-    "mocks"
-  ],
-  "include": [
-    "**/*.e2e-spec.ts",
-    "**/*.po.ts"
-  ]
+  "exclude": ["mocks"],
+  "extends": "../tsconfig.json",
+  "include": ["**/*.e2e-spec.ts", "**/*.po.ts"]
 }

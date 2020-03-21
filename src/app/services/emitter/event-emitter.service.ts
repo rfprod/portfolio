@@ -3,9 +3,10 @@ import { EventEmitter, Injectable } from '@angular/core';
 /**
  * Event emitter service.
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class EventEmitterService {
-
   /**
    * Event emitter instance.
    */
@@ -29,13 +30,13 @@ export class EventEmitterService {
    * Emits spinner start event.
    */
   public emitSpinnerStartEvent(): void {
-    this.emitter.emit({spinner: 'start'});
+    this.emitter.emit({ spinner: 'start' });
   }
 
   /**
    * Emits spinner stop event.
    */
   public emitSpinnerStopEvent(): void {
-    this.emitter.emit({spinner: 'stop'});
+    this.emitter.emit({ spinner: 'stop' });
   }
 }

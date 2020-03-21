@@ -1,5 +1,8 @@
-# colours definitions
+#!/bin/bash
 
+##
+# Color definitions.
+##
 # Black        0;30     Dark Gray     1;30
 # Red          0;31     Light Red     1;31
 # Green        0;32     Light Green   1;32
@@ -8,6 +11,7 @@
 # Purple       0;35     Light Purple  1;35
 # Cyan         0;36     Light Cyan    1;36
 # Light Gray   0;37     White         1;37
+##
 
 DEFAULT='\033[0m'
 BLACK='\033[0;30m'

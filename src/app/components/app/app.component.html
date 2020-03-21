@@ -1,12 +1,5 @@
-<span
-  id="spinner"
-  *ngIf="showSpinner">
-
-  <mat-progress-bar
-    mode="indeterminate"
-    aria-label="Application progress bar">
-  </mat-progress-bar>
-
+<span id="spinner" *ngIf="showSpinner$ | async">
+  <mat-progress-bar mode="indeterminate" aria-label="Application progress bar"> </mat-progress-bar>
 </span>
 
 <router-outlet></router-outlet>

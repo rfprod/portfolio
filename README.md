@@ -2,17 +2,16 @@
 
 [![Azure Pipelines Build Status](https://rfprod.visualstudio.com/Portfolio/_apis/build/status/Portfolio-CI)](https://rfprod.visualstudio.com/Portfolio/_build/latest?definitionId=4)
 
-
 A portfolio microapp based on `Angular`, `GitHub API`.
 
 ## User stories
 
-* User can see a page divided in sections representing presence of portfolio's subject on networks: Codewars, GitHub, CodePen, Hackerrank.
-* Each section contains a logo of the respective network along with some basic public data available over respective API if any.
-* Each section is clickable and opens a new browser tab with portfolio subject's profile on the selected network.
-* User can send an email to portfolio's subject using a contact dialog.
-* User can see featured applications grid section.
-* User can see portfolio's subject general github statistics.
+- User can see a page divided in sections representing presence of portfolio's subject on networks: Codewars, GitHub, CodePen, Hackerrank.
+- Each section contains a logo of the respective network along with some basic public data available over respective API if any.
+- Each section is clickable and opens a new browser tab with portfolio subject's profile on the selected network.
+- User can send an email to portfolio's subject using a contact dialog.
+- User can see featured applications grid section.
+- User can see portfolio's subject general github statistics.
 
 ## Development server
 
@@ -70,9 +69,9 @@ To use Gmail you may need to configure [Allow Less Secure Apps](https://www.goog
 
 ### Firebase documentation
 
-* [`Firebase Web: Getting started`](https://firebase.google.com/docs/web/setup)
-* [`Firebase Web: API Reference`](https://firebase.google.com/docs/reference/js/)
-* [`Firebase Web: Codelabs`](https://codelabs.developers.google.com/codelabs/firebase-web/#0)
+- [`Firebase Web: Getting started`](https://firebase.google.com/docs/web/setup)
+- [`Firebase Web: API Reference`](https://firebase.google.com/docs/reference/js/)
+- [`Firebase Web: Codelabs`](https://codelabs.developers.google.com/codelabs/firebase-web/#0)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.4.
 

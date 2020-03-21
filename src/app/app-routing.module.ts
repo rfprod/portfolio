@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
-
 import { AppIndexComponent } from './components/index/app-index.component';
 
 /**
@@ -26,7 +25,7 @@ const ROUTES: Route[] = [
  * Application routing module.
  */
 @NgModule({
-  imports: [ RouterModule.forRoot(ROUTES) ],
-  exports: [ RouterModule ],
+  imports: [RouterModule.forRoot(ROUTES)],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

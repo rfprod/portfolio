@@ -7,10 +7,10 @@ require('dotenv').config();
 
 let setEnv;
 
-gulp.task('set-env', (done) => {
+gulp.task('set-env', done => {
   const token = process.env.GITHUB_ACCESS_TOKEN;
-  setEnv = spawn('bash', ['shell/angular-env-keys.sh', token], {stdio: 'inherit'});
-  setEnv.on('close', (code) => {
+  setEnv = spawn('bash', ['shell/angular-env-keys.sh', token], { stdio: 'inherit' });
+  setEnv.on('close', code => {
     if (code === 8) {
       console.log('Error detected, waiting for changes...');
     }
@@ -18,9 +18,9 @@ gulp.task('set-env', (done) => {
   done();
 });
 
-gulp.task('unset-env', (done) => {
-  setEnv = spawn('bash', ['shell/angular-env-keys.sh', 'unset-keys'], {stdio: 'inherit'});
-  setEnv.on('close', (code) => {
+gulp.task('unset-env', done => {
+  setEnv = spawn('bash', ['shell/angular-env-keys.sh', 'unset-keys'], { stdio: 'inherit' });
+  setEnv.on('close', code => {
     if (code === 8) {
       console.log('Error detected, waiting for changes...');
     }
@@ -28,6 +28,6 @@ gulp.task('unset-env', (done) => {
   done();
 });
 
-process.on('exit', (code) => {
+process.on('exit', code => {
   console.log(`PROCESS EXIT CODE ${code}`);
 });

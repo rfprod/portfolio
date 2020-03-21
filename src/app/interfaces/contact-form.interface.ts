@@ -5,10 +5,10 @@ import { AbstractControl, FormGroup } from '@angular/forms';
  */
 export interface IContactForm extends FormGroup {
   controls: {
-    name: AbstractControl,
-    email: AbstractControl,
-    header: AbstractControl,
-    message: AbstractControl,
-    domain: AbstractControl,
+    name: AbstractControl;
+    email: AbstractControl;
+    header: AbstractControl;
+    message: AbstractControl;
+    domain: AbstractControl;
   };
 }

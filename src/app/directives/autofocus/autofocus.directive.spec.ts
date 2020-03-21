@@ -1,27 +1,24 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
 import { AutofocusDirective } from 'src/app/directives/autofocus/autofocus.directive';
-
 import { DummyComponent } from 'src/mocks/index';
 
 describe('AutofocusDirective', () => {
-
   let fixture: ComponentFixture<DummyComponent>;
-  let component: DummyComponent;
   let debugElement: DebugElement;
-  let directive: AutofocusDirective|any;
+  let directive: AutofocusDirective | any;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DummyComponent, AutofocusDirective ],
-    }).compileComponents().then(() => {
-      fixture = TestBed.createComponent(DummyComponent);
-      component = fixture.componentInstance;
-      debugElement = fixture.debugElement.query(By.directive(AutofocusDirective));
-      directive = debugElement.injector.get(AutofocusDirective);
-    });
+      declarations: [DummyComponent, AutofocusDirective],
+    })
+      .compileComponents()
+      .then(() => {
+        fixture = TestBed.createComponent(DummyComponent);
+        debugElement = fixture.debugElement.query(By.directive(AutofocusDirective));
+        directive = debugElement.injector.get(AutofocusDirective);
+      });
   }));
 
   it('dummy component should compile successfully', () => {
@@ -53,5 +50,4 @@ describe('AutofocusDirective', () => {
     directive.autofocus = false;
     expect(directive.autofocusState).toBeFalsy();
   });
-
 });

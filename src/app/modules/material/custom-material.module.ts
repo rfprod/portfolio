@@ -1,6 +1,8 @@
 import { OverlayModule } from '@angular/cdk/overlay';
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
 import {
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+  MatMomentDateAdapterOptions,
   MatMomentDateModule,
 } from '@angular/material-moment-adapter';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -11,6 +13,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import {
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
   MatNativeDateModule,
   MatOptionModule,
   MatRippleModule,
@@ -47,76 +51,169 @@ import { MatTreeModule } from '@angular/material/tree';
 import 'node_modules/hammerjs/hammer.js';
 
 /**
+ * Returns mat tooltip options.
+ */
+export function matTooltipOptions(): MatTooltipDefaultOptions {
+  const options: MatTooltipDefaultOptions = {
+    showDelay: 1000,
+    hideDelay: 1000,
+    touchendHideDelay: 1000,
+  };
+  return options;
+}
+
+/**
+ * Material moment date adapter options factory.
+ */
+export function matMomentDateAdapterOptionsFactory(): MatMomentDateAdapterOptions {
+  return {
+    useUtc: false,
+  };
+}
+
+const CUSTOM_DATE_FORMATS = {
+  parse: {
+    dateInput: 'DD.MM.YYYY',
+  },
+  display: {
+    dateInput: 'DD.MM.YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
+
+/**
+ * Custom Material Module providers.
+ */
+export const customMaterialModuleProviders: Provider[] = [
+  MatIconRegistry,
+  {
+    provide: MAT_TOOLTIP_DEFAULT_OPTIONS,
+    useFactory: matTooltipOptions,
+  },
+  {
+    provide: MAT_DATE_LOCALE,
+    useValue: 'en',
+  },
+  {
+    provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+    useFactory: matMomentDateAdapterOptionsFactory,
+  },
+  { provide: MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMATS },
+];
+
+/**
  * Custom material module without providers.
  * Exports material modules only.
- * This module should be used in root application modules only, it contains data adaper, which should be singleton.
  */
 @NgModule({
   imports: [
-
-    MatAutocompleteModule, MatCheckboxModule, MatDatepickerModule, MatNativeDateModule, MatMomentDateModule,
-    MatInputModule, MatSelectModule, MatSliderModule, MatSlideToggleModule, MatRadioModule,
-
-    MatMenuModule, MatSidenavModule, MatToolbarModule,
-
-    MatListModule, MatGridListModule, MatCardModule, MatStepperModule, MatTabsModule, MatExpansionModule,
-
-    MatButtonModule, MatButtonToggleModule, MatChipsModule, MatIconModule, MatProgressSpinnerModule, MatProgressBarModule,
-
-    MatDialogModule, MatSnackBarModule, MatTooltipModule,
-
-    MatTableModule, MatSortModule, MatPaginatorModule,
-
-    MatOptionModule, MatRippleModule,
-
+    // Form controls
+    MatAutocompleteModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatMomentDateModule,
+    MatInputModule,
+    MatSelectModule,
+    MatSliderModule,
+    MatSlideToggleModule,
+    MatRadioModule,
+    // Navigation
+    MatMenuModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    // Layout
+    MatListModule,
+    MatGridListModule,
+    MatCardModule,
+    MatStepperModule,
+    MatTabsModule,
+    MatExpansionModule,
+    // Buttons and indicators
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatChipsModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
+    // Popups and modals
+    MatDialogModule,
+    MatSnackBarModule,
+    MatTooltipModule,
+    // Data table
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    // Misc
+    MatOptionModule,
+    MatRippleModule,
+    // Divider
     MatDividerModule,
-
+    // Tree
     MatTreeModule,
-
+    // Badge
+    MatBadgeModule,
+    // CDK
     OverlayModule,
   ],
   exports: [
-
-    MatAutocompleteModule, MatCheckboxModule, MatDatepickerModule, MatNativeDateModule, MatMomentDateModule,
-    MatInputModule, MatSelectModule, MatSliderModule, MatSlideToggleModule, MatRadioModule,
-
-    MatMenuModule, MatSidenavModule, MatToolbarModule,
-
-    MatListModule, MatGridListModule, MatCardModule, MatStepperModule, MatTabsModule, MatExpansionModule,
-
-    MatButtonModule, MatButtonToggleModule, MatChipsModule, MatIconModule, MatProgressSpinnerModule,
+    // Form controls
+    MatAutocompleteModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatMomentDateModule,
+    MatInputModule,
+    MatSelectModule,
+    MatSliderModule,
+    MatSlideToggleModule,
+    MatRadioModule,
+    // Navigation
+    MatMenuModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    // Layout
+    MatListModule,
+    MatGridListModule,
+    MatCardModule,
+    MatStepperModule,
+    MatTabsModule,
+    MatExpansionModule,
+    // Buttons and indicators
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatChipsModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
     MatProgressBarModule,
-
-    MatDialogModule, MatSnackBarModule, MatTooltipModule,
-
-    MatTableModule, MatSortModule, MatPaginatorModule,
-
-    MatOptionModule, MatRippleModule,
+    // Popups and modals
+    MatDialogModule,
+    MatSnackBarModule,
+    MatTooltipModule,
+    // Data table
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    // Misc
+    MatOptionModule,
+    MatRippleModule,
+    // Divider
     MatDividerModule,
+    // Tree
     MatTreeModule,
+    // Badge
+    MatBadgeModule,
+    // CDK
     OverlayModule,
   ],
 })
 export class CustomMaterialModule {
-
-  /**
-   * Provides services.
-   */
-  public static forRoot(): ModuleWithProviders {
+  public static forRoot(): ModuleWithProviders<CustomMaterialModule> {
     return {
       ngModule: CustomMaterialModule,
-      providers: [
-        MatIconRegistry,
-        {
-          provide: MAT_TOOLTIP_DEFAULT_OPTIONS,
-          useValue: {
-            showDelay: 1000,
-            hideDelay: 1000,
-            touchendHideDelay: 1000,
-          } as MatTooltipDefaultOptions,
-        },
-      ],
+      providers: customMaterialModuleProviders,
     };
   }
-
 }

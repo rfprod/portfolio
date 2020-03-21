@@ -1,5 +1,5 @@
 {
-  "extends": "tslint:recommended",
+  "extends": ["tslint:latest", "tslint-etc", "tslint-plugin-prettier"],
   "linterOptions": {
     "exclude": ["**/node_modules/**"]
   },
@@ -18,7 +18,7 @@
     "component-selector": [true, "element", "app", "kebab-case"],
     "curly": true,
     "deprecation": {
-      "severity": "warn"
+      "severity": "error"
     },
     "directive-class-suffix": true,
     "directive-selector": [true, "attribute", "app", "camelCase"],

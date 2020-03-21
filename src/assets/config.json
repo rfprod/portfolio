@@ -1,147 +1,147 @@
 {
-  "username": {
-    "github": "rfprod",
-    "hackerrank": "rfprod",
-    "codewars": "rfprod",
-    "codepen": "rfprod"
-  },
-  "profiles": [
-    {
-      "name": "Codepen",
-      "link": "https://codepen.io/rfprod",
-      "imgRef": "assets/codepen-logo.svg"
-    },
-    {
-      "name": "Codewars",
-      "link": "https://www.codewars.com/users/rfprod",
-      "imgRef": "assets/codewars-logo.svg"
-    },
-    {
-      "name": "Hackerrank",
-      "link": "https://www.hackerrank.com/rfprod",
-      "imgRef": "assets/hackerrank-logo.svg"
-    },
-    {
-      "name": "Github",
-      "link": "https://www.github.com/rfprod",
-      "imgRef": "assets/github-logo.svg"
-    },
-    {
-      "name": "Stackblitz",
-      "link": "https://stackblitz.com/@rfprod",
-      "imgRef": "assets/stackblitz-logo.svg"
-    }
-  ],
   "apps": [
     {
+      "imgRef": "assets/firebase-seeklogo.com.svg",
       "name": "NX Angular starter",
-      "imgRef": "assets/firebase-seeklogo.com.svg",
+      "tag": "angular",
       "urls": {
+        "android": "",
         "repo": "https://github.com/rfprod/nx-ng-starter",
-        "web": "https://nx-ng-starter.web.app",
-        "android": ""
-      },
-      "tag": "angular"
+        "web": "https://nx-ng-starter.web.app"
+      }
     },
     {
+      "imgRef": "assets/firebase-seeklogo.com.svg",
       "name": "Angular elements NodeJS widget server starter",
-      "imgRef": "assets/firebase-seeklogo.com.svg",
+      "tag": "angular",
       "urls": {
+        "android": "",
         "repo": "https://github.com/rfprod/ng2elements",
-        "web": "https://ng2elements.web.app/ng-elements-app",
-        "android": ""
-      },
-      "tag": "angular"
+        "web": "https://ng2elements.web.app/ng-elements-app"
+      }
     },
     {
+      "imgRef": "assets/firebase-seeklogo.com.svg",
       "name": "Angular application starter kit",
-      "imgRef": "assets/firebase-seeklogo.com.svg",
+      "tag": "angular",
       "urls": {
+        "android": "",
         "repo": "https://github.com/rfprod/ng2ns",
-        "web": "https://ngns-cfefa.web.app",
-        "android": ""
-      },
-      "tag": "angular"
+        "web": "https://ngns-cfefa.web.app"
+      }
     },
     {
-      "name": "DNBHUB multimedia concentrator",
       "imgRef": "assets/firebase-seeklogo.com.svg",
+      "name": "DNBHUB multimedia concentrator",
+      "tag": "angular",
       "urls": {
+        "android": "",
         "repo": "https://github.com/rfprod/dnbhub",
-        "web": "https://dnbhub.com",
-        "android": ""
-      },
-      "tag": "angular"
+        "web": "https://dnbhub.com"
+      }
     },
     {
-      "name": "Password manager",
       "imgRef": "assets/angular-logo.svg",
+      "name": "Password manager",
+      "tag": "angular",
       "urls": {
+        "android": "",
         "repo": "https://github.com/rfprod/password-manager",
-        "web": "https://rfprod.github.io/password-manager",
-        "android": ""
-      },
-      "tag": "angular"
+        "web": "https://rfprod.github.io/password-manager"
+      }
     },
     {
-      "name": "WhoAmI microservice",
       "imgRef": "assets/heroku-logo.svg",
+      "name": "WhoAmI microservice",
+      "tag": "angularjs",
       "urls": {
+        "android": "",
         "repo": "https://github.com/rfprod/whoami",
-        "web": "https://whoami-microsrvc.herokuapp.com",
-        "android": ""
-      },
-      "tag": "angularjs"
+        "web": "https://whoami-microsrvc.herokuapp.com"
+      }
     },
     {
-      "name": "Sample Swagger API Documentation",
       "imgRef": "assets/swagger-logo.svg",
+      "name": "Sample Swagger API Documentation",
+      "tag": "other",
       "urls": {
+        "android": "",
         "repo": "https://github.com/rfprod/ssad",
-        "web": "https://rfprod.github.io/ssad",
-        "android": ""
-      },
-      "tag": "other"
+        "web": "https://rfprod.github.io/ssad"
+      }
     },
     {
-      "name": "Protractor Bot",
       "imgRef": "assets/protractor-logo.svg",
+      "name": "Protractor Bot",
+      "tag": "other",
       "urls": {
+        "android": "",
         "repo": "https://github.com/rfprod/protractor-bot",
-        "web": "https://rfprod.github.io/protractor-bot",
-        "android": ""
-      },
-      "tag": "other"
+        "web": "https://rfprod.github.io/protractor-bot"
+      }
     },
     {
-      "name": "Sample Monorepo Architecture",
       "imgRef": "assets/nx-logo.svg",
+      "name": "Sample Monorepo Architecture",
+      "tag": "other",
       "urls": {
+        "android": "",
         "repo": "https://github.com/rfprod/sample-monorepo-architecture",
-        "web": "https://rfprod.github.io/sample-monorepo-architecture",
-        "android": ""
-      },
-      "tag": "other"
+        "web": "https://rfprod.github.io/sample-monorepo-architecture"
+      }
     },
     {
-      "name": "Web Development Setup Debian/Ubuntu",
       "imgRef": "assets/debian-logo.svg",
+      "name": "Web Development Setup Debian/Ubuntu",
+      "tag": "other",
       "urls": {
+        "android": "",
         "repo": "https://github.com/rfprod/wdsdu",
-        "web": "https://rfprod.github.io/wdsdu",
-        "android": ""
-      },
-      "tag": "other"
+        "web": "https://rfprod.github.io/wdsdu"
+      }
     },
     {
-      "name": "Dictionaries: Country codes, international telephone codes",
       "imgRef": "assets/bookdictionary-logo.svg",
+      "name": "Dictionaries: Country codes, international telephone codes",
+      "tag": "other",
       "urls": {
+        "android": "",
         "repo": "https://github.com/rfprod/dictionaries",
-        "web": "https://rfprod.github.io/dictionaries",
-        "android": ""
-      },
-      "tag": "other"
+        "web": "https://rfprod.github.io/dictionaries"
+      }
     }
-  ]
+  ],
+  "profiles": [
+    {
+      "imgRef": "assets/codepen-logo.svg",
+      "link": "https://codepen.io/rfprod",
+      "name": "Codepen"
+    },
+    {
+      "imgRef": "assets/codewars-logo.svg",
+      "link": "https://www.codewars.com/users/rfprod",
+      "name": "Codewars"
+    },
+    {
+      "imgRef": "assets/hackerrank-logo.svg",
+      "link": "https://www.hackerrank.com/rfprod",
+      "name": "Hackerrank"
+    },
+    {
+      "imgRef": "assets/github-logo.svg",
+      "link": "https://www.github.com/rfprod",
+      "name": "Github"
+    },
+    {
+      "imgRef": "assets/stackblitz-logo.svg",
+      "link": "https://stackblitz.com/@rfprod",
+      "name": "Stackblitz"
+    }
+  ],
+  "username": {
+    "codepen": "rfprod",
+    "codewars": "rfprod",
+    "github": "rfprod",
+    "hackerrank": "rfprod"
+  }
 }

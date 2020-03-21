@@ -1,27 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
-
-import {
-  FormBuilder,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
-
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef,
-} from '@angular/material/dialog';
-
-import { CustomDeferredService } from 'src/app/services/deferred/custom-deferred.service';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, ValidatorFn, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { finalize, tap } from 'rxjs/operators';
+import { IContactForm } from 'src/app/interfaces/index';
 import { EventEmitterService } from 'src/app/services/emitter/event-emitter.service';
 import { SendEmailService } from 'src/app/services/send-email/send-email.service';
-
-import { IContactForm } from 'src/app/interfaces/index';
 
 /**
  * Application contact component.
@@ -32,10 +15,8 @@ import { IContactForm } from 'src/app/interfaces/index';
   host: {
     class: 'mat-body-1',
   },
-  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class AppContactComponent implements OnInit, OnDestroy {
-
   /**
    * Contact form.
    */
@@ -43,7 +24,7 @@ export class AppContactComponent implements OnInit, OnDestroy {
   /**
    * Text input error message.
    */
-  public inputError = 'Invalid input, allowed characters: a-z A-Z а-я А-Я - . spacebar';
+  public readonly inputError = 'Invalid input, allowed characters: a-z A-Z а-я А-Я - . spacebar';
   /**
    * Common text validator.
    */
@@ -70,29 +51,24 @@ export class AppContactComponent implements OnInit, OnDestroy {
    */
   public submitForm(): void {
     if (this.contactForm.valid && !this.contactForm.pristine) {
-      this.sendMessage();
+      this.sendMessage().subscribe();
     }
   }
 
   /**
    * Sends message.
    */
-  public sendMessage(): Promise<boolean> {
+  public sendMessage() {
     this.emitter.emitSpinnerStartEvent();
-    const def = new CustomDeferredService<any>();
     const formData: any = this.contactForm.value;
-    this.sendEmailService.sendEmail(formData).subscribe(
-      (data: any) => {
-        this.emitter.emitSpinnerStopEvent();
-        def.resolve(true);
+    return this.sendEmailService.sendEmail(formData).pipe(
+      tap(() => {
         this.closeDialog();
-      },
-      (error: any) => {
+      }),
+      finalize(() => {
         this.emitter.emitSpinnerStopEvent();
-        def.reject(error);
-      },
+      }),
     );
-    return def.promise;
   }
 
   /**
@@ -103,21 +79,15 @@ export class AppContactComponent implements OnInit, OnDestroy {
    * @param [result] result returned to parent component
    */
   public closeDialog(result?: any) {
-    result = (result) ? result : 'closed';
-    this.dialogRef.close(result);
+    this.dialogRef.close(result ? result : 'closed');
   }
 
-  /**
-   * Lifecycle hook called after component is initialized.
-   */
   public ngOnInit(): void {
     this.resetForm();
   }
 
-  /**
-   * Lifecycle hook called after component is destroyed.
-   */
   public ngOnDestroy(): void {}
+
   /**
    * Resets contact form.
    */
@@ -127,8 +97,7 @@ export class AppContactComponent implements OnInit, OnDestroy {
       email: ['', Validators.compose([Validators.required, Validators.email])],
       header: ['', Validators.compose([Validators.required, this.textValidator])],
       message: ['', Validators.compose([Validators.required, this.textValidator])],
-      domain: [ this.data.domain, Validators.compose([Validators.required])],
+      domain: [this.data.domain, Validators.compose([Validators.required])],
     }) as IContactForm;
   }
-
 }

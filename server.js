@@ -64,10 +64,12 @@ const routes = require(`${cwd}/server/routes/index.js`);
 /**
  * Use compression for all responses.
  */
-app.use(compression({
-  threshold: 0,
-  level: -1
-}));
+app.use(
+  compression({
+    threshold: 0,
+    level: -1,
+  }),
+);
 
 /**
  * Elements' dists.
@@ -134,11 +136,24 @@ function terminator(sig) {
  * Termination handlers.
  */
 (() => {
-  process.on('exit', () => { terminator('exit'); });
+  process.on('exit', () => {
+    terminator('exit');
+  });
   // Removed 'SIGPIPE' from the list - bugz 852598.
-  ['SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT',
-    'SIGBUS', 'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGTERM'
-  ].forEach((element) => {
+  [
+    'SIGHUP',
+    'SIGINT',
+    'SIGQUIT',
+    'SIGILL',
+    'SIGTRAP',
+    'SIGABRT',
+    'SIGBUS',
+    'SIGFPE',
+    'SIGUSR1',
+    'SIGSEGV',
+    'SIGUSR2',
+    'SIGTERM',
+  ].forEach(element => {
     process.on(element, () => {
       terminator(element);
     });

@@ -41,8 +41,8 @@ const smtpConfig = {
     clientId: process.env.MAILER_CLIENT_ID,
     clientSecret: process.env.MAILER_CLIENT_SECRET,
     refreshToken: process.env.MAILER_REFRESH_TOKEN,
-    accessToken: 'empty'
-  }
+    accessToken: 'empty',
+  },
 };
 
 /**
@@ -66,13 +66,18 @@ function saveEmailToDB(name, email, header, message, domain, res) {
     email: email,
     header: header,
     message: message,
-    domain: domain
+    domain: domain,
   };
-  admin.database().ref('/emails').push(entry).then((snapshot) => {
-    res.status(200).json({success: 'Your message was successfully sent'});
-  }).catch((error) => {
-    res.status(500).send('Error: try again later, please');
-  });
+  admin
+    .database()
+    .ref('/emails')
+    .push(entry)
+    .then(() => {
+      res.status(200).json({ success: 'Your message was successfully sent' });
+    })
+    .catch(error => {
+      res.status(500).send('Error: try again later, please', error);
+    });
 }
 
 /**
@@ -80,23 +85,23 @@ function saveEmailToDB(name, email, header, message, domain, res) {
  */
 function sendEmail(name, email, header, message, domain, res) {
   const mailOptions = {
-    from: '"PORTFOLIO 👥" <' + process.env.MAILER_EMAIL +'>',
+    from: '"PORTFOLIO 👥" <' + process.env.MAILER_EMAIL + '>',
     to: process.env.MAILER_RECIPIENT_EMAIL,
     subject: `PORTFOLIO: ${header} ✔`,
     text: `${message}\n\nMessage was sent from domain: ${domain}`,
-    html: `<h3>${header}</h3><p>${message}</p><p>From: ${name} ${email}</p><p>Message was sent from domain: ${domain}</p>`
+    html: `<h3>${header}</h3><p>${message}</p><p>From: ${name} ${email}</p><p>Message was sent from domain: ${domain}</p>`,
   };
   mailTransporter.sendMail(mailOptions, (err, info) => {
     if (err) {
       /*
-      *	do not report error to user yet
-      *	try recording message to DB first
-      */
+       *	do not report error to user yet
+       *	try recording message to DB first
+       */
       // res.status(500).send('Mail transporter error');
       saveEmailToDB(name, email, header, message, domain, res);
     } else {
       console.log('mailTransporter, info', info);
-      res.status(200).json({success: 'Your message was successfully sent'});
+      res.status(200).json({ success: 'Your message was successfully sent' });
     }
   });
 }
@@ -106,17 +111,23 @@ function sendEmail(name, email, header, message, domain, res) {
  */
 exports.sendEmail = functions.https.onRequest((req, res) => {
   if (req.method !== 'POST') {
-    res.status(403).json({error: 'Forbidden method'});
+    res.status(403).json({ error: 'Forbidden method' });
   }
   const name = req.body.name || '';
   const email = req.body.email || '';
   const header = req.body.header || '';
   const message = req.body.message || '';
   const domain = req.body.domain || '';
-  if (name.length >= 2 && /\w{2}@\w{2,}(\.)?\w{2,}/.test(email) && header.length >= 5 && message.length >= 75 && domain.length >= 4) {
+  if (
+    name.length >= 2 &&
+    /\w{2}@\w{2,}(\.)?\w{2,}/.test(email) &&
+    header.length >= 5 &&
+    message.length >= 75 &&
+    domain.length >= 4
+  ) {
     sendEmail(name, email, header, message, domain, res);
   } else {
-    res.status(400).json({error: 'Missing mandatory request parameters'});
+    res.status(400).json({ error: 'Missing mandatory request parameters' });
   }
 });
 
@@ -127,7 +138,7 @@ const handlers = require('./handlers/index');
  */
 exports.githubUser = functions.https.onRequest((req, res) => {
   if (req.method !== 'GET') {
-    res.status(403).json({error: 'Forbidden method'});
+    res.status(403).json({ error: 'Forbidden method' });
   }
   handlers.githubAccessToken(req, res);
 });
@@ -137,7 +148,7 @@ exports.githubUser = functions.https.onRequest((req, res) => {
  */
 exports.githubUser = functions.https.onRequest((req, res) => {
   if (req.method !== 'GET') {
-    res.status(403).json({error: 'Forbidden method'});
+    res.status(403).json({ error: 'Forbidden method' });
   }
   handlers.githubUser(req, res);
 });
@@ -147,7 +158,7 @@ exports.githubUser = functions.https.onRequest((req, res) => {
  */
 exports.githubUserRepos = functions.https.onRequest((req, res) => {
   if (req.method !== 'GET') {
-    res.status(403).json({error: 'Forbidden method'});
+    res.status(403).json({ error: 'Forbidden method' });
   }
   handlers.githubUserRepos(req, res);
 });
@@ -157,7 +168,7 @@ exports.githubUserRepos = functions.https.onRequest((req, res) => {
  */
 exports.githubUserReposLanguages = functions.https.onRequest((req, res) => {
   if (req.method !== 'GET') {
-    res.status(403).json({error: 'Forbidden method'});
+    res.status(403).json({ error: 'Forbidden method' });
   }
   handlers.githubUserReposLanguages(req, res);
 });

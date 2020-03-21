@@ -13,8 +13,8 @@ function handleRequest(reqUrl, res) {
   const options = {
     url: reqUrl,
     headers: {
-      'User-Agent': 'Portfolio-App'
-    }
+      'User-Agent': 'Portfolio-App',
+    },
   };
   request(options, (error, response, body) => {
     /*
@@ -45,9 +45,11 @@ const githubApiAccessToken = process.env.GITHUB_ACCESS_TOKEN;
  * Github API endpoints.
  */
 const githubApiEndpoints = {
-  user: (username) => `${githubApiBaseUrl}/users/${username}?access_token=${githubApiAccessToken}`,
-  repos: (username) => `${githubApiBaseUrl}/users/${username}/repos?access_token=${githubApiAccessToken}`,
-  languages: (username, reponame) => `${githubApiBaseUrl}/repos/${username}/${reponame}/languages?access_token=${githubApiAccessToken}`
+  user: username => `${githubApiBaseUrl}/users/${username}?access_token=${githubApiAccessToken}`,
+  repos: username =>
+    `${githubApiBaseUrl}/users/${username}/repos?access_token=${githubApiAccessToken}`,
+  languages: (username, reponame) =>
+    `${githubApiBaseUrl}/repos/${username}/${reponame}/languages?access_token=${githubApiAccessToken}`,
 };
 
 /**
@@ -55,14 +57,13 @@ const githubApiEndpoints = {
  * For usage in express server and in cloud functions.
  */
 module.exports = {
-
   /**
    * Github urls config object.
    */
   github: {
     apiBaseUrl: githubApiBaseUrl,
     apiAccessToken: githubApiAccessToken,
-    apiEndpoints: githubApiEndpoints
+    apiEndpoints: githubApiEndpoints,
   },
 
   githubAccessToken: (req, res) => {
@@ -79,7 +80,7 @@ module.exports = {
       const reqUrl = githubApiEndpoints.user(username);
       handleRequest(reqUrl, res);
     } else {
-      res.status(400).json({error: 'Missing mandatory request parameters: username'});
+      res.status(400).json({ error: 'Missing mandatory request parameters: username' });
     }
   },
 
@@ -92,7 +93,7 @@ module.exports = {
       const reqUrl = githubApiEndpoints.repos(username);
       handleRequest(reqUrl, res);
     } else {
-      res.status(400).json({error: 'Missing mandatory request parameters: username'});
+      res.status(400).json({ error: 'Missing mandatory request parameters: username' });
     }
   },
 
@@ -113,8 +114,9 @@ module.exports = {
       if (!reponame) {
         missing.push('reponame');
       }
-      res.status(400).json({error: 'Missing mandatory request parameters: ' + missing.join(', ')});
+      res
+        .status(400)
+        .json({ error: 'Missing mandatory request parameters: ' + missing.join(', ') });
     }
-  }
-
+  },
 };

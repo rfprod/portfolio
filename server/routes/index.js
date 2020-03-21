@@ -7,8 +7,7 @@ const handlers = require('../../functions/handlers/index');
  * @module server/routes/index
  * @param {object} app Express application
  */
-module.exports = (app) => {
-
+module.exports = app => {
   app.get('/api/githubAccessToken', handlers.githubAccessToken);
 
   /**
@@ -25,5 +24,4 @@ module.exports = (app) => {
    * Github user repo languages.
    */
   app.get('/api/githubUserReposLanguages', handlers.githubUserReposLanguages);
-
 };

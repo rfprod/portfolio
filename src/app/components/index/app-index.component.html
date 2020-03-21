@@ -1,40 +1,31 @@
 <span fxFlex="100" fxLayout="row wrap">
-
-  <span fxFlex="100" fxFlex.xs="100" fxFlex.sm="100" fxLayout="row wrap" fxLayoutAlign="center center">
-
+  <span
+    fxFlex="100"
+    fxFlex.xs="100"
+    fxFlex.sm="100"
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+  >
     <div fxFlex="90" fxLayout="row wrap" fxLayoutAlign="center center" *ngIf="data.initialized">
-
-      <span
-        *ngIf="data.github.bio"
-        fxFlex="100"
-        fxLayout="row"
-        fxLayoutAlign="center center">
-        {{data.github.bio}}
+      <span *ngIf="data.github.bio" fxFlex="100" fxLayout="row" fxLayoutAlign="center center">
+        {{ data.github.bio }}
       </span>
 
       <div fxFlex="100" fxLayout="row" fxLayoutAlign="center center">
+        <span fxFlex="0 1 auto"
+          >{{ data.github.login }} is
 
-        <span fxFlex="0 1 auto">{{data.github.login}} is 
-
-          <span
-            *ngIf="data.github.hireable"
-            title="send email">
+          <span *ngIf="data.github.hireable" title="send email">
             HIREABLE&nbsp;
-            <button
-              mat-icon-button
-              (click)="showContactDialog()"
-              color="primary">
+            <button mat-icon-button (click)="showContactDialog()" color="primary">
               <mat-icon class="material-icons">email</mat-icon>
             </button>
           </span>
 
-          <span
-            *ngIf="!data.github.hireable">
+          <span *ngIf="!data.github.hireable">
             NOT HIREABLE
           </span>
-
         </span>
-
       </div>
 
       <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center">
@@ -42,38 +33,64 @@
           <mat-divider fxFlex></mat-divider>
           <span fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">Location</span>
           <mat-divider fxFlex="2"></mat-divider>
-          <span fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="start center">{{data.github.location}}</span>
+          <span fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="start center">{{
+            data.github.location
+          }}</span>
           <mat-divider fxFlex></mat-divider>
         </span>
-        <span fxFlex="100" *ngIf="data.github.email" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+        <span
+          fxFlex="100"
+          *ngIf="data.github.email"
+          fxLayout="row"
+          fxLayoutAlign="center center"
+          fxLayoutGap="5px"
+        >
           <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Email</span>
           <mat-divider fxFlex="2"></mat-divider>
-          <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{data.github.email}}</span>
+          <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{
+            data.github.email
+          }}</span>
         </span>
-        <span fxFlex="100" *ngIf="data.github.company" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+        <span
+          fxFlex="100"
+          *ngIf="data.github.company"
+          fxLayout="row"
+          fxLayoutAlign="center center"
+          fxLayoutGap="5px"
+        >
           <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Company</span>
           <mat-divider fxFlex="2"></mat-divider>
-          <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{data.github.company}}</span>
+          <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{
+            data.github.company
+          }}</span>
         </span>
         <span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
           <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Created</span>
           <mat-divider fxFlex="2"></mat-divider>
-          <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{data.github.created_at | date}}</span>
+          <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{
+            data.github.created_at | date
+          }}</span>
         </span>
         <span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
           <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Updated</span>
           <mat-divider fxFlex="2"></mat-divider>
-          <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{data.github.updated_at | date}}</span>
+          <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{
+            data.github.updated_at | date
+          }}</span>
         </span>
         <span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
           <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Gists</span>
           <mat-divider fxFlex="2"></mat-divider>
-          <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{data.github.public_gists}}</span>
+          <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{
+            data.github.public_gists
+          }}</span>
         </span>
         <span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
           <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Repos</span>
           <mat-divider fxFlex="2"></mat-divider>
-          <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{data.github.public_repos}}</span>
+          <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{
+            data.github.public_repos
+          }}</span>
         </span>
       </div>
 
@@ -81,31 +98,22 @@
 
       <h4>Languages</h4>
 
-      <div
-        fxFlex="100"
-        fxLayout="row wrap"
-        fxLayoutAlign="center center"
-        fxLayoutGap="15px">
-
+      <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="15px">
         <span fxFlex="0 1 auto" *ngFor="let lang of data.githubLanguagesKeys">
-          {{lang}}
-          <br>
-          {{data.githubLanguages[lang]}}
+          {{ lang }}
+          <br />
+          {{ data.githubLanguages[lang] }}
         </span>
       </div>
 
       <mat-divider fxFlex="100"></mat-divider>
-
     </div>
   </span>
 
   <span fxFlex="100" *ngIf="data.initialized">
-
     <mat-tree [dataSource]="treeDataSource" [treeControl]="treeControl">
-
       <!-- This is the tree node template for leaf nodes -->
       <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-
         <!-- use a disabled button to provide padding for tree leaf -->
         <button mat-icon-button disabled></button>
 
@@ -114,24 +122,24 @@
           fxLayout="row wrap"
           faLayoutAlign="start center"
           fxLayoutGap="15px"
-          [ngStyle]="{'border-bottom': '1px #000000 dotted', padding: '5px 0 5px 0'}">
-
+          [ngStyle]="{ 'border-bottom': '1px #000000 dotted', padding: '5px 0 5px 0' }"
+        >
           <a
-            [ngStyle]="{padding: '0 10px 0 10px'}"
-            [href]="node.link" 
+            [ngStyle]="{ padding: '0 10px 0 10px' }"
+            [href]="node.link"
             [title]="node.name"
-            target=_blank
+            target="_blank"
             fxLayout="row"
             fxLayoutAlign="center center"
-            fxLayoutGap="15px">
-
+            fxLayoutGap="15px"
+          >
             <img
-              [ngStyle]="{height: '46px', width: 'auto!important'}"
+              [ngStyle]="{ height: '46px', width: 'auto!important' }"
               [src]="node.imgRef"
               (load)="imgLoaded(node.name)"
               (error)="imgError(node.name)"
-              (showImage)="showImage(node.name)"/>
-
+              (showImage)="showImage(node.name)"
+            />
           </a>
 
           <span fxFlex="10px"></span>
@@ -143,9 +151,9 @@
             [disabled]="!node.urls.web"
             [title]="node.name"
             fxFlexAlign="center"
-            [ngStyle]="{'text-align': 'center'}"
-            target=_blank>
-
+            [ngStyle]="{ 'text-align': 'center' }"
+            target="_blank"
+          >
             <mat-icon class="material-icons">open_in_new</mat-icon>
           </a>
 
@@ -156,9 +164,9 @@
             [disabled]="!node.urls.android"
             title="android link"
             fxFlexAlign="center"
-            [ngStyle]="{'text-align': 'center'}"
-            target=_blank>
-
+            [ngStyle]="{ 'text-align': 'center' }"
+            target="_blank"
+          >
             <mat-icon class="material-icons">android</mat-icon>
           </a>
 
@@ -169,45 +177,28 @@
             [disabled]="!node.urls.repo"
             title="repo link"
             fxFlexAlign="center"
-            [ngStyle]="{'text-align': 'center'}"
-            target=_blank>
-
+            [ngStyle]="{ 'text-align': 'center' }"
+            target="_blank"
+          >
             <mat-icon class="material-icons">code</mat-icon>
           </a>
 
-          <span
-            fxFlex="100"
-            fxFlexAlign="center"
-            [ngStyle]="{'text-align': 'left'}">
-            {{node.name}}
+          <span fxFlex="100" fxFlexAlign="center" [ngStyle]="{ 'text-align': 'left' }">
+            {{ node.name }}
           </span>
-
         </span>
-
       </mat-tree-node>
 
       <!-- This is the tree node template for expandable nodes -->
-      <mat-tree-node
-        matTreeNodePadding
-        *matTreeNodeDef="let node; when: hasChild">
-
-        <button
-          mat-icon-button
-          matTreeNodeToggle
-          [attr.aria-label]="'toggle ' + node.name">
-
+      <mat-tree-node matTreeNodePadding *matTreeNodeDef="let node; when: hasChild">
+        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
           <mat-icon class="mat-icon-rtl-mirror">
-            {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
           </mat-icon>
-
         </button>
 
-        {{node.name}}
-
+        {{ node.name }}
       </mat-tree-node>
-
     </mat-tree>
-
   </span>
-
 </span>

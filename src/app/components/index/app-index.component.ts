@@ -1,30 +1,12 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
-
-import {
-  MatDialog,
-  MatDialogRef,
-} from '@angular/material/dialog';
-
 import { FlatTreeControl } from '@angular/cdk/tree';
-import {
-  MatTreeFlatDataSource,
-  MatTreeFlattener,
-} from '@angular/material/tree';
-
-import {
-  FlatNode,
-  TreeNode,
-} from 'src/app/interfaces';
-
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import { combineLatest } from 'rxjs';
+import { catchError, concatMap, finalize, tap } from 'rxjs/operators';
 import { AppContactComponent } from 'src/app/components/contact/app-contact.component';
-
-import { CustomDeferredService } from 'src/app/services/deferred/custom-deferred.service';
+import { IFlatNode, ITreeNode } from 'src/app/interfaces';
+import { WINDOW } from 'src/app/services/app-services.module';
 import { EventEmitterService } from 'src/app/services/emitter/event-emitter.service';
 import { GithubService } from 'src/app/services/github/github.service';
 import { UserConfigService } from 'src/app/services/user-config/user-config.service';
@@ -38,34 +20,32 @@ import { UserConfigService } from 'src/app/services/user-config/user-config.serv
   host: {
     class: 'mat-body-1',
   },
-  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class AppIndexComponent implements OnInit, OnDestroy {
-
   /**
    * Component data.
    */
   public data: {
-    profiles: Array<{ name: string, link: string, imgRef: string }>,
+    profiles: Array<{ name: string; link: string; imgRef: string }>;
     userConfig: {
       username: {
-        github: string,
-        hackerrank: string,
-        codewars: string,
-        codepen: string,
-      },
+        github: string;
+        hackerrank: string;
+        codewars: string;
+        codepen: string;
+      };
       apps: Array<{
-        name: string,
-        imgRef: string,
-        urls: { repo: string, web: string, android: string },
-        tag: string,
-      }>,
-    },
-    github: any,
-    githubRepos: any[],
-    githubLanguages: any,
-    githubLanguagesKeys: string[],
-    initialized: boolean,
+        name: string;
+        imgRef: string;
+        urls: { repo: string; web: string; android: string };
+        tag: string;
+      }>;
+    };
+    github: any;
+    githubRepos: any[];
+    githubLanguages: any;
+    githubLanguagesKeys: string[];
+    initialized: boolean;
   } = {
     profiles: [],
     userConfig: {} as any,
@@ -108,7 +88,7 @@ export class AppIndexComponent implements OnInit, OnDestroy {
     private readonly emitter: EventEmitterService,
     private readonly userConfigService: UserConfigService,
     private readonly githubService: GithubService,
-    @Inject('Window') private readonly window: Window,
+    @Inject(WINDOW) private readonly window: Window,
   ) {
     this.updateTreeData();
   }
@@ -118,7 +98,7 @@ export class AppIndexComponent implements OnInit, OnDestroy {
    * @param _ node index
    * @param node node data
    */
-  public hasChild(_: number, node: FlatNode): boolean {
+  public hasChild(_: number, node: IFlatNode): boolean {
     return node.expandable;
   }
 
@@ -126,7 +106,6 @@ export class AppIndexComponent implements OnInit, OnDestroy {
    * Shows contact dialog.
    */
   public showContactDialog(): void {
-    // TODO: show contact dialog
     this.dialogInstance = this.dialog.open(AppContactComponent, {
       height: '80vh',
       width: '90vw',
@@ -138,7 +117,6 @@ export class AppIndexComponent implements OnInit, OnDestroy {
       },
     });
     this.dialogSub = this.dialogInstance.afterClosed().subscribe((result: any) => {
-      console.log('app contact dialog closed with result', result);
       this.dialogSub.unsubscribe();
       this.dialogInstance = undefined;
     });
@@ -174,15 +152,14 @@ export class AppIndexComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.emitter.emitSpinnerStartEvent();
     this.getGithubAccessTokenFromServer()
-      .then(() => this.getUserConfig())
-      .then(() => this.getGithubProfile())
-      .then(() => this.getGithubRepos())
-      .then(() => {
-        this.emitter.emitSpinnerStopEvent();
-      })
-      .catch((error: any) => {
-        this.emitter.emitSpinnerStopEvent();
-      });
+      .pipe(
+        concatMap(_ => this.getUserConfig()),
+        concatMap(_ => combineLatest([this.getGithubProfile(), this.getGithubRepos()])),
+        finalize(() => {
+          this.emitter.emitSpinnerStopEvent();
+        }),
+      )
+      .subscribe();
   }
 
   /**
@@ -193,7 +170,7 @@ export class AppIndexComponent implements OnInit, OnDestroy {
   /**
    * Tree transformer.
    */
-  private readonly transformer = (node: TreeNode, level: number) => {
+  private readonly transformer = (node: ITreeNode, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
       name: node.name,
@@ -203,48 +180,66 @@ export class AppIndexComponent implements OnInit, OnDestroy {
       tag: node.tag,
       level,
     };
-  }
+  };
 
   /**
    * Tree control.
    */
-  // tslint:disable-next-line
-  public treeControl = new FlatTreeControl<FlatNode>(node => node.level,node => node.expandable);
+  // tslint:disable-next-line: member-ordering
+  public treeControl = new FlatTreeControl<IFlatNode>(
+    node => node.level,
+    node => node.expandable,
+  );
 
   /**
    * Tree flattener.
    */
-  // tslint:disable-next-line
-  public treeFlattener = new MatTreeFlattener(this.transformer,node => node.level,node => node.expandable,node => node.children);
+  // tslint:disable-next-line: member-ordering
+  public treeFlattener = new MatTreeFlattener(
+    this.transformer,
+    node => node.level,
+    node => node.expandable,
+    node => node.children,
+  );
 
   /**
    * Tree data source.
    */
-  // tslint:disable-next-line
+  // tslint:disable-next-line: member-ordering
   public treeDataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
   /**
    * Updates tree data with new values.
    */
   private updateTreeData(): void {
-    const TREE_DATA: TreeNode[] = [
+    const TREE_DATA: ITreeNode[] = [
       {
         name: 'Profiles',
         children: this.data.profiles,
-      }, {
+      },
+      {
         name: 'Applications',
         children: [
           {
             name: 'AngularJS',
-            children: ('apps' in this.data.userConfig) ? this.data.userConfig.apps.filter((item: any) => item.tag === 'angularjs') : [],
+            children:
+              'apps' in this.data.userConfig
+                ? this.data.userConfig.apps.filter((item: any) => item.tag === 'angularjs')
+                : [],
           },
           {
             name: 'Angular',
-            children: ('apps' in this.data.userConfig) ? this.data.userConfig.apps.filter((item: any) => item.tag === 'angular') : [],
+            children:
+              'apps' in this.data.userConfig
+                ? this.data.userConfig.apps.filter((item: any) => item.tag === 'angular')
+                : [],
           },
           {
             name: 'Other',
-            children: ('apps' in this.data.userConfig) ? this.data.userConfig.apps.filter((item: any) => item.tag === 'other') : [],
+            children:
+              'apps' in this.data.userConfig
+                ? this.data.userConfig.apps.filter((item: any) => item.tag === 'other')
+                : [],
           },
         ],
       },
@@ -254,94 +249,69 @@ export class AppIndexComponent implements OnInit, OnDestroy {
   /**
    * Gets user config.
    */
-  private async getUserConfig(): Promise<any> {
-    const def = new CustomDeferredService<any>();
-    this.userConfigService.getData().subscribe(
-      (data: any) => {
+  private getUserConfig() {
+    return this.userConfigService.getData().pipe(
+      tap(data => {
         this.data.userConfig = data;
         this.data.profiles = data.profiles;
         this.updateTreeData();
-        def.resolve();
-      },
-      (error: any) => {
-        def.reject(error);
-      },
+      }),
     );
-    return def.promise;
   }
 
   /**
    * Gets Github access token.
    */
-  private async getGithubAccessTokenFromServer(): Promise<any> {
-    const def = new CustomDeferredService<any>();
-    if (!this.githubService.githubAccessToken || this.githubService.githubAccessToken === 'GITHUB_ACCESS_TOKEN') {
-      this.githubService.getGithubAccessToken().subscribe(
-        (data: { token: string }) => {
-          this.githubService.githubAccessToken = data.token;
-          def.resolve();
-        },
-        (error: string) => {
-          this.githubService.githubAccessToken = error;
-          def.reject();
-        },
-      );
-    } else {
-      def.resolve();
-    }
-    return def.promise;
+  private getGithubAccessTokenFromServer() {
+    return this.githubService.getGithubAccessToken().pipe(
+      tap((data: { token: string }) => {
+        this.githubService.githubAccessToken = data.token;
+      }),
+      catchError((error: string, caught) => {
+        this.githubService.githubAccessToken = error;
+        return caught;
+      }),
+    );
   }
 
   /**
    * Gets user Github profile.
    */
-  private async getGithubProfile(): Promise<any> {
-    const def = new CustomDeferredService<any>();
-    this.githubService.getProfile(this.data.userConfig.username.github).subscribe(
-      (data: any) => {
+  private getGithubProfile() {
+    return this.githubService.getProfile(this.data.userConfig.username.github).pipe(
+      tap((data: any) => {
         if (typeof data === 'object') {
           this.data.github = data;
           this.data.initialized = true;
         }
-        def.resolve();
-      },
-      (error: any) => {
-        return def.reject(error);
-      },
+      }),
     );
-    return def.promise;
   }
 
   /**
    * Gets user Github repos.
    */
-  private async getGithubRepos(): Promise<any> {
-    const def = new CustomDeferredService<any>();
-    this.githubService.getRepos(this.data.userConfig.username.github).subscribe(
-      (data: any) => {
+  private getGithubRepos() {
+    return this.githubService.getRepos(this.data.userConfig.username.github).pipe(
+      concatMap((data: any) => {
         this.data.githubRepos = data;
-        for (let i = 0, max = this.data.githubRepos.length; i < max; i++) {
-          this.getGithubRepoLanguages(this.data.githubRepos[i].name);
+        const languageObservables = [];
+        for (let i = 0, max = this.data.githubRepos.length; i < max; i = i + 1) {
+          languageObservables.push(this.getGithubRepoLanguages(this.data.githubRepos[i].name));
         }
-        def.resolve();
-      },
-      (error: any) => {
-        return def.reject(error);
-      },
+        return combineLatest(languageObservables);
+      }),
     );
-    return def.promise;
   }
 
   /**
    * Gets user Github repo languages.
    * @param repoName repository name
    */
-  private async getGithubRepoLanguages(repoName: string): Promise<any> {
-    const def = new CustomDeferredService<any>();
-    this.githubService.getRepoLanguages(this.data.userConfig.username.github, repoName).subscribe(
-      (data: any) => {
-        loop:
-        for (const [lang, value] of Object.entries(data)) {
+  private getGithubRepoLanguages(repoName: string) {
+    return this.githubService.getRepoLanguages(this.data.userConfig.username.github, repoName).pipe(
+      tap((data: any) => {
+        loop: for (const [lang, value] of Object.entries(data)) {
           if (lang.indexOf('$') !== -1) {
             // Don't copy object properties other than languages
             break loop;
@@ -353,12 +323,7 @@ export class AppIndexComponent implements OnInit, OnDestroy {
           }
           this.data.githubLanguagesKeys = Object.keys(this.data.githubLanguages);
         }
-        def.resolve();
-      },
-      (error: any) => {
-        return def.reject(error);
-      },
+      }),
     );
-    return def.promise;
   }
 }

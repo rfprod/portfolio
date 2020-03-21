@@ -5,7 +5,6 @@ import { Injectable } from '@angular/core';
  */
 @Injectable()
 export class DialogRefMock {
-
   public close(msg?: string): boolean {
     return true;
   }
@@ -17,5 +16,4 @@ export class DialogRefMock {
   public updateSize(width?: string, height?: string): boolean {
     return true;
   }
-
 }

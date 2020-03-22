@@ -1,5 +1,4 @@
 node_modules/**
-public/webfonts/**
 *.svg
 *.ico
 *.css
@@ -7,5 +6,4 @@ public/webfonts/**
 *.html
 *.min.js
 *.js.map
-*.php
 *.json

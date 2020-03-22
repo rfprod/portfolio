@@ -16,7 +16,7 @@
       "tag": "angular",
       "urls": {
         "android": "",
-        "repo": "https://github.com/rfprod/ng2elements",
+        "repo": "https://github.com/rfprod/ng-elements-starter",
         "web": "https://ng2elements.web.app/ng-elements-app"
       }
     },

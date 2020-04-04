@@ -4,7 +4,7 @@ import { Directive, ElementRef, Input, OnChanges, OnInit, SimpleChanges } from '
  * Autofocus directive.
  */
 @Directive({
-  selector: '[autofocus]',
+  selector: '[appAutofocus]',
 })
 export class AutofocusDirective implements OnInit, OnChanges {
   /**

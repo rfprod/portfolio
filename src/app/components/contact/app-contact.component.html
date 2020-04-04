@@ -18,6 +18,7 @@
         [formControl]="contactForm.controls.name"
         placeholder="Your name"
         [autofocus]="true"
+        appAutofocus
       />
       <mat-error *ngIf="contactForm.controls.name.invalid" class="mat-body-1">{{
         inputError

@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 /**
@@ -8,26 +9,9 @@ import { Injectable } from '@angular/core';
 })
 export class CustomHttpHandlersService {
   /**
-   * Extracts object from response.
-   * @param res http response
+   * Handles http error response.
    */
-  public extractObject(res: object): object {
-    return res || {};
-  }
-
-  /**
-   * Extracts object from response.
-   * @param res http response
-   */
-  public extractArray(res: any[]): any[] {
-    return res || [];
-  }
-
-  /**
-   * Handles request error.
-   * @param error error object
-   */
-  public handleError(error: any): any {
+  public handleError(error: HttpErrorResponse): string {
     const errMsg = error.message
       ? error.message
       : error.status

@@ -1,4 +1,4 @@
-<span fxFlex="100" fxLayout="row wrap">
+<span fxFlex="100" fxLayout="row wrap" *ngIf="data.userConfig">
   <span
     fxFlex="100"
     fxFlex.xs="100"
@@ -6,7 +6,7 @@
     fxLayout="row wrap"
     fxLayoutAlign="center center"
   >
-    <div fxFlex="90" fxLayout="row wrap" fxLayoutAlign="center center" *ngIf="data.initialized">
+    <div fxFlex="90" fxLayout="row wrap" fxLayoutAlign="center center" *ngIf="data.github">
       <span *ngIf="data.github.bio" fxFlex="100" fxLayout="row" fxLayoutAlign="center center">
         {{ data.github.bio }}
       </span>
@@ -60,9 +60,15 @@
         >
           <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Company</span>
           <mat-divider fxFlex="2"></mat-divider>
-          <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">{{
-            data.github.company
-          }}</span>
+          <a
+            fxFlex="49"
+            fxLayout="row"
+            fxLayoutAlign="start center"
+            [href]="data.githubOrgUrl$ | async"
+            target="_blank"
+          >
+            {{ data.github.company }}
+          </a>
         </span>
         <span fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
           <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Created</span>
@@ -110,7 +116,7 @@
     </div>
   </span>
 
-  <span fxFlex="100" *ngIf="data.initialized">
+  <span fxFlex="100" *ngIf="data.github">
     <mat-tree [dataSource]="treeDataSource" [treeControl]="treeControl">
       <!-- This is the tree node template for leaf nodes -->
       <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>

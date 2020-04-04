@@ -75,37 +75,4 @@ describe('AppIndexComponent', () => {
   it('should be defined', () => {
     expect(component).toBeDefined();
   });
-
-  it('should have variables defined', () => {
-    expect(component.data).toEqual(
-      jasmine.objectContaining({
-        profiles: jasmine.any(Array),
-        userConfig: jasmine.any(Object),
-        github: jasmine.any(Object),
-        githubRepos: jasmine.any(Array),
-        githubLanguages: jasmine.any(Object),
-        githubLanguagesKeys: jasmine.any(Array),
-      }),
-    );
-    expect(component.getUserConfig).toEqual(jasmine.any(Function));
-    expect(component.getGithubProfile).toEqual(jasmine.any(Function));
-    expect(component.getGithubRepos).toEqual(jasmine.any(Function));
-    expect(component.getGithubRepoLanguages).toEqual(jasmine.any(Function));
-    expect(component.dialogInstance).toBeUndefined();
-    expect(component.dialogSub).toBeUndefined();
-    expect(component.showContactDialog).toEqual(jasmine.any(Function));
-    expect(component.imgShow).toEqual(
-      jasmine.objectContaining({
-        github: jasmine.any(Boolean),
-        codepen: jasmine.any(Boolean),
-        codewars: jasmine.any(Boolean),
-        hackerrank: jasmine.any(Boolean),
-      }),
-    );
-    expect(component.showImage).toEqual(jasmine.any(Function));
-    expect(component.imgLoaded).toEqual(jasmine.any(Function));
-    expect(component.imgError).toEqual(jasmine.any(Function));
-    expect(component.ngOnInit).toEqual(jasmine.any(Function));
-    expect(component.ngOnDestroy).toEqual(jasmine.any(Function));
-  });
 });

@@ -1,15 +1,23 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import { combineLatest } from 'rxjs';
-import { catchError, concatMap, finalize, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { concatMap, finalize, tap } from 'rxjs/operators';
 import { AppContactComponent } from 'src/app/components/contact/app-contact.component';
-import { IFlatNode, ITreeNode } from 'src/app/interfaces';
+import {
+  IFlatNode,
+  IGithubRepoLanguages,
+  IGithubUserOrganization,
+  IGithubUserRepo,
+  IGuthubUser,
+  ITreeNode,
+} from 'src/app/interfaces';
 import { WINDOW } from 'src/app/services/app-services.module';
 import { EventEmitterService } from 'src/app/services/emitter/event-emitter.service';
 import { GithubService } from 'src/app/services/github/github.service';
 import { UserConfigService } from 'src/app/services/user-config/user-config.service';
+import { IUserConfig, IUserConfigProfile } from '../../interfaces/user-config.interface';
 
 /**
  * Application index component.
@@ -21,39 +29,28 @@ import { UserConfigService } from 'src/app/services/user-config/user-config.serv
     class: 'mat-body-1',
   },
 })
-export class AppIndexComponent implements OnInit, OnDestroy {
+export class AppIndexComponent implements OnInit {
   /**
    * Component data.
    */
   public data: {
-    profiles: Array<{ name: string; link: string; imgRef: string }>;
-    userConfig: {
-      username: {
-        github: string;
-        hackerrank: string;
-        codewars: string;
-        codepen: string;
-      };
-      apps: Array<{
-        name: string;
-        imgRef: string;
-        urls: { repo: string; web: string; android: string };
-        tag: string;
-      }>;
-    };
-    github: any;
-    githubRepos: any[];
-    githubLanguages: any;
+    profiles: IUserConfigProfile[];
+    userConfig: IUserConfig;
+    github: IGuthubUser;
+    githubRepos: IGithubUserRepo[];
+    githubLanguages: IGithubRepoLanguages;
     githubLanguagesKeys: string[];
-    initialized: boolean;
+    githubUserOrganizations: IGithubUserOrganization[];
+    githubOrgUrl$: BehaviorSubject<string>;
   } = {
     profiles: [],
-    userConfig: {} as any,
-    github: {} as any,
-    githubRepos: [] as string[],
-    githubLanguages: {} as any,
-    githubLanguagesKeys: [] as string[],
-    initialized: false,
+    userConfig: null,
+    github: null,
+    githubRepos: [],
+    githubLanguages: {},
+    githubLanguagesKeys: [],
+    githubUserOrganizations: [],
+    githubOrgUrl$: new BehaviorSubject<string>(''),
   };
 
   /**
@@ -67,6 +64,11 @@ export class AppIndexComponent implements OnInit, OnDestroy {
   };
 
   /**
+   * Gets Github organizations.
+   */
+  public getGithubOrganization$;
+
+  /**
    * Material dialog instance.
    */
   private dialogInstance: MatDialogRef<AppContactComponent>;
@@ -75,23 +77,13 @@ export class AppIndexComponent implements OnInit, OnDestroy {
    */
   private dialogSub: any;
 
-  /**
-   * Constructor.
-   * @param dialog Material dialog
-   * @param emitter Event emitter
-   * @param userConfigService User configuration service
-   * @param githubService Github service
-   * @param window Window reference
-   */
   constructor(
     private readonly dialog: MatDialog,
     private readonly emitter: EventEmitterService,
     private readonly userConfigService: UserConfigService,
     private readonly githubService: GithubService,
-    @Inject(WINDOW) private readonly window: Window,
-  ) {
-    this.updateTreeData();
-  }
+    @Inject(WINDOW) private readonly win: Window,
+  ) {}
 
   /**
    * Resolves if tree node has a child.
@@ -113,7 +105,7 @@ export class AppIndexComponent implements OnInit, OnDestroy {
       maxHeight: '768px',
       disableClose: false,
       data: {
-        domain: this.window.location.origin,
+        domain: this.win.location.origin,
       },
     });
     this.dialogSub = this.dialogInstance.afterClosed().subscribe((result: any) => {
@@ -151,21 +143,18 @@ export class AppIndexComponent implements OnInit, OnDestroy {
    */
   public ngOnInit(): void {
     this.emitter.emitSpinnerStartEvent();
-    this.getGithubAccessTokenFromServer()
+    this.githubService
+      .getGithubAccessToken()
       .pipe(
         concatMap(_ => this.getUserConfig()),
         concatMap(_ => combineLatest([this.getGithubProfile(), this.getGithubRepos()])),
+        concatMap(_ => this.getGithubUserOrganizations()),
         finalize(() => {
           this.emitter.emitSpinnerStopEvent();
         }),
       )
       .subscribe();
   }
-
-  /**
-   * Lifecycle hook called on component destruction.
-   */
-  public ngOnDestroy(): void {}
 
   /**
    * Tree transformer.
@@ -250,26 +239,11 @@ export class AppIndexComponent implements OnInit, OnDestroy {
    * Gets user config.
    */
   private getUserConfig() {
-    return this.userConfigService.getData().pipe(
-      tap(data => {
+    return this.userConfigService.getUserConfig().pipe(
+      tap((data: IUserConfig) => {
         this.data.userConfig = data;
         this.data.profiles = data.profiles;
         this.updateTreeData();
-      }),
-    );
-  }
-
-  /**
-   * Gets Github access token.
-   */
-  private getGithubAccessTokenFromServer() {
-    return this.githubService.getGithubAccessToken().pipe(
-      tap((data: { token: string }) => {
-        this.githubService.githubAccessToken = data.token;
-      }),
-      catchError((error: string, caught) => {
-        this.githubService.githubAccessToken = error;
-        return caught;
       }),
     );
   }
@@ -279,11 +253,8 @@ export class AppIndexComponent implements OnInit, OnDestroy {
    */
   private getGithubProfile() {
     return this.githubService.getProfile(this.data.userConfig.username.github).pipe(
-      tap((data: any) => {
-        if (typeof data === 'object') {
-          this.data.github = data;
-          this.data.initialized = true;
-        }
+      tap((data: IGuthubUser) => {
+        this.data.github = data;
       }),
     );
   }
@@ -293,7 +264,7 @@ export class AppIndexComponent implements OnInit, OnDestroy {
    */
   private getGithubRepos() {
     return this.githubService.getRepos(this.data.userConfig.username.github).pipe(
-      concatMap((data: any) => {
+      concatMap((data: IGithubUserRepo[]) => {
         this.data.githubRepos = data;
         const languageObservables = [];
         for (let i = 0, max = this.data.githubRepos.length; i < max; i = i + 1) {
@@ -310,7 +281,7 @@ export class AppIndexComponent implements OnInit, OnDestroy {
    */
   private getGithubRepoLanguages(repoName: string) {
     return this.githubService.getRepoLanguages(this.data.userConfig.username.github, repoName).pipe(
-      tap((data: any) => {
+      tap((data: IGithubRepoLanguages) => {
         loop: for (const [lang, value] of Object.entries(data)) {
           if (lang.indexOf('$') !== -1) {
             // Don't copy object properties other than languages
@@ -323,6 +294,26 @@ export class AppIndexComponent implements OnInit, OnDestroy {
           }
           this.data.githubLanguagesKeys = Object.keys(this.data.githubLanguages);
         }
+      }),
+    );
+  }
+
+  /**
+   * Gets Github user organizations.
+   */
+  private getGithubUserOrganizations() {
+    return this.githubService.getUserOrganizations(this.data.userConfig.username.github).pipe(
+      tap((data: IGithubUserOrganization[]) => {
+        this.data.githubUserOrganizations = data;
+        const org = this.data.github.company.trim().substring(1);
+        this.getGithubOrganization$ = this.githubService
+          .getOrganization(org)
+          .pipe(
+            tap(organization => {
+              this.data.githubOrgUrl$.next(organization.blog);
+            }),
+          )
+          .subscribe();
       }),
     );
   }

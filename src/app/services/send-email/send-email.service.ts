@@ -1,10 +1,13 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, finalize, map } from 'rxjs/operators';
 import { IMailerResponse } from 'src/app/interfaces';
 import { WINDOW } from '../app-services.module';
-import { CustomHttpHandlersService } from '../http-handlers/custom-http-handlers.service';
+import {
+  CustomHttpHandlersService,
+  EHttpProgressModifier,
+} from '../http-handlers/custom-http-handlers.service';
 
 /**
  * Send email service.
@@ -29,9 +32,13 @@ export class SendEmailService {
    * @param formData form data
    */
   public sendEmail(formData: any): Observable<IMailerResponse> {
+    this.handlers.toggleHttpProgress(EHttpProgressModifier.START);
     return this.http.post(this.url, formData).pipe(
       catchError((error: HttpErrorResponse) => this.handlers.handleError(error)),
       map((res: IMailerResponse) => res),
+      finalize(() => {
+        this.handlers.toggleHttpProgress(EHttpProgressModifier.STOP);
+      }),
     );
   }
 }

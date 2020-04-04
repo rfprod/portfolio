@@ -13,7 +13,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppIndexComponent } from 'src/app/components/index/app-index.component';
 import { CustomMaterialModule } from 'src/app/modules/material/custom-material.module';
 import { WINDOW } from 'src/app/services/app-services.module';
-import { EventEmitterService } from 'src/app/services/emitter/event-emitter.service';
 import { GithubService } from 'src/app/services/github/github.service';
 import { CustomHttpHandlersService } from 'src/app/services/http-handlers/custom-http-handlers.service';
 import { UserConfigService } from 'src/app/services/user-config/user-config.service';
@@ -22,7 +21,6 @@ import { DummyComponent } from 'src/mocks/index';
 describe('AppIndexComponent', () => {
   let fixture: ComponentFixture<AppIndexComponent>;
   let component: AppIndexComponent | any;
-  let emitter: EventEmitterService;
   let httpController: HttpTestingController;
 
   beforeEach(async(() => {
@@ -38,7 +36,6 @@ describe('AppIndexComponent', () => {
       ],
       providers: [
         { provide: WINDOW, useValue: window },
-        EventEmitterService,
         CustomHttpHandlersService,
         {
           provide: UserConfigService,
@@ -47,8 +44,8 @@ describe('AppIndexComponent', () => {
         },
         {
           provide: GithubService,
-          useFactory: (http, window, handlers) => new GithubService(http, window, handlers),
-          deps: [HttpClient, WINDOW, CustomHttpHandlersService],
+          useFactory: (http, handlers, window) => new GithubService(http, handlers, window),
+          deps: [HttpClient, CustomHttpHandlersService, WINDOW],
         },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -57,8 +54,6 @@ describe('AppIndexComponent', () => {
       .then(() => {
         fixture = TestBed.createComponent(AppIndexComponent);
         component = fixture.componentInstance;
-        emitter = TestBed.inject(EventEmitterService);
-        spyOn(emitter, 'emitEvent').and.callThrough();
         httpController = TestBed.inject(HttpTestingController);
       });
   }));

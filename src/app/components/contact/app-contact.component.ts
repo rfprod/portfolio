@@ -1,9 +1,8 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, ValidatorFn, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { finalize, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { IContactForm } from 'src/app/interfaces/index';
-import { EventEmitterService } from 'src/app/services/emitter/event-emitter.service';
 import { SendEmailService } from 'src/app/services/send-email/send-email.service';
 
 /**
@@ -30,19 +29,10 @@ export class AppContactComponent implements OnInit, OnDestroy {
    */
   private readonly textValidator: ValidatorFn = Validators.pattern(/[a-zA-Zа-яА-Я\s-.]{3,}/);
 
-  /**
-   * Constructor.
-   * @param data Dialog data
-   * @param dialogRef Dialog reference
-   * @param fb Form builder
-   * @param emitter Event emitter service
-   * @param sendEmailService Send email service
-   */
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<AppContactComponent>,
+    private readonly dialogRef: MatDialogRef<AppContactComponent>,
     private readonly fb: FormBuilder,
-    private readonly emitter: EventEmitterService,
     private readonly sendEmailService: SendEmailService,
   ) {}
 
@@ -59,14 +49,10 @@ export class AppContactComponent implements OnInit, OnDestroy {
    * Sends message.
    */
   public sendMessage() {
-    this.emitter.emitSpinnerStartEvent();
     const formData: any = this.contactForm.value;
     return this.sendEmailService.sendEmail(formData).pipe(
       tap(() => {
         this.closeDialog();
-      }),
-      finalize(() => {
-        this.emitter.emitSpinnerStopEvent();
       }),
     );
   }

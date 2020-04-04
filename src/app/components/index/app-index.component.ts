@@ -1,9 +1,9 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { concatMap, finalize, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
+import { concatMap, mapTo, tap } from 'rxjs/operators';
 import { AppContactComponent } from 'src/app/components/contact/app-contact.component';
 import {
   IFlatNode,
@@ -14,7 +14,6 @@ import {
   ITreeNode,
 } from 'src/app/interfaces';
 import { WINDOW } from 'src/app/services/app-services.module';
-import { EventEmitterService } from 'src/app/services/emitter/event-emitter.service';
 import { GithubService } from 'src/app/services/github/github.service';
 import { UserConfigService } from 'src/app/services/user-config/user-config.service';
 import { IUserConfig, IUserConfigProfile } from '../../interfaces/user-config.interface';
@@ -29,7 +28,15 @@ import { IUserConfig, IUserConfigProfile } from '../../interfaces/user-config.in
     class: 'mat-body-1',
   },
 })
-export class AppIndexComponent implements OnInit {
+export class AppIndexComponent {
+  public readonly loadData$ = this.githubService.getGithubAccessToken().pipe(
+    concatMap(_ => this.getUserConfig()),
+    concatMap(userConfig =>
+      combineLatest([this.getGithubProfile(), this.getGithubRepos()]).pipe(mapTo(userConfig)),
+    ),
+    concatMap(userConfig => this.getGithubUserOrganizations().pipe(mapTo(userConfig))),
+  );
+
   /**
    * Component data.
    */
@@ -79,7 +86,6 @@ export class AppIndexComponent implements OnInit {
 
   constructor(
     private readonly dialog: MatDialog,
-    private readonly emitter: EventEmitterService,
     private readonly userConfigService: UserConfigService,
     private readonly githubService: GithubService,
     @Inject(WINDOW) private readonly win: Window,
@@ -136,24 +142,6 @@ export class AppIndexComponent implements OnInit {
    */
   public imgError(imageKey: string): void {
     this.imgShow[imageKey] = false;
-  }
-
-  /**
-   * Lifecycle hook called on component initialization.
-   */
-  public ngOnInit(): void {
-    this.emitter.emitSpinnerStartEvent();
-    this.githubService
-      .getGithubAccessToken()
-      .pipe(
-        concatMap(_ => this.getUserConfig()),
-        concatMap(_ => combineLatest([this.getGithubProfile(), this.getGithubRepos()])),
-        concatMap(_ => this.getGithubUserOrganizations()),
-        finalize(() => {
-          this.emitter.emitSpinnerStopEvent();
-        }),
-      )
-      .subscribe();
   }
 
   /**
@@ -266,7 +254,7 @@ export class AppIndexComponent implements OnInit {
     return this.githubService.getRepos(this.data.userConfig.username.github).pipe(
       concatMap((data: IGithubUserRepo[]) => {
         this.data.githubRepos = data;
-        const languageObservables = [];
+        const languageObservables: Observable<IGithubRepoLanguages>[] = [];
         for (let i = 0, max = this.data.githubRepos.length; i < max; i = i + 1) {
           languageObservables.push(this.getGithubRepoLanguages(this.data.githubRepos[i].name));
         }

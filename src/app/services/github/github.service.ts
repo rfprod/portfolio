@@ -11,11 +11,11 @@ import {
   IGithubUserRepo,
   IGuthubUser,
 } from 'src/app/interfaces';
-import { WINDOW } from '../app-services.module';
 import {
   CustomHttpHandlersService,
   EHttpProgressModifier,
 } from '../http-handlers/custom-http-handlers.service';
+import { WINDOW } from '../providers.config';
 
 /**
  * Github service.
@@ -45,6 +45,8 @@ export class GithubService {
       `${this.githubApiBaseUrl}/repos/${username}/${reponame}/languages`,
     organizations: (username: string): string => `${this.githubApiBaseUrl}/users/${username}/orgs`,
     organization: (organization: string): string => `${this.githubApiBaseUrl}/orgs/${organization}`,
+    publicEvents: (username: string): string =>
+      `${this.githubApiBaseUrl}/users/${username}/events/public`,
   };
 
   constructor(
@@ -143,6 +145,20 @@ export class GithubService {
    */
   public getOrganization(organization: string): Observable<IGithubOrganization> {
     const url = this.endpoints.organization(organization);
+    const headers = this.getAuthHeaders();
+    this.handlers.toggleHttpProgress(EHttpProgressModifier.START);
+    return this.http.get(url, { headers }).pipe(
+      catchError((error: HttpErrorResponse) => this.handlers.handleError(error)),
+      map((res: IGithubOrganization) => res),
+      finalize(() => {
+        this.handlers.toggleHttpProgress(EHttpProgressModifier.STOP);
+      }),
+    );
+  }
+
+  // TODO: types
+  public getPublicEvents(username: string): Observable<any> {
+    const url = this.endpoints.publicEvents(username);
     const headers = this.getAuthHeaders();
     this.handlers.toggleHttpProgress(EHttpProgressModifier.START);
     return this.http.get(url, { headers }).pipe(

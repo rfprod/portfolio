@@ -20,9 +20,9 @@
         [autofocus]="true"
         appAutofocus
       />
-      <mat-error *ngIf="contactForm.controls.name.invalid" class="mat-body-1">{{
-        inputError
-      }}</mat-error>
+      <mat-error *ngIf="contactForm.controls.name.invalid" class="mat-body-1">
+        {{ inputError }}
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field fxFlex>
@@ -33,9 +33,9 @@
         [formControl]="contactForm.controls.email"
         placeholder="Your email address"
       />
-      <mat-error *ngIf="contactForm.controls.email.invalid" class="mat-body-1"
-        >Invalid email address.</mat-error
-      >
+      <mat-error *ngIf="contactForm.controls.email.invalid" class="mat-body-1">
+        Invalid email address.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field fxFlex>
@@ -46,9 +46,9 @@
         [formControl]="contactForm.controls.header"
         placeholder="Email header"
       />
-      <mat-error *ngIf="contactForm.controls.header.invalid" class="mat-body-1">{{
-        inputError
-      }}</mat-error>
+      <mat-error *ngIf="contactForm.controls.header.invalid" class="mat-body-1">
+        {{ inputError }}
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field fxFlex>
@@ -59,9 +59,9 @@
         [formControl]="contactForm.controls.message"
         placeholder="Email message text"
       ></textarea>
-      <mat-error *ngIf="contactForm.controls.message.invalid" class="mat-body-1">{{
-        inputError
-      }}</mat-error>
+      <mat-error *ngIf="contactForm.controls.message.invalid" class="mat-body-1">
+        {{ inputError }}
+      </mat-error>
     </mat-form-field>
 
     <div>
@@ -93,10 +93,12 @@
     matTooltip="Confirm"
     color="accent"
   >
-    <mat-icon class="metarial-icons">done</mat-icon><span [fxHide.xs]="true"> Send Message</span>
+    <mat-icon class="metarial-icons">done</mat-icon>
+    <span [fxHide.xs]="true"> Send Message</span>
   </button>
 
   <button mat-button tabindex="-1" (click)="closeDialog()" matTooltip="Close">
-    <mat-icon class="metarial-icons">close</mat-icon><span [fxHide.xs]="true"> Close</span>
+    <mat-icon class="metarial-icons">close</mat-icon>
+    <span [fxHide.xs]="true"> Close</span>
   </button>
 </mat-dialog-actions>

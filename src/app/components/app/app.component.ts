@@ -11,6 +11,7 @@ import { CustomHttpHandlersService } from '../../services/http-handlers/custom-h
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
   public readonly showSpinner$ = this.handlers.httpProgress$.pipe(

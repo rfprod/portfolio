@@ -1,32 +1,41 @@
 {
   "angularCompilerOptions": {
+    "annotateForClosureCompiler": true,
+    "enableIvy": true,
+    "enableResourceInlining": true,
     "fullTemplateTypeCheck": true,
-    "preserveWhiteSpace": false,
-    "strictInjectionParameters": true
+    "skipTemplateCodegen": true,
+    "strictInjectionParameters": true,
+    "strictMetadataEmit": true,
+    "preserveWhiteSpace": false
   },
   "compileOnSave": false,
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    "alwaysStrict": true,
-    "baseUrl": "./",
+    "baseUrl": ".",
+    "downlevelIteration": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": false,
+    "lib": ["es2018", "dom", "esnext.asynciterable"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noUnusedLocals": false,
     "declaration": false,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
-    "lib": ["es2018", "dom", "scripthost", "esnext.asynciterable"],
-    "module": "esnext",
-    "moduleResolution": "node",
     "noImplicitAny": false,
-    "outDir": "./public/out-tsc",
-    "removeComments": true,
+    "rootDir": ".",
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
     "sourceMap": true,
-    "suppressImplicitAnyIndexErrors": true,
     "target": "es6",
+    "suppressImplicitAnyIndexErrors": true,
     "typeRoots": ["node_modules/@types"],
-    "types": ["node", "jasmine", "hammerjs", "core-js"]
+    "removeComments": true
   },
   "exclude": [".git", "functions", "node_modules", "public"],
-  "include": ["src"]
+  "include": ["src/main.ts", "src/polyfills.ts"]
 }

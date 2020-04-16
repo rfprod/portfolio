@@ -4,11 +4,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { BehaviorSubject } from 'rxjs';
-import { CustomMaterialModule } from 'src/app/modules/material/custom-material.module';
-import { WINDOW } from 'src/app/services/app-services.module';
-import { DummyComponent } from 'src/mocks/index';
+import { DummyComponent } from '../../../mocks/components/dummy.component.mock';
+import { CustomMaterialModule } from '../../modules/material/custom-material.module';
 import { CustomHttpHandlersService } from '../../services/http-handlers/custom-http-handlers.service';
+import { WINDOW } from '../../services/providers.config';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {

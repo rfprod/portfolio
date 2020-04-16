@@ -1,5 +1,7 @@
-<span id="spinner" *ngIf="showSpinner$ | async">
+<div id="progress" *ngIf="showSpinner$ | async">
   <mat-progress-bar mode="indeterminate" aria-label="Application progress bar"> </mat-progress-bar>
-</span>
+</div>
 
-<router-outlet></router-outlet>
+<div class="content">
+  <router-outlet></router-outlet>
+</div>

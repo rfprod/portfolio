@@ -3,11 +3,11 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, finalize, map } from 'rxjs/operators';
 import { IMailerResponse } from 'src/app/interfaces';
-import { WINDOW } from '../app-services.module';
 import {
   CustomHttpHandlersService,
   EHttpProgressModifier,
 } from '../http-handlers/custom-http-handlers.service';
+import { WINDOW } from '../providers.config';
 
 /**
  * Send email service.

@@ -10,13 +10,13 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AppIndexComponent } from 'src/app/components/index/app-index.component';
-import { CustomMaterialModule } from 'src/app/modules/material/custom-material.module';
-import { WINDOW } from 'src/app/services/app-services.module';
-import { GithubService } from 'src/app/services/github/github.service';
-import { CustomHttpHandlersService } from 'src/app/services/http-handlers/custom-http-handlers.service';
-import { UserConfigService } from 'src/app/services/user-config/user-config.service';
-import { DummyComponent } from 'src/mocks/index';
+import { DummyComponent } from '../../../mocks/components/dummy.component.mock';
+import { CustomMaterialModule } from '../../modules/material/custom-material.module';
+import { GithubService } from '../../services/github/github.service';
+import { CustomHttpHandlersService } from '../../services/http-handlers/custom-http-handlers.service';
+import { WINDOW } from '../../services/providers.config';
+import { UserConfigService } from '../../services/user-config/user-config.service';
+import { AppIndexComponent } from './app-index.component';
 
 describe('AppIndexComponent', () => {
   let fixture: ComponentFixture<AppIndexComponent>;
@@ -39,12 +39,14 @@ describe('AppIndexComponent', () => {
         CustomHttpHandlersService,
         {
           provide: UserConfigService,
-          useFactory: (http, handlers, window) => new UserConfigService(http, handlers, window),
+          useFactory: (http: HttpClient, handlers: CustomHttpHandlersService, window: Window) =>
+            new UserConfigService(http, handlers, window),
           deps: [HttpClient, CustomHttpHandlersService, WINDOW],
         },
         {
           provide: GithubService,
-          useFactory: (http, handlers, window) => new GithubService(http, handlers, window),
+          useFactory: (http: HttpClient, handlers: CustomHttpHandlersService, window: Window) =>
+            new GithubService(http, handlers, window),
           deps: [HttpClient, CustomHttpHandlersService, WINDOW],
         },
       ],

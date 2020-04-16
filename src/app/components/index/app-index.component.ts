@@ -13,8 +13,8 @@ import {
   IGuthubUser,
   ITreeNode,
 } from 'src/app/interfaces';
-import { WINDOW } from 'src/app/services/app-services.module';
 import { GithubService } from 'src/app/services/github/github.service';
+import { WINDOW } from 'src/app/services/providers.config';
 import { UserConfigService } from 'src/app/services/user-config/user-config.service';
 import { IUserConfig, IUserConfigProfile } from '../../interfaces/user-config.interface';
 
@@ -24,6 +24,7 @@ import { IUserConfig, IUserConfigProfile } from '../../interfaces/user-config.in
 @Component({
   selector: 'app-index',
   templateUrl: './app-index.component.html',
+  styleUrls: ['./app-index.component.scss'],
   host: {
     class: 'mat-body-1',
   },
@@ -35,6 +36,9 @@ export class AppIndexComponent {
       combineLatest([this.getGithubProfile(), this.getGithubRepos()]).pipe(mapTo(userConfig)),
     ),
     concatMap(userConfig => this.getGithubUserOrganizations().pipe(mapTo(userConfig))),
+    concatMap(userConfig =>
+      this.getGithubUserPublicEvents(userConfig.username.github).pipe(mapTo(userConfig)),
+    ),
   );
 
   /**
@@ -49,6 +53,7 @@ export class AppIndexComponent {
     githubLanguagesKeys: string[];
     githubUserOrganizations: IGithubUserOrganization[];
     githubOrgUrl$: BehaviorSubject<string>;
+    publicEvents$: BehaviorSubject<any[]>;
   } = {
     profiles: [],
     userConfig: null,
@@ -58,6 +63,7 @@ export class AppIndexComponent {
     githubLanguagesKeys: [],
     githubUserOrganizations: [],
     githubOrgUrl$: new BehaviorSubject<string>(''),
+    publicEvents$: new BehaviorSubject<any[]>([]),
   };
 
   /**
@@ -302,6 +308,14 @@ export class AppIndexComponent {
             }),
           )
           .subscribe();
+      }),
+    );
+  }
+
+  private getGithubUserPublicEvents(username: string) {
+    return this.githubService.getPublicEvents(username).pipe(
+      tap(publicEventsData => {
+        this.data.publicEvents$.next(publicEventsData);
       }),
     );
   }

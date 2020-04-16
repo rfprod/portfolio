@@ -12,12 +12,13 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AppContactComponent } from 'src/app/components/contact/app-contact.component';
-import { CustomMaterialModule } from 'src/app/modules/material/custom-material.module';
-import { WINDOW } from 'src/app/services/app-services.module';
-import { CustomHttpHandlersService } from 'src/app/services/http-handlers/custom-http-handlers.service';
-import { SendEmailService } from 'src/app/services/send-email/send-email.service';
-import { DialogRefMock, DummyComponent } from 'src/mocks/index';
+import { DummyComponent } from '../../../mocks/components/dummy.component.mock';
+import { DialogRefMock } from '../../../mocks/utils/dialog-ref.mock';
+import { CustomMaterialModule } from '../../modules/material/custom-material.module';
+import { CustomHttpHandlersService } from '../../services/http-handlers/custom-http-handlers.service';
+import { WINDOW } from '../../services/providers.config';
+import { SendEmailService } from '../../services/send-email/send-email.service';
+import { AppContactComponent } from './app-contact.component';
 
 describe('AppContactComponent', () => {
   const MOCKED_MODAL_DATA: object = {};
@@ -50,7 +51,8 @@ describe('AppContactComponent', () => {
         CustomHttpHandlersService,
         {
           provide: SendEmailService,
-          useFactory: (http, handlers, window) => new SendEmailService(http, handlers, window),
+          useFactory: (http: HttpClient, handlers: CustomHttpHandlersService, window: Window) =>
+            new SendEmailService(http, handlers, window),
           deps: [HttpClient, CustomHttpHandlersService, WINDOW],
         },
       ],

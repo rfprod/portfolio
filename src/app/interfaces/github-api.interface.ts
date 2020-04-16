@@ -9,6 +9,7 @@ export interface IGithubApiEngpoints {
   languages(username: string, reponame: string): string;
   organizations(username: string): string;
   organization(organization: string): string;
+  publicEvents(username: string): string;
 }
 
 export interface IGuthubUserPlan {

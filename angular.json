@@ -17,6 +17,20 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
+            "budgets": [
+              {
+                "maximumError": "5mb",
+                "maximumWarning": "2mb",
+                "type": "initial"
+              },
+              {
+                "maximumError": "10kb",
+                "maximumWarning": "6kb",
+                "type": "anyComponentStyle"
+              }
+            ],
+            "es5BrowserSupport": true,
             "outputPath": "public/",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -36,30 +50,35 @@
               "node_modules/material-design-icon-fonts/iconfont/material-icons.css",
               "src/styles.scss"
             ],
-            "scripts": ["node_modules/firebase/firebase.js", "node_modules/hammerjs/hammer.js"]
+            "scripts": ["node_modules/firebase/firebase.js"]
           },
           "configurations": {
             "production": {
+              "aot": true,
+              "budgets": [
+                {
+                  "maximumError": "5mb",
+                  "maximumWarning": "2mb",
+                  "type": "initial"
+                },
+                {
+                  "maximumError": "10kb",
+                  "maximumWarning": "6kb",
+                  "type": "anyComponentStyle"
+                }
+              ],
+              "buildOptimizer": true,
+              "extractCss": true,
+              "extractLicenses": true,
+              "namedChunks": false,
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "vendorChunk": false,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
                 }
               ]
             }

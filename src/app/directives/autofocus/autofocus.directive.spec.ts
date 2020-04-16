@@ -1,8 +1,8 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { AutofocusDirective } from 'src/app/directives/autofocus/autofocus.directive';
-import { DummyComponent } from 'src/mocks/index';
+import { DummyComponent } from '../../../mocks/components/dummy.component.mock';
+import { AutofocusDirective } from './autofocus.directive';
 
 describe('AutofocusDirective', () => {
   let fixture: ComponentFixture<DummyComponent>;

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter, map, tap } from 'rxjs/operators';
@@ -12,6 +12,7 @@ import { CustomHttpHandlersService } from '../../services/http-handlers/custom-h
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit, OnDestroy {
   public readonly showSpinner$ = this.handlers.httpProgress$.pipe(

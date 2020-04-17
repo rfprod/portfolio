@@ -208,3 +208,28 @@ export interface IGithubOrganization {
   updated_at: string;
   type: string;
 }
+
+export interface IGithubUserPublicEventActor {
+  id: number;
+  login: string;
+  display_login: string;
+  gravatar_id: string;
+  url: string;
+  avatar_url: string;
+}
+
+export interface IGithubUserPublicEventRepo {
+  id: number;
+  name: string;
+  url: string;
+}
+
+export interface IGithubUserPublicEvent<T> {
+  id: string;
+  type: string;
+  actor: IGithubUserPublicEventActor;
+  repo: IGithubUserPublicEventRepo;
+  payload: T;
+  public: boolean;
+  created_at: string;
+}

@@ -121,7 +121,14 @@
       <mat-divider fxFlex="100"></mat-divider>
     </div>
     <div fxFlex="100" fxLayout="column" class="scrollable" appAutoscroll>
-      <span fxFlex="1" *ngFor="let event of data.publicEvents$ | async">{{ event.type }}</span>
+      <small
+        fxFlex="1"
+        *ngFor="let event of data.publicEvents$ | async"
+        fxLayout="row wrap"
+        fxLayoutAlign="start center"
+      >
+        <mat-icon>event_note</mat-icon> {{ event.type }} - {{ event.created_at | date }}
+      </small>
     </div>
   </div>
 

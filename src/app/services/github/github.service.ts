@@ -8,6 +8,7 @@ import {
   IGithubOrganization,
   IGithubRepoLanguages,
   IGithubUserOrganization,
+  IGithubUserPublicEvent,
   IGithubUserRepo,
   IGuthubUser,
 } from 'src/app/interfaces';
@@ -157,13 +158,13 @@ export class GithubService {
   }
 
   // TODO: types
-  public getPublicEvents(username: string): Observable<any> {
+  public getPublicEvents(username: string): Observable<IGithubUserPublicEvent<any>[]> {
     const url = this.endpoints.publicEvents(username);
     const headers = this.getAuthHeaders();
     this.handlers.toggleHttpProgress(EHttpProgressModifier.START);
     return this.http.get(url, { headers }).pipe(
       catchError((error: HttpErrorResponse) => this.handlers.handleError(error)),
-      map((res: IGithubOrganization) => res),
+      map((res: IGithubUserPublicEvent<any>[]) => res),
       finalize(() => {
         this.handlers.toggleHttpProgress(EHttpProgressModifier.STOP);
       }),

@@ -1,14 +1,15 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, timer } from 'rxjs';
 import { concatMap, mapTo, tap } from 'rxjs/operators';
 import { AppContactComponent } from 'src/app/components/contact/app-contact.component';
 import {
   IFlatNode,
   IGithubRepoLanguages,
   IGithubUserOrganization,
+  IGithubUserPublicEvent,
   IGithubUserRepo,
   IGuthubUser,
   ITreeNode,
@@ -28,6 +29,7 @@ import { IUserConfig, IUserConfigProfile } from '../../interfaces/user-config.in
   host: {
     class: 'mat-body-1',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppIndexComponent {
   public readonly loadData$ = this.githubService.getGithubAccessToken().pipe(
@@ -53,7 +55,7 @@ export class AppIndexComponent {
     githubLanguagesKeys: string[];
     githubUserOrganizations: IGithubUserOrganization[];
     githubOrgUrl$: BehaviorSubject<string>;
-    publicEvents$: BehaviorSubject<any[]>;
+    publicEvents$: BehaviorSubject<IGithubUserPublicEvent<any>[]>;
   } = {
     profiles: [],
     userConfig: null,
@@ -63,7 +65,7 @@ export class AppIndexComponent {
     githubLanguagesKeys: [],
     githubUserOrganizations: [],
     githubOrgUrl$: new BehaviorSubject<string>(''),
-    publicEvents$: new BehaviorSubject<any[]>([]),
+    publicEvents$: new BehaviorSubject<IGithubUserPublicEvent<any>[]>([]),
   };
 
   /**
@@ -312,10 +314,19 @@ export class AppIndexComponent {
     );
   }
 
+  /**
+   * Gets GitHub public events.
+   */
   private getGithubUserPublicEvents(username: string) {
     return this.githubService.getPublicEvents(username).pipe(
-      tap(publicEventsData => {
-        this.data.publicEvents$.next(publicEventsData);
+      tap((publicEventsData: IGithubUserPublicEvent<any>[]) => {
+        timer(0)
+          .pipe(
+            tap(_ => {
+              this.data.publicEvents$.next(publicEventsData);
+            }),
+          )
+          .subscribe();
       }),
     );
   }

@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, ValidatorFn, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { tap } from 'rxjs/operators';
@@ -14,6 +14,7 @@ import { SendEmailService } from 'src/app/services/send-email/send-email.service
   host: {
     class: 'mat-body-1',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppContactComponent implements OnInit, OnDestroy {
   /**

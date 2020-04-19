@@ -4,6 +4,15 @@
 
 A portfolio microapp based on `Angular`, `GitHub API`.
 
+## Requirements
+
+In order to run your own copy of Transport monorepo you must have the following installed
+
+- [Node.js](https://nodejs.org/)
+- [NPM](https://nodejs.org/) `Is preferred package manager for dependencies installation in the ./functions folder`
+- [**Yarn**](https://yarnpkg.com/) `Is preferred package manager for dependencies installation in the project root`
+- [Git](https://git-scm.com/)
+
 ## User stories
 
 - User can see a page divided in sections representing presence of portfolio's subject on networks: Codewars, GitHub, CodePen, Hackerrank.

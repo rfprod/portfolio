@@ -163,6 +163,10 @@ export interface IGithubRepoLanguages {
   [key: string]: number;
 }
 
+export interface IGithubRepoLanguagesRate {
+  [key: string]: string;
+}
+
 export interface IGithubUserOrganization {
   login: string;
   id: number;

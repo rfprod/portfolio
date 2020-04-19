@@ -1,8 +1,0 @@
-{
-  "/api/*": {
-    "changeOrigin": true,
-    "logLevel": "debug",
-    "secure": false,
-    "target": "https://rfprod.tk"
-  }
-}

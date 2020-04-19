@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="400" height="400" preserveAspectRatio="xMidYMid">
+    <defs>
+        <filter x="-.5" y="-.5" width="2" height="2" filterUnits="objectBoundingBox" id="b">
+            <feGaussianBlur stdDeviation="17.5" in="SourceAlpha" result="shadowBlurInner1"/>
+            <feOffset in="shadowBlurInner1" result="shadowOffsetInner1"/>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"/>
+            <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0" in="shadowInnerInner1"/>
+        </filter>
+        <filter x="-.5" y="-.5" width="2" height="2" filterUnits="objectBoundingBox" id="d">
+            <feGaussianBlur stdDeviation="3.5" in="SourceAlpha" result="shadowBlurInner1"/>
+            <feOffset dx="1" dy="-9" in="shadowBlurInner1" result="shadowOffsetInner1"/>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"/>
+            <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.09 0" in="shadowInnerInner1"/>
+        </filter>
+        <path d="M1.253 280.732l1.605-3.131 99.353-188.518-44.15-83.475C54.392-1.283 45.074.474 43.87 8.188z" id="a"/>
+        <path d="M134.417 148.974l32.039-32.812-32.039-61.007c-3.042-5.791-10.433-6.398-13.443-.59l-17.705 34.109-.53 1.744z" id="c"/>
+    </defs>
+    <path d="M64.454 319.56l2.315-3.24 109.49-207.752.23-2.2-48.265-90.66c-4.043-7.593-15.427-5.673-16.754 2.828z" fill="#ffc24a"/>
+    <g transform="translate(64.454 10.956) scale(1.09048)">
+        <use xlink:href="#a" width="100%" height="100%" fill="#ffa712" fill-rule="evenodd"/>
+        <use xlink:href="#a" width="100%" height="100%" filter="url(#b)"/>
+    </g>
+    <path d="M211.675 174.944l35.937-36.805-35.947-68.624c-3.413-6.496-12.94-6.515-16.317 0l-19.205 36.628v3.12z" fill="#f4bd62"/>
+    <g transform="translate(64.454 10.956) scale(1.09048)">
+        <use xlink:href="#c" width="100%" height="100%" fill="#ffa50e" fill-rule="evenodd"/>
+        <use xlink:href="#c" width="100%" height="100%" filter="url(#d)"/>
+    </g>
+    <path fill="#f6820c" d="M64.454 319.56l1.05-1.054 3.811-1.55 140.103-139.581 1.775-4.832-34.95-66.6z"/>
+    <path d="M216.163 389.955L342.96 319.24 306.751 96.242c-1.133-6.977-9.693-9.735-14.686-4.732L64.455 319.56l126.068 70.388a26.31 26.31 0 0025.64.007" fill="#fde068"/>
+    <path d="M341.823 318.647L305.89 97.342c-1.124-6.924-8.242-9.789-13.197-4.824L65.86 319.128l124.684 69.691a26.11 26.11 0 0025.446.007z" fill="#fcca3f"/>
+    <path d="M216.163 387.872a26.308 26.308 0 01-25.64-.006L65.47 318.489l-1.016 1.072 126.07 70.388a26.31 26.31 0 0025.64.007l126.795-70.716-.31-1.91z" fill="#eeab37"/>
+</svg>

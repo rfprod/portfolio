@@ -157,7 +157,10 @@ export class GithubService {
     );
   }
 
-  // TODO: types
+  /**
+   * Git Github user public events.
+   * @param username Github username
+   */
   public getPublicEvents(username: string): Observable<IGithubUserPublicEvent<any>[]> {
     const url = this.endpoints.publicEvents(username);
     const headers = this.getAuthHeaders();

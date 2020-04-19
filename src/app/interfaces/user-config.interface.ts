@@ -19,9 +19,15 @@ export interface IUserConfigUsername {
   [key: string]: string;
 }
 
+export interface ILanguageIcon {
+  name: string;
+  icon: string;
+}
+
 export interface IUserConfig {
   apps: IUserConfigApp[];
   profiles: IUserConfigProfile[];
+  languageIcons: ILanguageIcon[];
   username: IUserConfigUsername;
 }
 

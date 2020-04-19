@@ -49,6 +49,8 @@ import {
 } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import 'node_modules/hammerjs/hammer.js';
+import { PortalModule } from '@angular/cdk/portal';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 /**
  * Returns mat tooltip options.
@@ -157,6 +159,10 @@ export const customMaterialModuleProviders: Provider[] = [
     MatBadgeModule,
     // CDK
     OverlayModule,
+    // Portal
+    PortalModule,
+    // Scrolling
+    ScrollingModule,
   ],
   exports: [
     // Form controls
@@ -207,6 +213,10 @@ export const customMaterialModuleProviders: Provider[] = [
     MatBadgeModule,
     // CDK
     OverlayModule,
+    // Portal
+    PortalModule,
+    // Scrolling
+    ScrollingModule,
   ],
 })
 export class CustomMaterialModule {

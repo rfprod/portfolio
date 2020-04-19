@@ -1,7 +1,7 @@
 {
   "apps": [
     {
-      "imgRef": "assets/firebase-seeklogo.com.svg",
+      "imgRef": "assets/firebase-logo.svg",
       "name": "NX Angular starter",
       "tag": "angular",
       "urls": {
@@ -11,7 +11,7 @@
       }
     },
     {
-      "imgRef": "assets/firebase-seeklogo.com.svg",
+      "imgRef": "assets/firebase-logo.svg",
       "name": "Angular elements NodeJS widget server starter",
       "tag": "angular",
       "urls": {
@@ -21,7 +21,7 @@
       }
     },
     {
-      "imgRef": "assets/firebase-seeklogo.com.svg",
+      "imgRef": "assets/firebase-logo.svg",
       "name": "Angular application starter kit",
       "tag": "angular",
       "urls": {
@@ -31,7 +31,7 @@
       }
     },
     {
-      "imgRef": "assets/firebase-seeklogo.com.svg",
+      "imgRef": "assets/firebase-logo.svg",
       "name": "DNBHUB multimedia concentrator",
       "tag": "angular",
       "urls": {
@@ -110,6 +110,14 @@
         "web": "https://rfprod.github.io/dictionaries"
       }
     }
+  ],
+  "languageIcons": [
+    { "name": "TypeScript", "icon": "assets/typescript-logo.svg" },
+    { "name": "JavaScript", "icon": "assets/javascript-logo.svg" },
+    { "name": "Shell", "icon": "assets/bash-logo.svg" },
+    { "name": "HTML", "icon": "assets/html-logo.svg" },
+    { "name": "CSS", "icon": "assets/css-logo.svg" },
+    { "name": "Dockerfile", "icon": "assets/docker-logo.svg" }
   ],
   "profiles": [
     {

@@ -20,9 +20,6 @@ export class AppComponent implements OnInit, OnDestroy {
     map(progress => progress.loading),
   );
 
-  /**
-   * Subscription methods.
-   */
   private readonly datepickerLocaleChanges = this.dateAdapter.localeChanges.pipe(
     untilDestroyed(this),
     tap(changes => {
@@ -35,9 +32,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly handlers: CustomHttpHandlersService,
   ) {}
 
-  /**
-   * Activates subscriptions.
-   */
   public ngOnInit(): void {
     this.setDatepickerLocale();
     this.datepickerLocaleChanges.subscribe();

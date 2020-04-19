@@ -13,11 +13,14 @@ import {
   IGithubUserRepo,
   IGuthubUser,
   ITreeNode,
+  IUserConfig,
+  IUserConfigProfile,
+  IGithubRepoLanguagesRate,
 } from 'src/app/interfaces';
 import { GithubService } from 'src/app/services/github/github.service';
 import { WINDOW } from 'src/app/services/providers.config';
 import { UserConfigService } from 'src/app/services/user-config/user-config.service';
-import { IUserConfig, IUserConfigProfile } from '../../interfaces/user-config.interface';
+import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 
 /**
  * Application index component.
@@ -52,6 +55,8 @@ export class AppIndexComponent {
     github: IGuthubUser;
     githubRepos: IGithubUserRepo[];
     githubLanguages: IGithubRepoLanguages;
+    githubLanguagesTotal: number;
+    githubLanguagesRate: IGithubRepoLanguagesRate;
     githubLanguagesKeys: string[];
     githubUserOrganizations: IGithubUserOrganization[];
     githubOrgUrl$: BehaviorSubject<string>;
@@ -62,6 +67,8 @@ export class AppIndexComponent {
     github: null,
     githubRepos: [],
     githubLanguages: {},
+    githubLanguagesTotal: 0,
+    githubLanguagesRate: {},
     githubLanguagesKeys: [],
     githubUserOrganizations: [],
     githubOrgUrl$: new BehaviorSubject<string>(''),
@@ -71,11 +78,20 @@ export class AppIndexComponent {
   /**
    * Images 'show' state.
    */
-  public imgShow: any = {
-    github: true as boolean,
-    codepen: true as boolean,
-    codewars: true as boolean,
-    hackerrank: true as boolean,
+  public imgShow: {
+    github: boolean;
+    codepen: boolean;
+    codewars: boolean;
+    hackerrank: boolean;
+    languageIcons: {
+      [key: string]: boolean;
+    };
+  } = {
+    github: true,
+    codepen: true,
+    codewars: true,
+    hackerrank: true,
+    languageIcons: {},
   };
 
   /**
@@ -96,6 +112,7 @@ export class AppIndexComponent {
     private readonly dialog: MatDialog,
     private readonly userConfigService: UserConfigService,
     private readonly githubService: GithubService,
+    private readonly domSanitizer: DomSanitizer,
     @Inject(WINDOW) private readonly win: Window,
   ) {}
 
@@ -132,24 +149,39 @@ export class AppIndexComponent {
    * Image show event handler.
    * @param imageKey image key
    */
-  public showImage(imageKey: string): boolean {
-    return this.imgShow[imageKey];
+  public showImage(imageKey: string, languageIcon: boolean = false): boolean {
+    return languageIcon ? this.imgShow.languageIcons[imageKey] : this.imgShow[imageKey];
   }
 
   /**
    * Image loaded event handler.
    * @param imageKey image key
    */
-  public imgLoaded(imageKey: string): void {
-    this.imgShow[imageKey] = true;
+  public imgLoaded(imageKey: string, languageIcon: boolean = false): void {
+    if (languageIcon) {
+      this.imgShow.languageIcons[imageKey] = true;
+    } else {
+      this.imgShow[imageKey] = true;
+    }
   }
 
   /**
    * Image error event handler.
    * @param imageKey image key
    */
-  public imgError(imageKey: string): void {
-    this.imgShow[imageKey] = false;
+  public imgError(imageKey: string, languageIcon: boolean = false): void {
+    if (languageIcon) {
+      this.imgShow.languageIcons[imageKey] = false;
+    } else {
+      this.imgShow[imageKey] = false;
+    }
+  }
+
+  public languageIcon(languageName: string): SafeResourceUrl {
+    const imageUrl =
+      this.data.userConfig.languageIcons?.find(item => item.name === languageName)?.icon || '';
+    const url = this.domSanitizer.bypassSecurityTrustUrl(imageUrl);
+    return url;
   }
 
   /**
@@ -168,23 +200,23 @@ export class AppIndexComponent {
   };
 
   /**
+   * Tree flattener.
+   */
+  // tslint:disable-next-line: member-ordering
+  private readonly treeFlattener = new MatTreeFlattener(
+    this.transformer,
+    node => node.level,
+    node => node.expandable,
+    node => node.children,
+  );
+
+  /**
    * Tree control.
    */
   // tslint:disable-next-line: member-ordering
   public treeControl = new FlatTreeControl<IFlatNode>(
     node => node.level,
     node => node.expandable,
-  );
-
-  /**
-   * Tree flattener.
-   */
-  // tslint:disable-next-line: member-ordering
-  public treeFlattener = new MatTreeFlattener(
-    this.transformer,
-    node => node.level,
-    node => node.expandable,
-    node => node.children,
   );
 
   /**
@@ -283,12 +315,25 @@ export class AppIndexComponent {
             // Don't copy object properties other than languages
             break loop;
           }
+          this.data.githubLanguagesTotal += data[lang];
           if (this.data.githubLanguages.hasOwnProperty(lang)) {
             this.data.githubLanguages[lang] += data[lang];
           } else {
             this.data.githubLanguages[lang] = data[lang];
           }
           this.data.githubLanguagesKeys = Object.keys(this.data.githubLanguages);
+
+          const languageIconsInitialValue: { [key: string]: boolean } = {};
+          this.imgShow.languageIcons = this.data.githubLanguagesKeys.reduce((accumulator, key) => {
+            accumulator[key] = true;
+            return accumulator;
+          }, languageIconsInitialValue);
+
+          const percentMultiplier = 100;
+          this.data.githubLanguagesRate[lang] = (
+            (this.data.githubLanguages[lang] * percentMultiplier) /
+            this.data.githubLanguagesTotal
+          ).toFixed(2);
         }
       }),
     );

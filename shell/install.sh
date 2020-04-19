@@ -5,9 +5,15 @@
 ##
 source shell/colors.sh
 
-printf "${GREEN} > installing dependencies...${DEFAULT} \n\n"
+installProjectDependencies() {
+  local TITLE="<< INSTALLING PROJECT DEPENDENCIES >>"
+  printf "${GREEN}%s
+    ${DEFAULT} \n\n" "$TITLE"
 
-cd ./functions || exit
-npm install
-cd .. || exit
-npm install
+  cd ./functions || exit
+  npm install
+  cd .. || exit
+  yarn install
+}
+
+installProjectDependencies

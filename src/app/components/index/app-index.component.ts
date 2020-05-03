@@ -1,13 +1,16 @@
+/* eslint-disable no-labels */
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import { BehaviorSubject, Observable, combineLatest, timer } from 'rxjs';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { BehaviorSubject, combineLatest, Observable, Subscription, timer } from 'rxjs';
 import { concatMap, mapTo, tap } from 'rxjs/operators';
 import { AppContactComponent } from 'src/app/components/contact/app-contact.component';
 import {
   IFlatNode,
   IGithubRepoLanguages,
+  IGithubRepoLanguagesRate,
   IGithubUserOrganization,
   IGithubUserPublicEvent,
   IGithubUserRepo,
@@ -15,12 +18,22 @@ import {
   ITreeNode,
   IUserConfig,
   IUserConfigProfile,
-  IGithubRepoLanguagesRate,
 } from 'src/app/interfaces';
 import { GithubService } from 'src/app/services/github/github.service';
 import { WINDOW } from 'src/app/services/providers.config';
 import { UserConfigService } from 'src/app/services/user-config/user-config.service';
-import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
+
+function transformer(node: ITreeNode, level: number) {
+  return {
+    expandable: !!node.children && node.children.length > 0,
+    name: node.name,
+    link: node.link,
+    imgRef: node.imgRef,
+    urls: node.urls,
+    tag: node.tag,
+    level,
+  };
+}
 
 /**
  * Application index component.
@@ -60,7 +73,7 @@ export class AppIndexComponent {
     githubLanguagesKeys: string[];
     githubUserOrganizations: IGithubUserOrganization[];
     githubOrgUrl$: BehaviorSubject<string>;
-    publicEvents$: BehaviorSubject<IGithubUserPublicEvent<any>[]>;
+    publicEvents$: BehaviorSubject<IGithubUserPublicEvent<unknown>[]>;
   } = {
     profiles: [],
     userConfig: null,
@@ -72,7 +85,7 @@ export class AppIndexComponent {
     githubLanguagesKeys: [],
     githubUserOrganizations: [],
     githubOrgUrl$: new BehaviorSubject<string>(''),
-    publicEvents$: new BehaviorSubject<IGithubUserPublicEvent<any>[]>([]),
+    publicEvents$: new BehaviorSubject<IGithubUserPublicEvent<unknown>[]>([]),
   };
 
   /**
@@ -106,7 +119,30 @@ export class AppIndexComponent {
   /**
    * Material dialog subscription.
    */
-  private dialogSub: any;
+  private dialogSub: Subscription;
+
+  /**
+   * Tree flattener.
+   */
+  private readonly treeFlattener = new MatTreeFlattener(
+    transformer,
+    node => node.level,
+    node => node.expandable,
+    node => node.children,
+  );
+
+  /**
+   * Tree control.
+   */
+  public treeControl = new FlatTreeControl<IFlatNode>(
+    node => node.level,
+    node => node.expandable,
+  );
+
+  /**
+   * Tree data source.
+   */
+  public treeDataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
   constructor(
     private readonly dialog: MatDialog,
@@ -139,9 +175,9 @@ export class AppIndexComponent {
         domain: this.win.location.origin,
       },
     });
-    this.dialogSub = this.dialogInstance.afterClosed().subscribe((result: any) => {
+    this.dialogSub = this.dialogInstance.afterClosed().subscribe(_ => {
       this.dialogSub.unsubscribe();
-      this.dialogInstance = undefined;
+      this.dialogInstance = null;
     });
   }
 
@@ -149,7 +185,7 @@ export class AppIndexComponent {
    * Image show event handler.
    * @param imageKey image key
    */
-  public showImage(imageKey: string, languageIcon: boolean = false): boolean {
+  public showImage(imageKey: string, languageIcon = false): boolean {
     return languageIcon ? this.imgShow.languageIcons[imageKey] : this.imgShow[imageKey];
   }
 
@@ -157,7 +193,7 @@ export class AppIndexComponent {
    * Image loaded event handler.
    * @param imageKey image key
    */
-  public imgLoaded(imageKey: string, languageIcon: boolean = false): void {
+  public imgLoaded(imageKey: string, languageIcon = false): void {
     if (languageIcon) {
       this.imgShow.languageIcons[imageKey] = true;
     } else {
@@ -169,7 +205,7 @@ export class AppIndexComponent {
    * Image error event handler.
    * @param imageKey image key
    */
-  public imgError(imageKey: string, languageIcon: boolean = false): void {
+  public imgError(imageKey: string, languageIcon = false): void {
     if (languageIcon) {
       this.imgShow.languageIcons[imageKey] = false;
     } else {
@@ -178,52 +214,11 @@ export class AppIndexComponent {
   }
 
   public languageIcon(languageName: string): SafeResourceUrl {
-    const imageUrl =
-      this.data.userConfig.languageIcons?.find(item => item.name === languageName)?.icon || '';
+    const icon = this.data.userConfig.languageIcons?.find(item => item.name === languageName)?.icon;
+    const imageUrl = Boolean(icon) ? icon : '';
     const url = this.domSanitizer.bypassSecurityTrustUrl(imageUrl);
     return url;
   }
-
-  /**
-   * Tree transformer.
-   */
-  private readonly transformer = (node: ITreeNode, level: number) => {
-    return {
-      expandable: !!node.children && node.children.length > 0,
-      name: node.name,
-      link: node.link,
-      imgRef: node.imgRef,
-      urls: node.urls,
-      tag: node.tag,
-      level,
-    };
-  };
-
-  /**
-   * Tree flattener.
-   */
-  // tslint:disable-next-line: member-ordering
-  private readonly treeFlattener = new MatTreeFlattener(
-    this.transformer,
-    node => node.level,
-    node => node.expandable,
-    node => node.children,
-  );
-
-  /**
-   * Tree control.
-   */
-  // tslint:disable-next-line: member-ordering
-  public treeControl = new FlatTreeControl<IFlatNode>(
-    node => node.level,
-    node => node.expandable,
-  );
-
-  /**
-   * Tree data source.
-   */
-  // tslint:disable-next-line: member-ordering
-  public treeDataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
   /**
    * Updates tree data with new values.
@@ -241,21 +236,21 @@ export class AppIndexComponent {
             name: 'AngularJS',
             children:
               'apps' in this.data.userConfig
-                ? this.data.userConfig.apps.filter((item: any) => item.tag === 'angularjs')
+                ? this.data.userConfig.apps.filter(item => item.tag === 'angularjs')
                 : [],
           },
           {
             name: 'Angular',
             children:
               'apps' in this.data.userConfig
-                ? this.data.userConfig.apps.filter((item: any) => item.tag === 'angular')
+                ? this.data.userConfig.apps.filter(item => item.tag === 'angular')
                 : [],
           },
           {
             name: 'Other',
             children:
               'apps' in this.data.userConfig
-                ? this.data.userConfig.apps.filter((item: any) => item.tag === 'other')
+                ? this.data.userConfig.apps.filter(item => item.tag === 'other')
                 : [],
           },
         ],
@@ -330,10 +325,11 @@ export class AppIndexComponent {
           }, languageIconsInitialValue);
 
           const percentMultiplier = 100;
+          const fixedFactor = 2;
           this.data.githubLanguagesRate[lang] = (
             (this.data.githubLanguages[lang] * percentMultiplier) /
             this.data.githubLanguagesTotal
-          ).toFixed(2);
+          ).toFixed(fixedFactor);
         }
       }),
     );
@@ -364,7 +360,7 @@ export class AppIndexComponent {
    */
   private getGithubUserPublicEvents(username: string) {
     return this.githubService.getPublicEvents(username).pipe(
-      tap((publicEventsData: IGithubUserPublicEvent<any>[]) => {
+      tap((publicEventsData: IGithubUserPublicEvent<unknown>[]) => {
         timer(0)
           .pipe(
             tap(_ => {

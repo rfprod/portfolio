@@ -5,26 +5,28 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+
 import { DummyComponent } from '../../../mocks/components/dummy.component.mock';
 import { CustomMaterialModule } from '../../modules/material/custom-material.module';
 import { GithubService } from '../../services/github/github.service';
-import { CustomHttpHandlersService } from '../../services/http-handlers/custom-http-handlers.service';
+import { HttpHandlersService } from '../../services/http-handlers/http-handlers.service';
 import { WINDOW } from '../../services/providers.config';
 import { UserConfigService } from '../../services/user-config/user-config.service';
 import { AppIndexComponent } from './app-index.component';
 
 describe('AppIndexComponent', () => {
   let fixture: ComponentFixture<AppIndexComponent>;
-  let component: AppIndexComponent | any;
+  let component: AppIndexComponent;
   let httpController: HttpTestingController;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
+    void TestBed.configureTestingModule({
       declarations: [AppIndexComponent, DummyComponent],
       imports: [
         BrowserDynamicTestingModule,
@@ -36,18 +38,28 @@ describe('AppIndexComponent', () => {
       ],
       providers: [
         { provide: WINDOW, useValue: window },
-        CustomHttpHandlersService,
+        {
+          provide: MatSnackBar,
+          useValue: {
+            open: (): void => null,
+          },
+        },
+        {
+          provide: HttpHandlersService,
+          useFactory: (snackBar: MatSnackBar) => new HttpHandlersService(snackBar),
+          deps: [MatSnackBar],
+        },
         {
           provide: UserConfigService,
-          useFactory: (http: HttpClient, handlers: CustomHttpHandlersService, window: Window) =>
+          useFactory: (http: HttpClient, handlers: HttpHandlersService, window: Window) =>
             new UserConfigService(http, handlers, window),
-          deps: [HttpClient, CustomHttpHandlersService, WINDOW],
+          deps: [HttpClient, HttpHandlersService, WINDOW],
         },
         {
           provide: GithubService,
-          useFactory: (http: HttpClient, handlers: CustomHttpHandlersService, window: Window) =>
+          useFactory: (http: HttpClient, handlers: HttpHandlersService, window: Window) =>
             new GithubService(http, handlers, window),
-          deps: [HttpClient, CustomHttpHandlersService, WINDOW],
+          deps: [HttpClient, HttpHandlersService, WINDOW],
         },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -62,7 +74,7 @@ describe('AppIndexComponent', () => {
 
   afterEach(() => {
     httpController
-      .match((req: HttpRequest<any>): boolean => true)
+      .match((req: HttpRequest<unknown>): boolean => true)
       .forEach((req: TestRequest) => {
         req.flush({});
       });

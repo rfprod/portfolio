@@ -1,4 +1,8 @@
+import '../../../../node_modules/hammerjs/hammer.js';
+
 import { OverlayModule } from '@angular/cdk/overlay';
+import { PortalModule } from '@angular/cdk/portal';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
 import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
@@ -48,9 +52,6 @@ import {
   MatTooltipModule,
 } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
-import 'node_modules/hammerjs/hammer.js';
-import { PortalModule } from '@angular/cdk/portal';
-import { ScrollingModule } from '@angular/cdk/scrolling';
 
 /**
  * Returns mat tooltip options.

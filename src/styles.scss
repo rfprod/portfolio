@@ -1,57 +1,51 @@
-@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import '../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css';
 
-/* required in case of self hosting of material-design-icons */
-  @font-face {
-    font-family: 'Material Icons';
-    font-style: normal;
-    font-weight: 400;
-    /*
-    src: url(./MaterialIcons-Regular.eot);
-    src: local('Material Icons'),
-      local('MaterialIcons-Regular'),
-      url(./MaterialIcons-Regular.woff2) format('woff2'),
-      url(./MaterialIcons-Regular.woff) format('woff'),
-      url(./MaterialIcons-Regular.ttf) format('truetype');
-    */
+.material-icons {
+  display: inline-block;
+  font-weight: normal;
+  font-size: 24px; /* Preferred icon size */
+  font-family: 'Material Icons';
+  font-style: normal;
+  line-height: 1;
+  direction: ltr;
+  letter-spacing: normal;
+  white-space: nowrap;
+  text-transform: none;
+  word-wrap: normal;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+
+  &:hover {
+    cursor: default;
   }
+}
+
+a,
+button {
   .material-icons {
-    font-family: 'Material Icons';
-    font-weight: normal;
-    font-style: normal;
-    font-size: 24px;  /* Preferred icon size */
-    display: inline-block;
-    line-height: 1;
-    text-transform: none;
-    letter-spacing: normal;
-    word-wrap: normal;
-    white-space: nowrap;
-    direction: ltr;
-
-    /* Support for all WebKit browsers. */
-    -webkit-font-smoothing: antialiased;
-    /* Support for Safari and Chrome. */
-    text-rendering: optimizeLegibility;
-
-    /* Support for Firefox. */
-    -moz-osx-font-smoothing: grayscale;
-
-    /* Support for IE. */
-    font-feature-settings: 'liga';
-
     &:hover {
-      cursor: default;
+      cursor: pointer;
     }
   }
-  a, button {
-    .material-icons {
-      &:hover {
-        cursor: pointer;
-      }
-    }
-  }
-/* required in case of self hosting of material-design-icons */
+}
 
-h1, h2, h3, h4, h5, p {
+/* required in case of self hosting of material-design-icons */
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
   &:hover {
     cursor: default;
   }
@@ -59,7 +53,9 @@ h1, h2, h3, h4, h5, p {
 
 a {
   text-decoration: none;
-  &:hover, &:focus {
+
+  &:hover,
+  &:focus {
     text-decoration: none;
   }
 }
@@ -70,19 +66,18 @@ body {
 }
 
 /* Global scrollbars styling. */
-
 ::-webkit-scrollbar {
   width: 12px;
 }
 
 ::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
   border-radius: 2px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
 ::-webkit-scrollbar-thumb {
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
-  box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
   border-radius: 2px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
 }

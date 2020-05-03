@@ -72,9 +72,9 @@ app.use(
 );
 
 /**
- * Elements' dists.
+ * Dist.
  */
-app.use('/', express.static(cwd + '/public/portfolio/'));
+app.use('/', express.static(cwd + '/dist/portfolio/'));
 
 /**
  * Serve app index file for paths excluding provided in regX.
@@ -84,8 +84,8 @@ app.use((req, res, next) => {
   const apiRegX = /(githubUser|githubUserRepos|githubUserReposLanguages)/;
   if (regX.test(req.path) || apiRegX.test(req.path)) {
     return next();
-  } else if (/portfolio/.test(req.path)) {
-    res.sendFile(cwd + '/public/portfolio/index.html');
+  } else if (/dist/.test(req.path)) {
+    res.sendFile(cwd + '/dist/portfolio/index.html');
   } else {
     res.redirect('/portfolio/');
   }
@@ -100,7 +100,7 @@ app.use(bodyParser.json());
 /**
  * Headers config for all Express routes.
  */
-app.all('/*', function(req, res, next) {
+app.all('/*', function (req, res, next) {
   // CORS headers
   res.header('Access-Control-Allow-Origin', '*'); // restrict it to the required domain if needed
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');

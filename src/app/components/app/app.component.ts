@@ -1,43 +1,38 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter, map, tap } from 'rxjs/operators';
-import { CustomHttpHandlersService } from '../../services/http-handlers/custom-http-handlers.service';
+
+import { HttpHandlersService } from '../../services/http-handlers/http-handlers.service';
 
 /**
  * Application root component.
  */
-@UntilDestroy()
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   public readonly showSpinner$ = this.handlers.httpProgress$.pipe(
     filter(progress => typeof progress.loading === 'boolean'),
     map(progress => progress.loading),
   );
 
-  private readonly datepickerLocaleChanges = this.dateAdapter.localeChanges.pipe(
-    untilDestroyed(this),
+  public readonly datepickerLocaleChanges$ = this.dateAdapter.localeChanges.pipe(
     tap(changes => {
-      console.warn('dateAdapter.localeChanges', changes);
+      // console.warn('dateAdapter.localeChanges', changes);
     }),
   );
 
   constructor(
-    private readonly dateAdapter: DateAdapter<any>,
-    private readonly handlers: CustomHttpHandlersService,
+    private readonly dateAdapter: DateAdapter<Date>,
+    private readonly handlers: HttpHandlersService,
   ) {}
 
   public ngOnInit(): void {
     this.setDatepickerLocale();
-    this.datepickerLocaleChanges.subscribe();
   }
-
-  public ngOnDestroy(): void {}
 
   private setDatepickerLocale(): void {
     this.dateAdapter.setLocale('en');

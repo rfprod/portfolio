@@ -1,16 +1,19 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+
 import { DummyComponent } from '../../../mocks/components/dummy.component.mock';
 import { AutofocusDirective } from './autofocus.directive';
 
 describe('AutofocusDirective', () => {
   let fixture: ComponentFixture<DummyComponent>;
   let debugElement: DebugElement;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let directive: AutofocusDirective | any;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
+    void TestBed.configureTestingModule({
       declarations: [DummyComponent, AutofocusDirective],
     })
       .compileComponents()
@@ -39,6 +42,7 @@ describe('AutofocusDirective', () => {
     directive.ngOnInit();
     expect(directive.el.nativeElement.focus).not.toHaveBeenCalled();
 
+    // eslint-disable-next-line no-undefined
     directive.autofocusState = undefined;
     directive.ngOnInit();
     expect(directive.el.nativeElement.focus).toHaveBeenCalled();

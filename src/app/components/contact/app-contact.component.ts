@@ -31,7 +31,7 @@ export class AppContactComponent implements OnInit, OnDestroy {
   private readonly textValidator: ValidatorFn = Validators.pattern(/[a-zA-Zа-яА-Я\s-.]{3,}/);
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: { domain: string }, // TODO
     private readonly dialogRef: MatDialogRef<AppContactComponent>,
     private readonly fb: FormBuilder,
     private readonly sendEmailService: SendEmailService,
@@ -50,7 +50,7 @@ export class AppContactComponent implements OnInit, OnDestroy {
    * Sends message.
    */
   public sendMessage() {
-    const formData: any = this.contactForm.value;
+    const formData = this.contactForm.value;
     return this.sendEmailService.sendEmail(formData).pipe(
       tap(() => {
         this.closeDialog();
@@ -65,8 +65,8 @@ export class AppContactComponent implements OnInit, OnDestroy {
    * Parent controller should listen to this event
    * @param [result] result returned to parent component
    */
-  public closeDialog(result?: any) {
-    this.dialogRef.close(result ? result : 'closed');
+  public closeDialog(result?: unknown) {
+    this.dialogRef.close(Boolean(result) ? result : 'closed');
   }
 
   public ngOnInit(): void {

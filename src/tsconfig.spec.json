@@ -1,9 +1,10 @@
 {
-  "compilerOptions": {
-    "outDir": "../out-tsc/spec",
-    "types": ["jasmine", "node"]
-  },
   "extends": "../tsconfig.json",
-  "files": ["test.ts", "polyfills.ts"],
-  "include": ["**/*.spec.ts", "**/*.d.ts", "**/*.mock.ts"]
+  "compilerOptions": {
+    "allowJs": true,
+    "module": "commonjs",
+    "outDir": "../out-tsc/spec"
+  },
+  "files": ["test-setup.ts"],
+  "include": ["**/*.spec.ts", "**/*.d.ts"]
 }

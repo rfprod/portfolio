@@ -1,13 +1,12 @@
 {
   "angularCompilerOptions": {
-    "annotateForClosureCompiler": true,
     "enableIvy": true,
-    "enableResourceInlining": true,
     "fullTemplateTypeCheck": true,
-    "skipTemplateCodegen": true,
     "strictInjectionParameters": true,
+    "annotateForClosureCompiler": true,
+    "skipTemplateCodegen": true,
     "strictMetadataEmit": true,
-    "preserveWhiteSpace": false
+    "enableResourceInlining": true
   },
   "compileOnSave": false,
   "compilerOptions": {
@@ -36,6 +35,17 @@
     "typeRoots": ["node_modules/@types"],
     "removeComments": true
   },
-  "exclude": [".git", "functions", "node_modules", "public"],
-  "include": ["src/main.ts", "src/polyfills.ts"]
+  "exclude": [
+    "node_modules",
+    "tmp",
+    ".azure",
+    ".devops",
+    ".firebase",
+    ".vscode",
+    "coverage",
+    "dist",
+    "documentation",
+    "functions",
+    "shell"
+  ]
 }

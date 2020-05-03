@@ -3,10 +3,11 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, finalize, map } from 'rxjs/operators';
 import { IUserConfig } from 'src/app/interfaces';
+
 import {
-  CustomHttpHandlersService,
-  EHttpProgressModifier,
-} from '../http-handlers/custom-http-handlers.service';
+  EHTTP_PROGRESS_MODIFIER,
+  HttpHandlersService,
+} from '../http-handlers/http-handlers.service';
 import { WINDOW } from '../providers.config';
 
 /**
@@ -23,7 +24,7 @@ export class UserConfigService {
 
   constructor(
     private readonly http: HttpClient,
-    private readonly handlers: CustomHttpHandlersService,
+    private readonly handlers: HttpHandlersService,
     @Inject(WINDOW) private readonly win: Window,
   ) {}
 
@@ -31,12 +32,12 @@ export class UserConfigService {
    * Gets user config over http.
    */
   public getUserConfig(): Observable<IUserConfig> {
-    this.handlers.toggleHttpProgress(EHttpProgressModifier.START);
+    this.handlers.toggleHttpProgress(EHTTP_PROGRESS_MODIFIER.START);
     return this.http.get(this.url).pipe(
       catchError((error: HttpErrorResponse) => this.handlers.handleError(error)),
       map((res: IUserConfig) => res),
       finalize(() => {
-        this.handlers.toggleHttpProgress(EHttpProgressModifier.STOP);
+        this.handlers.toggleHttpProgress(EHTTP_PROGRESS_MODIFIER.STOP);
       }),
     );
   }

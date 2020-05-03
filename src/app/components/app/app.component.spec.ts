@@ -1,35 +1,43 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+
 import { DummyComponent } from '../../../mocks/components/dummy.component.mock';
 import { CustomMaterialModule } from '../../modules/material/custom-material.module';
-import { CustomHttpHandlersService } from '../../services/http-handlers/custom-http-handlers.service';
+import { HttpHandlersService } from '../../services/http-handlers/http-handlers.service';
 import { WINDOW } from '../../services/providers.config';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
-  let component: AppComponent | any;
+  let component: AppComponent;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
+    void TestBed.configureTestingModule({
       declarations: [AppComponent, DummyComponent],
       imports: [
         BrowserDynamicTestingModule,
         NoopAnimationsModule,
-        CustomMaterialModule,
+        CustomMaterialModule.forRoot(),
         FlexLayoutModule,
         RouterTestingModule.withRoutes([{ path: '', component: DummyComponent }]),
       ],
       providers: [
         { provide: WINDOW, useValue: window },
         {
-          provide: CustomHttpHandlersService,
-          useFactory: () => new CustomHttpHandlersService(),
-          deps: [],
+          provide: MatSnackBar,
+          useValue: {
+            open: (): void => null,
+          },
+        },
+        {
+          provide: HttpHandlersService,
+          useFactory: (snackBar: MatSnackBar) => new HttpHandlersService(snackBar),
+          deps: [MatSnackBar],
         },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

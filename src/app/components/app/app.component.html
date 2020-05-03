@@ -2,6 +2,6 @@
   <mat-progress-bar mode="indeterminate" aria-label="Application progress bar"> </mat-progress-bar>
 </div>
 
-<div class="content">
+<div class="content" *ngIf="datepickerLocaleChanges$ | async">
   <router-outlet></router-outlet>
 </div>

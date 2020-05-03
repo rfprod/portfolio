@@ -1,5 +1,7 @@
 import { AfterContentInit, Directive, ElementRef, HostListener, Input } from '@angular/core';
 
+const defaultLockYOffset = 10;
+
 /**
  * Autoscroll directive.
  */
@@ -7,7 +9,7 @@ import { AfterContentInit, Directive, ElementRef, HostListener, Input } from '@a
   selector: '[appAutoscroll]',
 })
 export class AutoscrollDirective implements AfterContentInit {
-  @Input() public lockYOffset = 10;
+  @Input() public lockYOffset = defaultLockYOffset;
   @Input() public observeAttributes = false;
 
   private lockAutoscroll = false;

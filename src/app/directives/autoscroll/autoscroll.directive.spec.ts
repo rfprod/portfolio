@@ -1,18 +1,19 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { timer } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
+
 import { DummyComponent } from '../../../mocks/components/dummy.component.mock';
 import { AutoscrollDirective } from './autoscroll.directive';
 
 describe('AutoscrollDirective', () => {
   let fixture: ComponentFixture<DummyComponent>;
   let debugElement: DebugElement;
-  let directive: AutoscrollDirective | any;
+  let directive: AutoscrollDirective;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
+    void TestBed.configureTestingModule({
       declarations: [DummyComponent, AutoscrollDirective],
     })
       .compileComponents()

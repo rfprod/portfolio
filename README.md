@@ -2,6 +2,11 @@
 
 [![Azure Pipelines Build Status](https://rfprod.visualstudio.com/Portfolio/_apis/build/status/Portfolio-CI)](https://rfprod.visualstudio.com/Portfolio/_build/latest?definitionId=4)
 
+| Pipeline      | Status                                                                                                                                                                                                                      |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| PR validation | [![Azure Pipeline Build Status](https://rfprod.visualstudio.com/Portfolio/_apis/build/status/PR%20Validation?branchName=master)](https://rfprod.visualstudio.com/Portfolio/_build/latest?definitionId=16&branchName=master) |
+| PROD          | [![Azure Pipeline Build Status](https://rfprod.visualstudio.com/Portfolio/_apis/build/status/PROD?branchName=master)](https://rfprod.visualstudio.com/Portfolio/_build/latest?definitionId=4&branchName=master)             |
+
 A portfolio microapp based on `Angular`, `GitHub API`.
 
 ## Requirements

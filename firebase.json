@@ -41,7 +41,7 @@
         "source": "/api/(githubAccessToken|sendEmail|githubUser|githubUserRepos|githubUserReposLanguages)"
       }
     ],
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**", "cypress/**", "src/**"],
     "public": "dist",
     "rewrites": [
       {

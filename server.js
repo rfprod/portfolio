@@ -74,7 +74,7 @@ app.use(
 /**
  * Dist.
  */
-app.use('/', express.static(cwd + '/dist/portfolio/'));
+app.use('/', express.static(cwd + '/dist/'));
 
 /**
  * Serve app index file for paths excluding provided in regX.
@@ -85,9 +85,9 @@ app.use((req, res, next) => {
   if (regX.test(req.path) || apiRegX.test(req.path)) {
     return next();
   } else if (/dist/.test(req.path)) {
-    res.sendFile(cwd + '/dist/portfolio/index.html');
+    res.sendFile(cwd + '/dist/index.html');
   } else {
-    res.redirect('/portfolio/');
+    res.redirect('/');
   }
 });
 

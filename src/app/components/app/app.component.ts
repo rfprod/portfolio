@@ -32,6 +32,7 @@ export class AppComponent implements OnInit {
 
   public ngOnInit(): void {
     this.setDatepickerLocale();
+    this.datepickerLocaleChanges$.subscribe();
   }
 
   private setDatepickerLocale(): void {

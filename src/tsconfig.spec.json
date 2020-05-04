@@ -3,7 +3,7 @@
   "compilerOptions": {
     "allowJs": true,
     "module": "commonjs",
-    "outDir": "../out-tsc/spec"
+    "outDir": "../dist/out-tsc/spec"
   },
   "files": ["test-setup.ts"],
   "include": ["**/*.spec.ts", "**/*.d.ts"]

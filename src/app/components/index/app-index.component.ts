@@ -305,7 +305,7 @@ export class AppIndexComponent {
   private getGithubRepoLanguages(repoName: string) {
     return this.githubService.getRepoLanguages(this.data.userConfig.username.github, repoName).pipe(
       tap((data: IGithubRepoLanguages) => {
-        loop: for (const [lang, value] of Object.entries(data)) {
+        loop: for (const lang of Object.keys(data)) {
           if (lang.indexOf('$') !== -1) {
             // Don't copy object properties other than languages
             break loop;

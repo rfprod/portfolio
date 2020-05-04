@@ -7,10 +7,12 @@
   "license": "MIT",
   "author": "rfprod",
   "scripts": {
+    "analyze:app": "npm run ng:build:app:stats; npx webpack-bundle-analyzer ./dist/stats-es2015.json",
     "preinstall": "rm -rf node_modules/",
     "postinstall": "npx sort-package-json && npm run ngcc",
     "ng": "ng",
     "ng:build": "ng build",
+    "ng:build:app:stats": "ng build --stats-json --configuration analyze-bundle",
     "ng:build:prod": "ng build --prod",
     "ng:e2e": "ng e2e",
     "ng:e2e:headless": "ng e2e --headless",
@@ -110,7 +112,8 @@
     "stylelint-prettier": "1.1.2",
     "ts-jest": "25.3.1",
     "ts-loader": "7.0.2",
-    "ts-node": "8.10.1"
+    "ts-node": "8.10.1",
+    "webpack-bundle-analyzer": "3.7.0"
   },
   "engines": {
     "node": ">=12.16.1",

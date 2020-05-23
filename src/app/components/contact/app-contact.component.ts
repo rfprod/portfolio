@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormBuilder, ValidatorFn, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { tap } from 'rxjs/operators';
@@ -11,16 +11,12 @@ import { SendEmailService } from 'src/app/services/send-email/send-email.service
 @Component({
   selector: 'app-contact',
   templateUrl: './app-contact.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'mat-body-1',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppContactComponent implements OnInit {
-  /**
-   * Contact form.
-   */
-  public contactForm: IContactForm;
+export class AppContactComponent {
   /**
    * Text input error message.
    */
@@ -29,6 +25,17 @@ export class AppContactComponent implements OnInit {
    * Common text validator.
    */
   private readonly textValidator: ValidatorFn = Validators.pattern(/[a-zA-Zа-яА-Я\s-.]{3,}/);
+
+  /**
+   * Contact form.
+   */
+  public readonly contactForm: IContactForm = this.fb.group({
+    name: ['', Validators.compose([Validators.required, this.textValidator])],
+    email: ['', Validators.compose([Validators.required, Validators.email])],
+    header: ['', Validators.compose([Validators.required, this.textValidator])],
+    message: ['', Validators.compose([Validators.required, this.textValidator])],
+    domain: [this.data.domain, Validators.compose([Validators.required])],
+  }) as IContactForm;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { domain: string }, // TODO
@@ -67,22 +74,5 @@ export class AppContactComponent implements OnInit {
    */
   public closeDialog(result?: unknown) {
     this.dialogRef.close(Boolean(result) ? result : 'closed');
-  }
-
-  public ngOnInit(): void {
-    this.resetForm();
-  }
-
-  /**
-   * Resets contact form.
-   */
-  private resetForm(): void {
-    this.contactForm = this.fb.group({
-      name: ['', Validators.compose([Validators.required, this.textValidator])],
-      email: ['', Validators.compose([Validators.required, Validators.email])],
-      header: ['', Validators.compose([Validators.required, this.textValidator])],
-      message: ['', Validators.compose([Validators.required, this.textValidator])],
-      domain: [this.data.domain, Validators.compose([Validators.required])],
-    }) as IContactForm;
   }
 }

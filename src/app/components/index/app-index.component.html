@@ -60,11 +60,25 @@
           fxLayoutAlign="center center"
           fxLayoutGap="5px"
         >
-          <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Company</span>
+          <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Organizations</span>
           <mat-divider fxFlex="2"></mat-divider>
-          <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">
-            <a [href]="data.githubOrgUrl$ | async" target="_blank">
-              {{ data.github.company }}
+          <span
+            fxFlex="49"
+            fxLayout="row"
+            fxLayoutAlign="start center"
+            fxLayoutGap="15px"
+            *ngIf="data.githubOrgs$ | async as orgs"
+          >
+            <a
+              *ngFor="let org of orgs"
+              [href]="org.url"
+              target="_blank"
+              matTooltip="{{ org.login }}"
+            >
+              <img
+                [ngStyle]="{ height: '42px', width: 'auto!important', 'border-radius': '5px' }"
+                [src]="org.avatar_url"
+              />
             </a>
           </span>
         </div>

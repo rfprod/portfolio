@@ -71,8 +71,7 @@ export class AppIndexComponent {
     githubLanguagesTotal: number;
     githubLanguagesRate: IGithubRepoLanguagesRate;
     githubLanguagesKeys: string[];
-    githubUserOrganizations: IGithubUserOrganization[];
-    githubOrgUrl$: BehaviorSubject<string>;
+    githubOrgs$: BehaviorSubject<IGithubUserOrganization[]>;
     publicEvents$: BehaviorSubject<IGithubUserPublicEvent<unknown>[]>;
   } = {
     profiles: [],
@@ -83,8 +82,7 @@ export class AppIndexComponent {
     githubLanguagesTotal: 0,
     githubLanguagesRate: {},
     githubLanguagesKeys: [],
-    githubUserOrganizations: [],
-    githubOrgUrl$: new BehaviorSubject<string>(''),
+    githubOrgs$: new BehaviorSubject([]),
     publicEvents$: new BehaviorSubject<IGithubUserPublicEvent<unknown>[]>([]),
   };
 
@@ -106,11 +104,6 @@ export class AppIndexComponent {
     hackerrank: true,
     languageIcons: {},
   };
-
-  /**
-   * Gets Github organizations.
-   */
-  public getGithubOrganization$;
 
   /**
    * Material dialog instance.
@@ -344,16 +337,7 @@ export class AppIndexComponent {
   private getGithubUserOrganizations() {
     return this.githubService.getUserOrganizations(this.data.userConfig.username.github).pipe(
       tap((data: IGithubUserOrganization[]) => {
-        this.data.githubUserOrganizations = data;
-        const org = this.data.github.company.trim().substring(1);
-        this.getGithubOrganization$ = this.githubService
-          .getOrganization(org)
-          .pipe(
-            tap(organization => {
-              this.data.githubOrgUrl$.next(organization.blog);
-            }),
-          )
-          .subscribe();
+        this.data.githubOrgs$.next(data);
       }),
     );
   }

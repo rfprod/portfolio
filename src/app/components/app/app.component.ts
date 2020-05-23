@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 import { HttpHandlersService } from '../../services/http-handlers/http-handlers.service';
 
@@ -19,12 +19,6 @@ export class AppComponent implements OnInit {
     map(progress => progress.loading),
   );
 
-  public readonly datepickerLocaleChanges$ = this.dateAdapter.localeChanges.pipe(
-    tap(changes => {
-      // console.warn('dateAdapter.localeChanges', changes);
-    }),
-  );
-
   constructor(
     private readonly dateAdapter: DateAdapter<Date>,
     private readonly handlers: HttpHandlersService,
@@ -32,7 +26,6 @@ export class AppComponent implements OnInit {
 
   public ngOnInit(): void {
     this.setDatepickerLocale();
-    this.datepickerLocaleChanges$.subscribe();
   }
 
   private setDatepickerLocale(): void {

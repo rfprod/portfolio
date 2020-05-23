@@ -28,10 +28,12 @@ export class HttpHandlersService {
   /**
    * Http progress state.
    */
-  public readonly httpProgress$ = new BehaviorSubject<IHttpProgress>({
+  private readonly httpProgress = new BehaviorSubject<IHttpProgress>({
     counter: 0,
     loading: false,
   });
+
+  public readonly httpProgress$ = this.httpProgress.asObservable();
 
   /**
    * Constructor.
@@ -44,10 +46,10 @@ export class HttpHandlersService {
    * @param progress http progress modifier.
    */
   public toggleHttpProgress(progress: EHTTP_PROGRESS_MODIFIER): void {
-    const newProgress = this.httpProgress$.value;
+    const newProgress = this.httpProgress.value;
     newProgress.counter = newProgress.counter + progress;
     newProgress.loading = newProgress.counter === 0 ? false : true;
-    this.httpProgress$.next(newProgress);
+    this.httpProgress.next(newProgress);
   }
 
   public getErrorMessage(error: HttpErrorResponse): string {

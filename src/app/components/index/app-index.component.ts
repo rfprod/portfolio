@@ -175,10 +175,13 @@ export class AppIndexComponent {
         domain: this.win.location.origin,
       },
     });
-    this.dialogSub = this.dialogInstance.afterClosed().subscribe(_ => {
-      this.dialogSub.unsubscribe();
-      this.dialogInstance = null;
-    });
+    this.dialogSub = this.dialogInstance.afterClosed().subscribe(
+      _ => {
+        this.dialogSub.unsubscribe();
+        this.dialogInstance = null;
+      },
+      _ => null,
+    );
   }
 
   /**
@@ -361,7 +364,7 @@ export class AppIndexComponent {
   private getGithubUserPublicEvents(username: string) {
     return this.githubService.getPublicEvents(username).pipe(
       tap((publicEventsData: IGithubUserPublicEvent<unknown>[]) => {
-        timer(0)
+        void timer(0)
           .pipe(
             tap(_ => {
               this.data.publicEvents$.next(publicEventsData);

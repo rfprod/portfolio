@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, ValidatorFn, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { tap } from 'rxjs/operators';
@@ -16,7 +16,7 @@ import { SendEmailService } from 'src/app/services/send-email/send-email.service
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppContactComponent implements OnInit, OnDestroy {
+export class AppContactComponent implements OnInit {
   /**
    * Contact form.
    */
@@ -42,7 +42,7 @@ export class AppContactComponent implements OnInit, OnDestroy {
    */
   public submitForm(): void {
     if (this.contactForm.valid && !this.contactForm.pristine) {
-      this.sendMessage().subscribe();
+      void this.sendMessage().subscribe();
     }
   }
 
@@ -72,8 +72,6 @@ export class AppContactComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.resetForm();
   }
-
-  public ngOnDestroy(): void {}
 
   /**
    * Resets contact form.

@@ -29,7 +29,7 @@ module.exports = {
 
   rules: {
     '@typescript-eslint/await-thenable': 'error',
-    '@typescript-eslint/ban-ts-ignore': 'warn',
+    '@typescript-eslint/ban-ts-ignore': 'error',
     '@typescript-eslint/ban-types': [
       'error',
       {
@@ -158,7 +158,7 @@ module.exports = {
       { ignoreStatic: true },
     ],
     'arrow-parens': ['error', 'as-needed'],
-    'compat/compat': 'warn',
+    'compat/compat': 'error',
     'constructor-super': 'error',
     complexity: ['error', 10],
     'deprecation/deprecation': 'off', // TODO: revise and turn on
@@ -183,7 +183,12 @@ module.exports = {
     'no-duplicate-imports': 'error',
     'no-else-return': 'error',
     'no-empty': 'error',
-    'no-empty-function': 'off', // keep off, handled by typescript-eslint rule
+    'no-empty-function': [
+      'error',
+      {
+        allow: ['constructors'],
+      },
+    ],
     'no-fallthrough': 'error',
     'no-eval': 'error',
     'no-extend-native': 'error',
@@ -226,18 +231,18 @@ module.exports = {
     radix: 'error',
     'require-atomic-updates': 'error',
     'require-await': 'off', // handled by typescript-eslint rule
-    'rxjs/ban-observables': 'off', // TODO: turn on
-    'rxjs/ban-operators': 'off', // TODO: turn on
-    'rxjs/no-async-subscribe': 'off', // TODO: turn on
-    'rxjs/no-ignored-error': 'off', // TODO: turn on
-    'rxjs/no-ignored-observable': 'off', // TODO: turn on
+    'rxjs/ban-observables': 'off', // keep off
+    'rxjs/ban-operators': 'off', // feep off
+    'rxjs/no-async-subscribe': 'error',
+    'rxjs/no-ignored-error': 'error',
+    'rxjs/no-ignored-observable': 'error',
     'rxjs/no-ignored-subscribe': 'off', // keep off
-    'rxjs/no-ignored-subscription': 'off', // TODO: turn on
-    'rxjs/no-internal': 'off', // TODO: turn on
-    'rxjs/no-nested-subscribe': 'off', // TODO: turn on
-    'rxjs/no-subclass': 'error', // TODO: turn on
+    'rxjs/no-ignored-subscription': 'error',
+    'rxjs/no-internal': 'error', // TODO: turn on
+    'rxjs/no-nested-subscribe': 'off',
+    'rxjs/no-subclass': 'error',
     'rxjs/no-tap': 'off', // keep off
-    'rxjs/no-exposed-subjects': 'off', // TODO: turn on
+    'rxjs/no-exposed-subjects': 'error',
     yoda: 'error',
   },
 
@@ -252,6 +257,7 @@ module.exports = {
       files: '**/*.spec.ts',
       rules: {
         'max-lines-per-function': 'off',
+        'compat/compat': 'off',
       },
     },
   ],

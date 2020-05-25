@@ -222,10 +222,6 @@ export class AppIndexComponent {
   private updateTreeData(): void {
     const TREE_DATA: ITreeNode[] = [
       {
-        name: 'Profiles',
-        children: this.data.profiles,
-      },
-      {
         name: 'Applications',
         children: [
           {
@@ -351,7 +347,7 @@ export class AppIndexComponent {
         void timer(0)
           .pipe(
             tap(_ => {
-              this.data.publicEvents$.next(publicEventsData);
+              this.data.publicEvents$.next(publicEventsData.reverse());
             }),
           )
           .subscribe();

@@ -1,161 +1,181 @@
-<div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-between" *ngIf="loadData$ | async">
-  <mat-card fxFlex="49" fxFlex.xs="100">
-    <mat-card-header>
-      <div mat-card-avatar>
-        <img
-          [ngStyle]="{ height: '50px', width: 'auto!important' }"
-          [src]="data.github.avatar_url"
-        />
-      </div>
-      <mat-card-title> {{ data.github.login }}</mat-card-title>
-      <mat-card-subtitle matTooltip="Current hireable status">
-        <div *ngIf="data.github.hireable">
-          HIREABLE
+<div fxFlex="100" fxLayout="row" fxLayoutAlign="stretch" *ngIf="loadData$ | async">
+  <div fxFlex="1 1 auto" fxFlex.xs="100" fxLayout="row wrap">
+    <mat-card fxFlex="100" class="marged">
+      <mat-card-header>
+        <div mat-card-avatar>
+          <img
+            [ngStyle]="{ height: '50px', width: 'auto!important' }"
+            [src]="data.github.avatar_url"
+          />
+        </div>
+        <mat-card-title> {{ data.github.login }}</mat-card-title>
+        <mat-card-subtitle matTooltip="Current hireable status">
+          <div *ngIf="data.github.hireable">
+            HIREABLE
+          </div>
+
+          <span *ngIf="!data.github.hireable">
+            NOT HIREABLE
+          </span>
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content fxLayout="row wrap">
+        <div fxFlex="100" fxLayout="row wrap">
+          <span fxFlex="100">Location: {{ data.github.location }}</span>
+
+          <span fxFlex="100" *ngIf="data.github.email">Email: {{ data.github.email }}</span>
+
+          <span fxFlex="100">Created: {{ data.github.created_at | date }}</span>
+
+          <span fxFlex="100">Updated: {{ data.github.updated_at | date }}</span>
+
+          <span fxFlex="100">Gists: {{ data.github.public_gists }}</span>
+
+          <span fxFlex="100">Repos: {{ data.github.public_repos }}</span>
         </div>
 
-        <span *ngIf="!data.github.hireable">
-          NOT HIREABLE
-        </span>
-      </mat-card-subtitle>
-    </mat-card-header>
-
-    <mat-card-content fxLayout="row wrap">
-      <div fxFlex="100" fxLayout="row wrap">
-        <p fxFlex="100">Location: {{ data.github.location }}</p>
-
-        <p fxFlex="100" *ngIf="data.github.email">Email: {{ data.github.email }}</p>
-
-        <p fxFlex="100">Created: {{ data.github.created_at | date }}</p>
-
-        <p fxFlex="100">Updated: {{ data.github.updated_at | date }}</p>
-
-        <p fxFlex="100">Gists: {{ data.github.public_gists }}</p>
-
-        <p fxFlex="100">Repos: {{ data.github.public_repos }}</p>
-      </div>
-
-      <div
-        fxFlex="100"
-        *ngIf="data.github.company"
-        fxLayout="row wrap"
-        fxLayoutAlign="start center"
-        fxLayoutGap="15px"
-      >
-        <h4 fxFlex="100">Organizations</h4>
-
-        <span
+        <div
           fxFlex="100"
-          fxLayout="row"
-          fxLayoutAlign="start center"
-          fxLayoutGap="15px"
-          *ngIf="data.githubOrgs$ | async as orgs"
-        >
-          <a *ngFor="let org of orgs" [href]="org.url" target="_blank" matTooltip="{{ org.login }}">
-            <img
-              [ngStyle]="{ height: '42px', width: 'auto!important', 'border-radius': '5px' }"
-              [src]="org.avatar_url"
-            />
-          </a>
-        </span>
-      </div>
-    </mat-card-content>
-
-    <mat-card-actions>
-      <button
-        *ngIf="data.github.hireable"
-        mat-icon-button
-        (click)="showContactDialog()"
-        color="primary"
-        matTooltip="Send email"
-      >
-        <mat-icon class="material-icons">email</mat-icon>
-      </button>
-    </mat-card-actions>
-  </mat-card>
-
-  <mat-card fxFlex="49" fxShow fxHide.xs>
-    <mat-card-header>
-      <mat-card-title>
-        Activity
-      </mat-card-title>
-    </mat-card-header>
-    <mat-card-content fxLayout="row wrap">
-      <div fxFlex="100" fxLayout="row wrap" class="scrollable" appAutoscroll>
-        <small
-          fxFlex="100"
-          *ngFor="let event of data.publicEvents$ | async"
+          *ngIf="data.github.company"
           fxLayout="row wrap"
           fxLayoutAlign="start center"
+          fxLayoutGap="15px"
         >
-          <mat-icon>event_note</mat-icon> {{ event.type }} - {{ event.created_at | date }}
-        </small>
-      </div>
-    </mat-card-content>
-  </mat-card>
+          <h4 fxFlex="100">Organizations</h4>
 
-  <div
-    fxFlex="100"
-    fxFlex.xs="100"
-    fxFlex.sm="100"
-    fxLayout="row wrap"
-    fxLayoutAlign="center center"
-  >
-    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center">
-      <h4>Languages</h4>
+          <span
+            fxFlex="100"
+            fxLayout="row"
+            fxLayoutAlign="start center"
+            fxLayoutGap="15px"
+            *ngIf="data.githubOrgs$ | async as orgs"
+          >
+            <a
+              *ngFor="let org of orgs"
+              [href]="org.url"
+              target="_blank"
+              matTooltip="{{ org.login }}"
+            >
+              <img
+                [ngStyle]="{ height: '42px', width: 'auto!important', 'border-radius': '5px' }"
+                [src]="org.avatar_url"
+              />
+            </a>
+          </span>
+        </div>
 
-      <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="15px">
-        <mat-grid-list
-          fxHide
-          fxShow.gt-xs="true"
+        <div
           fxFlex="100"
-          fxFlex.gt-md="1024px"
-          [cols]="data.githubLanguagesKeys.length"
-          rowHeight="1:1"
-          class="languages-reference"
+          fxLayout="row wrap"
+          fxLayoutAlign="start center"
+          fxLayoutGap="15px"
+          *ngIf="data.profiles"
         >
-          <mat-grid-tile *ngFor="let lang of data.githubLanguagesKeys" [matTooltip]="lang">
+          <h4 fxFlex="100">Profiles</h4>
+
+          <a
+            *ngFor="let profile of data.profiles"
+            [href]="profile.link"
+            [title]="profile.name"
+            target="_blank"
+            fxLayout="row"
+            fxLayoutAlign="center center"
+            fxLayoutGap="15px"
+          >
             <img
-              [src]="languageIcon(lang)"
-              [ngStyle]="{
-                'max-height': '100%',
-                'max-width': '100%',
-                height: 'auto!important',
-                width: 'auto!important'
-              }"
-              (load)="imgLoaded(lang, true)"
-              (error)="imgError(lang, true)"
-              (showImage)="showImage(lang, true)"
+              [ngStyle]="{ height: '46px', width: 'auto!important' }"
+              [src]="profile.imgRef"
+              (load)="imgLoaded(profile.name)"
+              (error)="imgError(profile.name)"
+              (showImage)="showImage(profile.name)"
             />
-            <mat-grid-tile-footer>
-              <span [ngStyle]="{ width: '100%', 'text-align': 'center', 'font-weight': 'bold' }">
-                {{ data.githubLanguages[lang] }}
-                <br />
-                {{ data.githubLanguagesRate[lang] }}%
-              </span>
-            </mat-grid-tile-footer>
-          </mat-grid-tile>
-        </mat-grid-list>
+          </a>
+        </div>
 
-        <span
-          fxHide
-          fxShow.lt-sm="true"
-          fxFlex="0 1 auto"
-          *ngFor="let lang of data.githubLanguagesKeys"
-          [ngStyle]="{ 'text-align': 'center' }"
+        <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start center">
+          <h4 fxFlex="100">Languages</h4>
+
+          <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="15px">
+            <mat-grid-list
+              fxHide
+              fxShow.gt-xs="true"
+              fxFlex="100"
+              [cols]="data.githubLanguagesKeys.length"
+              rowHeight="1:1"
+            >
+              <mat-grid-tile *ngFor="let lang of data.githubLanguagesKeys" [matTooltip]="lang">
+                <img
+                  [src]="languageIcon(lang)"
+                  [ngStyle]="{
+                    'max-height': '100%',
+                    'max-width': '100%',
+                    height: 'auto!important',
+                    width: 'auto!important'
+                  }"
+                  (load)="imgLoaded(lang, true)"
+                  (error)="imgError(lang, true)"
+                  (showImage)="showImage(lang, true)"
+                />
+                <mat-grid-tile-footer>
+                  <span
+                    [ngStyle]="{ width: '100%', 'text-align': 'center', 'font-weight': 'bold' }"
+                  >
+                    {{ data.githubLanguages[lang] }}
+                    <br />
+                    {{ data.githubLanguagesRate[lang] }}%
+                  </span>
+                </mat-grid-tile-footer>
+              </mat-grid-tile>
+            </mat-grid-list>
+
+            <span
+              fxHide
+              fxShow.lt-sm="true"
+              fxFlex="0 1 auto"
+              *ngFor="let lang of data.githubLanguagesKeys"
+              [ngStyle]="{ 'text-align': 'center' }"
+            >
+              {{ lang }}
+              <br />
+              {{ data.githubLanguages[lang] }}
+              <br />
+              {{ data.githubLanguagesRate[lang] }}%
+            </span>
+          </div>
+        </div>
+
+        <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start center">
+          <h4 fxFlex="100">Activity</h4>
+
+          <div fxFlex="100" fxLayout="row wrap" class="scrollable" appAutoscroll>
+            <small
+              fxFlex="100"
+              *ngFor="let event of data.publicEvents$ | async"
+              fxLayout="row wrap"
+              fxLayoutAlign="start center"
+            >
+              <mat-icon>event_note</mat-icon> {{ event.type }} - {{ event.created_at | date }}
+            </small>
+          </div>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button
+          *ngIf="data.github.hireable"
+          mat-icon-button
+          (click)="showContactDialog()"
+          color="primary"
+          matTooltip="Send email"
         >
-          {{ lang }}
-          <br />
-          {{ data.githubLanguages[lang] }}
-          <br />
-          {{ data.githubLanguagesRate[lang] }}%
-        </span>
-      </div>
-
-      <mat-divider fxFlex="100"></mat-divider>
-    </div>
+          <mat-icon class="material-icons">email</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
   </div>
 
-  <div fxFlex="100" *ngIf="data.github">
+  <div class="marged" fxFlex="400px" fxShow fxHide.lt-md *ngIf="data.github">
     <mat-tree [dataSource]="treeDataSource" [treeControl]="treeControl">
       <!-- This is the tree node template for leaf nodes -->
       <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>

@@ -1,4 +1,98 @@
-<div fxFlex="100" fxLayout="row wrap" *ngIf="loadData$ | async">
+<div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-between" *ngIf="loadData$ | async">
+  <mat-card fxFlex="49" fxFlex.xs="100">
+    <mat-card-header>
+      <div mat-card-avatar>
+        <img
+          [ngStyle]="{ height: '50px', width: 'auto!important' }"
+          [src]="data.github.avatar_url"
+        />
+      </div>
+      <mat-card-title> {{ data.github.login }}</mat-card-title>
+      <mat-card-subtitle matTooltip="Current hireable status">
+        <div *ngIf="data.github.hireable">
+          HIREABLE
+        </div>
+
+        <span *ngIf="!data.github.hireable">
+          NOT HIREABLE
+        </span>
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content fxLayout="row wrap">
+      <div fxFlex="100" fxLayout="row wrap">
+        <p fxFlex="100">Location: {{ data.github.location }}</p>
+
+        <p fxFlex="100" *ngIf="data.github.email">Email: {{ data.github.email }}</p>
+
+        <p fxFlex="100">Created: {{ data.github.created_at | date }}</p>
+
+        <p fxFlex="100">Updated: {{ data.github.updated_at | date }}</p>
+
+        <p fxFlex="100">Gists: {{ data.github.public_gists }}</p>
+
+        <p fxFlex="100">Repos: {{ data.github.public_repos }}</p>
+      </div>
+
+      <div
+        fxFlex="100"
+        *ngIf="data.github.company"
+        fxLayout="row wrap"
+        fxLayoutAlign="start center"
+        fxLayoutGap="15px"
+      >
+        <h4 fxFlex="100">Organizations</h4>
+
+        <span
+          fxFlex="100"
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          fxLayoutGap="15px"
+          *ngIf="data.githubOrgs$ | async as orgs"
+        >
+          <a *ngFor="let org of orgs" [href]="org.url" target="_blank" matTooltip="{{ org.login }}">
+            <img
+              [ngStyle]="{ height: '42px', width: 'auto!important', 'border-radius': '5px' }"
+              [src]="org.avatar_url"
+            />
+          </a>
+        </span>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button
+        *ngIf="data.github.hireable"
+        mat-icon-button
+        (click)="showContactDialog()"
+        color="primary"
+        matTooltip="Send email"
+      >
+        <mat-icon class="material-icons">email</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card fxFlex="49" fxShow fxHide.xs>
+    <mat-card-header>
+      <mat-card-title>
+        Activity
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content fxLayout="row wrap">
+      <div fxFlex="100" fxLayout="row wrap" class="scrollable" appAutoscroll>
+        <small
+          fxFlex="100"
+          *ngFor="let event of data.publicEvents$ | async"
+          fxLayout="row wrap"
+          fxLayoutAlign="start center"
+        >
+          <mat-icon>event_note</mat-icon> {{ event.type }} - {{ event.created_at | date }}
+        </small>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
   <div
     fxFlex="100"
     fxFlex.xs="100"
@@ -7,117 +101,6 @@
     fxLayoutAlign="center center"
   >
     <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center">
-      <span *ngIf="data.github.bio" fxFlex="100" fxLayout="row" fxLayoutAlign="center center">
-        {{ data.github.bio }}
-      </span>
-
-      <div fxFlex="100" fxLayout="row" fxLayoutAlign="center center">
-        <div fxFlex="0 1 auto">
-          {{ data.github.login }} is
-
-          <div *ngIf="data.github.hireable" title="send email">
-            HIREABLE&nbsp;
-            <button mat-icon-button (click)="showContactDialog()" color="primary">
-              <mat-icon class="material-icons">email</mat-icon>
-            </button>
-          </div>
-
-          <span *ngIf="!data.github.hireable">
-            NOT HIREABLE
-          </span>
-        </div>
-      </div>
-
-      <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center">
-        <div fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
-          <mat-divider fxFlex></mat-divider>
-          <span fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">Location</span>
-          <mat-divider fxFlex="2"></mat-divider>
-          <span fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="start center">
-            {{ data.github.location }}
-          </span>
-          <mat-divider fxFlex></mat-divider>
-        </div>
-
-        <div
-          fxFlex="100"
-          *ngIf="data.github.email"
-          fxLayout="row"
-          fxLayoutAlign="center center"
-          fxLayoutGap="5px"
-        >
-          <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Email</span>
-          <mat-divider fxFlex="2"></mat-divider>
-          <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">
-            {{ data.github.email }}
-          </span>
-        </div>
-
-        <div
-          fxFlex="100"
-          *ngIf="data.github.company"
-          fxLayout="row"
-          fxLayoutAlign="center center"
-          fxLayoutGap="5px"
-        >
-          <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Organizations</span>
-          <mat-divider fxFlex="2"></mat-divider>
-          <span
-            fxFlex="49"
-            fxLayout="row"
-            fxLayoutAlign="start center"
-            fxLayoutGap="15px"
-            *ngIf="data.githubOrgs$ | async as orgs"
-          >
-            <a
-              *ngFor="let org of orgs"
-              [href]="org.url"
-              target="_blank"
-              matTooltip="{{ org.login }}"
-            >
-              <img
-                [ngStyle]="{ height: '42px', width: 'auto!important', 'border-radius': '5px' }"
-                [src]="org.avatar_url"
-              />
-            </a>
-          </span>
-        </div>
-
-        <div fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
-          <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Created</span>
-          <mat-divider fxFlex="2"></mat-divider>
-          <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">
-            {{ data.github.created_at | date }}
-          </span>
-        </div>
-
-        <div fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
-          <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Updated</span>
-          <mat-divider fxFlex="2"></mat-divider>
-          <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">
-            {{ data.github.updated_at | date }}
-          </span>
-        </div>
-
-        <div fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
-          <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Gists</span>
-          <mat-divider fxFlex="2"></mat-divider>
-          <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">
-            {{ data.github.public_gists }}
-          </span>
-        </div>
-
-        <div fxFlex="100" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
-          <span fxFlex="49" fxLayout="row" fxLayoutAlign="end center">Repos</span>
-          <mat-divider fxFlex="2"></mat-divider>
-          <span fxFlex="49" fxLayout="row" fxLayoutAlign="start center">
-            {{ data.github.public_repos }}
-          </span>
-        </div>
-      </div>
-
-      <mat-divider fxFlex="100"></mat-divider>
-
       <h4>Languages</h4>
 
       <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="15px">
@@ -170,20 +153,6 @@
 
       <mat-divider fxFlex="100"></mat-divider>
     </div>
-
-    <h4>Activity</h4>
-
-    <div fxFlex="100" fxLayout="column" class="scrollable" appAutoscroll>
-      <small
-        fxFlex="1"
-        *ngFor="let event of data.publicEvents$ | async"
-        fxLayout="row wrap"
-        fxLayoutAlign="start center"
-      >
-        <mat-icon>event_note</mat-icon> {{ event.type }} - {{ event.created_at | date }}
-      </small>
-    </div>
-    <mat-divider fxFlex="100"></mat-divider>
   </div>
 
   <div fxFlex="100" *ngIf="data.github">

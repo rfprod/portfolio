@@ -1,10 +1,5 @@
 import { Component } from '@angular/core';
 
-/**
- * @note
- * div autoscroll should be present for Autoscroll directive testing
- * input with autofocus attribute is needed for Autofocus directive testing
- */
 @Component({
   selector: 'app-dummy-component',
   template: '<div appAutoscroll class="scrollable"><input autofocus="true" appAutofocus /></div>',

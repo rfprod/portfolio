@@ -13,7 +13,7 @@ export interface IHttpProgress {
   loading: boolean;
 }
 
-export enum EHTTP_PROGRESS_MODIFIER {
+export enum HTTP_PROGRESS_MODIFIER {
   START = -1,
   STOP = 1,
 }
@@ -45,13 +45,16 @@ export class HttpHandlersService {
    * Toggles http progress state.
    * @param progress http progress modifier.
    */
-  public toggleHttpProgress(progress: EHTTP_PROGRESS_MODIFIER): void {
+  public toggleHttpProgress(progress: HTTP_PROGRESS_MODIFIER): void {
     const newProgress = this.httpProgress.value;
     newProgress.counter = newProgress.counter + progress;
     newProgress.loading = newProgress.counter === 0 ? false : true;
     this.httpProgress.next(newProgress);
   }
 
+  /**
+   * Gets error message from error http response.
+   */
   public getErrorMessage(error: HttpErrorResponse): string {
     const msg: string = Boolean(error.message) ? error.message : error.error;
     const errorMessage: string = Boolean(msg)
@@ -72,6 +75,9 @@ export class HttpHandlersService {
     return throwError(errorMessage);
   }
 
+  /**
+   * Displays error toast.
+   */
   private displayErrorToast(error: string): void {
     const duration = 2000;
     this.snackBar.open(error, null, {

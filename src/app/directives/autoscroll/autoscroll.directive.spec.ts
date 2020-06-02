@@ -37,7 +37,7 @@ describe('AutoscrollDirective', () => {
     const elementsCount = 10;
     void timer(0, interval)
       .pipe(
-        tap(_ => {
+        tap(() => {
           const newDiv = document.createElement('div');
           newDiv.innerText = 'new div';
           const newDivHeight = newDiv.clientHeight;

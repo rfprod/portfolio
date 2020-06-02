@@ -9,7 +9,10 @@ import { appServicesModuleProviders } from './providers.config';
   providers: [...appServicesModuleProviders],
 })
 export class AppServicesModule {
-  public static forRoot(): ModuleWithProviders {
+  /**
+   * Provides services.
+   */
+  public static forRoot(): ModuleWithProviders<AppServicesModule> {
     return {
       ngModule: AppServicesModule,
       providers: [...appServicesModuleProviders],

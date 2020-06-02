@@ -23,9 +23,12 @@ import { GithubService } from 'src/app/services/github/github.service';
 import { WINDOW } from 'src/app/services/providers.config';
 import { UserConfigService } from 'src/app/services/user-config/user-config.service';
 
+/**
+ * Tree transformer.
+ */
 function transformer(node: ITreeNode, level: number) {
   return {
-    expandable: !!node.children && node.children.length > 0,
+    expandable: Boolean(node.children) && node.children.length > 0,
     name: node.name,
     link: node.link,
     imgRef: node.imgRef,
@@ -42,14 +45,11 @@ function transformer(node: ITreeNode, level: number) {
   selector: 'app-index',
   templateUrl: './app-index.component.html',
   styleUrls: ['./app-index.component.scss'],
-  host: {
-    class: 'mat-body-1',
-  },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppIndexComponent {
   public readonly loadData$ = this.githubService.getGithubAccessToken().pipe(
-    concatMap(_ => this.getUserConfig()),
+    concatMap(() => this.getUserConfig()),
     concatMap(userConfig =>
       combineLatest([this.getGithubProfile(), this.getGithubRepos()]).pipe(mapTo(userConfig)),
     ),
@@ -109,6 +109,7 @@ export class AppIndexComponent {
    * Material dialog instance.
    */
   private dialogInstance: MatDialogRef<AppContactComponent>;
+
   /**
    * Material dialog subscription.
    */
@@ -137,6 +138,9 @@ export class AppIndexComponent {
    */
   public treeDataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
+  /**
+   * Constructor.
+   */
   constructor(
     private readonly dialog: MatDialog,
     private readonly userConfigService: UserConfigService,
@@ -147,10 +151,8 @@ export class AppIndexComponent {
 
   /**
    * Resolves if tree node has a child.
-   * @param _ node index
-   * @param node node data
    */
-  public hasChild(_: number, node: IFlatNode): boolean {
+  public hasChild(index: number, node: IFlatNode): boolean {
     return node.expandable;
   }
 
@@ -169,17 +171,16 @@ export class AppIndexComponent {
       },
     });
     this.dialogSub = this.dialogInstance.afterClosed().subscribe(
-      _ => {
+      () => {
         this.dialogSub.unsubscribe();
         this.dialogInstance = null;
       },
-      _ => null,
+      () => null,
     );
   }
 
   /**
    * Image show event handler.
-   * @param imageKey image key
    */
   public showImage(imageKey: string, languageIcon = false): boolean {
     return languageIcon ? this.imgShow.languageIcons[imageKey] : this.imgShow[imageKey];
@@ -187,7 +188,6 @@ export class AppIndexComponent {
 
   /**
    * Image loaded event handler.
-   * @param imageKey image key
    */
   public imgLoaded(imageKey: string, languageIcon = false): void {
     if (languageIcon) {
@@ -199,7 +199,6 @@ export class AppIndexComponent {
 
   /**
    * Image error event handler.
-   * @param imageKey image key
    */
   public imgError(imageKey: string, languageIcon = false): void {
     if (languageIcon) {
@@ -209,6 +208,9 @@ export class AppIndexComponent {
     }
   }
 
+  /**
+   * Returns language icon.
+   */
   public languageIcon(languageName: string): SafeResourceUrl {
     const icon = this.data.userConfig.languageIcons?.find(item => item.name === languageName)?.icon;
     const imageUrl = Boolean(icon) ? icon : '';
@@ -250,6 +252,7 @@ export class AppIndexComponent {
     ];
     this.treeDataSource.data = TREE_DATA;
   }
+
   /**
    * Gets user config.
    */
@@ -292,13 +295,12 @@ export class AppIndexComponent {
 
   /**
    * Gets user Github repo languages.
-   * @param repoName repository name
    */
   private getGithubRepoLanguages(repoName: string) {
     return this.githubService.getRepoLanguages(this.data.userConfig.username.github, repoName).pipe(
       tap((data: IGithubRepoLanguages) => {
         loop: for (const lang of Object.keys(data)) {
-          if (lang.indexOf('$') !== -1) {
+          if (lang.includes('$')) {
             // Don't copy object properties other than languages
             break loop;
           }
@@ -346,7 +348,7 @@ export class AppIndexComponent {
       tap((publicEventsData: IGithubUserPublicEvent<unknown>[]) => {
         void timer(0)
           .pipe(
-            tap(_ => {
+            tap(() => {
               this.data.publicEvents$.next(publicEventsData.reverse());
             }),
           )

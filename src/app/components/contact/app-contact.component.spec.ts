@@ -13,9 +13,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { DialogRefMock } from 'src/mocks/utils/refs/dialog-ref.mock';
 
 import { DummyComponent } from '../../../mocks/components/dummy.component.mock';
-import { DialogRefMock } from '../../../mocks/utils/dialog-ref.mock';
 import { CustomMaterialModule } from '../../modules/material/custom-material.module';
 import { HttpHandlersService } from '../../services/http-handlers/http-handlers.service';
 import { WINDOW } from '../../services/providers.config';
@@ -23,7 +23,7 @@ import { SendEmailService } from '../../services/send-email/send-email.service';
 import { AppContactComponent } from './app-contact.component';
 
 describe('AppContactComponent', () => {
-  const MOCKED_MODAL_DATA: object = {};
+  const MOCKED_MODAL_DATA: Record<string, unknown> = {};
 
   let fixture: ComponentFixture<AppContactComponent>;
   let component: AppContactComponent;

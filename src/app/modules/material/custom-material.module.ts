@@ -221,6 +221,9 @@ export const customMaterialModuleProviders: Provider[] = [
   ],
 })
 export class CustomMaterialModule {
+  /**
+   * Provides services.
+   */
   public static forRoot(): ModuleWithProviders<CustomMaterialModule> {
     return {
       ngModule: CustomMaterialModule,

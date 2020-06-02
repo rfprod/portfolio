@@ -19,15 +19,24 @@ export class AppComponent implements OnInit {
     map(progress => progress.loading),
   );
 
+  /**
+   * Constructor.
+   */
   constructor(
     private readonly dateAdapter: DateAdapter<Date>,
     private readonly handlers: HttpHandlersService,
   ) {}
 
+  /**
+   * Lifecycle hook.
+   */
   public ngOnInit(): void {
     this.setDatepickerLocale();
   }
 
+  /**
+   * Sets datepicker locale.
+   */
   private setDatepickerLocale(): void {
     this.dateAdapter.setLocale('en');
   }

@@ -5,7 +5,7 @@ import { catchError, finalize, map } from 'rxjs/operators';
 import { IUserConfig } from 'src/app/interfaces';
 
 import {
-  EHTTP_PROGRESS_MODIFIER,
+  HTTP_PROGRESS_MODIFIER,
   HttpHandlersService,
 } from '../http-handlers/http-handlers.service';
 import { WINDOW } from '../providers.config';
@@ -22,6 +22,9 @@ export class UserConfigService {
    */
   private readonly url: string = `${this.win.location.origin}/assets/config.json`;
 
+  /**
+   * Constructor.
+   */
   constructor(
     private readonly http: HttpClient,
     private readonly handlers: HttpHandlersService,
@@ -32,12 +35,12 @@ export class UserConfigService {
    * Gets user config over http.
    */
   public getUserConfig(): Observable<IUserConfig> {
-    this.handlers.toggleHttpProgress(EHTTP_PROGRESS_MODIFIER.START);
+    this.handlers.toggleHttpProgress(HTTP_PROGRESS_MODIFIER.START);
     return this.http.get(this.url).pipe(
       catchError((error: HttpErrorResponse) => this.handlers.handleError(error)),
       map((res: IUserConfig) => res),
       finalize(() => {
-        this.handlers.toggleHttpProgress(EHTTP_PROGRESS_MODIFIER.STOP);
+        this.handlers.toggleHttpProgress(HTTP_PROGRESS_MODIFIER.STOP);
       }),
     );
   }

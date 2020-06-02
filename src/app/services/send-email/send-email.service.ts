@@ -5,7 +5,7 @@ import { catchError, finalize, map } from 'rxjs/operators';
 import { IMailerResponse } from 'src/app/interfaces';
 
 import {
-  EHTTP_PROGRESS_MODIFIER,
+  HTTP_PROGRESS_MODIFIER,
   HttpHandlersService,
 } from '../http-handlers/http-handlers.service';
 import { WINDOW } from '../providers.config';
@@ -22,6 +22,9 @@ export class SendEmailService {
    */
   private readonly url: string = `${this.win.location.origin}/api/sendEmail`;
 
+  /**
+   * Constructor.
+   */
   constructor(
     private readonly http: HttpClient,
     private readonly handlers: HttpHandlersService,
@@ -30,16 +33,14 @@ export class SendEmailService {
 
   /**
    * Sends email.
-   * @param formData form data
-   * TODO: formData interface
    */
   public sendEmail(formData: unknown): Observable<IMailerResponse> {
-    this.handlers.toggleHttpProgress(EHTTP_PROGRESS_MODIFIER.START);
+    this.handlers.toggleHttpProgress(HTTP_PROGRESS_MODIFIER.START);
     return this.http.post(this.url, formData).pipe(
       catchError((error: HttpErrorResponse) => this.handlers.handleError(error)),
       map((res: IMailerResponse) => res),
       finalize(() => {
-        this.handlers.toggleHttpProgress(EHTTP_PROGRESS_MODIFIER.STOP);
+        this.handlers.toggleHttpProgress(HTTP_PROGRESS_MODIFIER.STOP);
       }),
     );
   }

@@ -12,15 +12,13 @@ import { SendEmailService } from 'src/app/services/send-email/send-email.service
   selector: 'app-contact',
   templateUrl: './app-contact.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    class: 'mat-body-1',
-  },
 })
 export class AppContactComponent {
   /**
    * Text input error message.
    */
   public readonly inputError = 'Invalid input, allowed characters: a-z A-Z а-я А-Я - . spacebar';
+
   /**
    * Common text validator.
    */
@@ -37,6 +35,9 @@ export class AppContactComponent {
     domain: [this.data.domain, Validators.compose([Validators.required])],
   }) as IContactForm;
 
+  /**
+   * Constructor.
+   */
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { domain: string }, // TODO
     private readonly dialogRef: MatDialogRef<AppContactComponent>,

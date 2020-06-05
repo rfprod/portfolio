@@ -47,8 +47,8 @@ module.exports = {
     '@typescript-eslint/comma-spacing': ['error'],
     '@typescript-eslint/consistent-type-definitions': 'error',
     '@typescript-eslint/default-param-last': ['error'],
-    '@typescript-eslint/explicit-function-return-type': 'off', // keep off
-    '@typescript-eslint/explicit-module-boundary-types': 'off', // keep off
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/explicit-member-accessibility': [
       'error',
       { ignoredMethodNames: ['constructor'] },
@@ -63,7 +63,7 @@ module.exports = {
       { default: ['static-field', 'instance-field', 'static-method', 'instance-method'] },
     ],
     '@typescript-eslint/naming-convention': [
-      'warn', // TODO: refactor sources and turn on error; rule reference https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/naming-convention.md
+      'error', // TODO: refactor sources and turn on error; rule reference https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/naming-convention.md
       {
         selector: 'default',
         format: ['camelCase'],
@@ -195,21 +195,18 @@ module.exports = {
     ],
     '@typescript-eslint/prefer-optional-chain': 'error',
     '@typescript-eslint/prefer-nullish-coalescing': [
-      'warn',
+      'error',
       { ignoreConditionalTests: true, ignoreMixedLogicalExpressions: true },
     ],
-    '@typescript-eslint/promise-function-async': 'off', // keep off
-    '@typescript-eslint/require-await': 'off', // keep off
+    '@typescript-eslint/promise-function-async': 'off',
+    '@typescript-eslint/require-await': 'off',
     '@typescript-eslint/restrict-plus-operands': 'error',
     '@typescript-eslint/strict-boolean-expressions': 'error',
     '@typescript-eslint/triple-slash-reference': [
       'error',
       { path: 'never', types: 'never', lib: 'never' },
     ],
-    '@typescript-eslint/unbound-method': [
-      'off', // keep of for now
-      { ignoreStatic: true },
-    ],
+    '@typescript-eslint/unbound-method': ['error', { ignoreStatic: true }],
     'arrow-parens': ['error', 'as-needed'],
     'brace-style': 'off', // handled by @typescript-eslint rule
     'compat/compat': 'error',
@@ -217,7 +214,7 @@ module.exports = {
     'constructor-super': 'error',
     complexity: ['error', 10],
     'default-param-last': 'off', // handled by @typescript-eslint rule
-    'deprecation/deprecation': 'off', // keep of for now
+    'deprecation/deprecation': 'off',
     eqeqeq: 'error',
     'func-name-matching': ['error', 'always'],
     'guard-for-in': 'error',
@@ -260,7 +257,7 @@ module.exports = {
     'no-extra-parens': 'off', // handled by prettier
     'no-floating-decimal': 'error',
     'no-implicit-coercion': 'error',
-    'no-invalid-this': 'off', // keep off
+    'no-invalid-this': 'off',
     'no-labels': ['error', { allowSwitch: true }],
     'no-lone-blocks': 'error',
     'no-lonely-if': 'error',
@@ -298,7 +295,7 @@ module.exports = {
     'require-atomic-updates': 'error',
     'require-await': 'off', // handled by typescript-eslint rule
     'require-jsdoc': [
-      'warn',
+      'error',
       {
         require: {
           FunctionDeclaration: true,
@@ -308,17 +305,17 @@ module.exports = {
         },
       },
     ],
-    'rxjs/ban-observables': 'off', // keep off
-    'rxjs/ban-operators': 'off', // keep off
+    'rxjs/ban-observables': 'off',
+    'rxjs/ban-operators': 'off',
     'rxjs/no-async-subscribe': 'error',
-    'rxjs/no-ignored-error': 'off', // keep of
+    'rxjs/no-ignored-error': 'off',
     'rxjs/no-ignored-observable': 'error',
-    'rxjs/no-ignored-subscribe': 'off', // keep off
+    'rxjs/no-ignored-subscribe': 'off',
     'rxjs/no-ignored-subscription': 'error',
     'rxjs/no-internal': 'error',
     'rxjs/no-nested-subscribe': 'error',
     'rxjs/no-subclass': 'error',
-    'rxjs/no-tap': 'off', // keep off
+    'rxjs/no-tap': 'off',
     'rxjs/no-exposed-subjects': 'error',
     yoda: ['error', 'never'],
   },

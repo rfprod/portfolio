@@ -305,7 +305,7 @@ export class AppIndexComponent {
             break loop;
           }
           this.data.githubLanguagesTotal += data[lang];
-          if (this.data.githubLanguages.hasOwnProperty(lang)) {
+          if (this.data.githubLanguages[lang]) {
             this.data.githubLanguages[lang] += data[lang];
           } else {
             this.data.githubLanguages[lang] = data[lang];

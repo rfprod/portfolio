@@ -11,6 +11,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NgxsModule, Store } from '@ngxs/store';
+import { UserService } from 'src/app/modules/state/user/user.service';
+import { UserState } from 'src/app/modules/state/user/user.store';
 
 import { DummyComponent } from '../../../mocks/components/dummy.component.mock';
 import { CustomMaterialModule } from '../../modules/material/custom-material.module';
@@ -34,6 +37,7 @@ describe('AppIndexComponent', () => {
         HttpClientTestingModule,
         CustomMaterialModule,
         FlexLayoutModule,
+        NgxsModule.forRoot([UserState]),
         RouterTestingModule.withRoutes([{ path: '', component: DummyComponent }]),
       ],
       providers: [
@@ -61,6 +65,12 @@ describe('AppIndexComponent', () => {
             new GithubService(http, handlers, window),
           deps: [HttpClient, HttpHandlersService, WINDOW],
         },
+        {
+          provide: UserService,
+          useFactory: (store: Store, userConfig: UserConfigService, github: GithubService) =>
+            new UserService(store, userConfig, github),
+          deps: [Store, UserConfigService, GithubService],
+        },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
@@ -69,6 +79,12 @@ describe('AppIndexComponent', () => {
         fixture = TestBed.createComponent(AppIndexComponent);
         component = fixture.componentInstance;
         httpController = TestBed.inject(HttpTestingController);
+        httpController
+          .match((req: HttpRequest<unknown>): boolean => true)
+          .forEach((req: TestRequest) => {
+            req.flush({});
+          });
+        fixture.detectChanges();
       });
   }));
 

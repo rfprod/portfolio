@@ -4,24 +4,13 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { BehaviorSubject, combineLatest, Observable, Subscription, timer } from 'rxjs';
-import { concatMap, mapTo, tap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { AppContactComponent } from 'src/app/components/contact/app-contact.component';
-import {
-  IFlatNode,
-  IGithubRepoLanguages,
-  IGithubRepoLanguagesRate,
-  IGithubUserOrganization,
-  IGithubUserPublicEvent,
-  IGithubUserRepo,
-  IGuthubUser,
-  ITreeNode,
-  IUserConfig,
-  IUserConfigProfile,
-} from 'src/app/interfaces';
-import { GithubService } from 'src/app/services/github/github.service';
+import { IFlatNode, ITreeNode, IUserConfig } from 'src/app/interfaces';
 import { WINDOW } from 'src/app/services/providers.config';
-import { UserConfigService } from 'src/app/services/user-config/user-config.service';
+
+import { UserService } from '../../modules/state/user/user.service';
 
 /**
  * Tree transformer.
@@ -48,43 +37,20 @@ function transformer(node: ITreeNode, level: number) {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppIndexComponent {
-  public readonly loadData$ = this.githubService.getGithubAccessToken().pipe(
-    concatMap(() => this.getUserConfig()),
-    concatMap(userConfig =>
-      combineLatest([this.getGithubProfile(), this.getGithubRepos()]).pipe(mapTo(userConfig)),
-    ),
-    concatMap(userConfig => this.getGithubUserOrganizations().pipe(mapTo(userConfig))),
-    concatMap(userConfig =>
-      this.getGithubUserPublicEvents(userConfig.username.github).pipe(mapTo(userConfig)),
-    ),
-  );
+  /**
+   * User data.
+   */
+  public data$ = this.user.userData$;
 
   /**
-   * Component data.
+   * Github orgs..
    */
-  public data: {
-    profiles: IUserConfigProfile[];
-    userConfig: IUserConfig;
-    github: IGuthubUser;
-    githubRepos: IGithubUserRepo[];
-    githubLanguages: IGithubRepoLanguages;
-    githubLanguagesTotal: number;
-    githubLanguagesRate: IGithubRepoLanguagesRate;
-    githubLanguagesKeys: string[];
-    githubOrgs$: BehaviorSubject<IGithubUserOrganization[]>;
-    publicEvents$: BehaviorSubject<IGithubUserPublicEvent<unknown>[]>;
-  } = {
-    profiles: [],
-    userConfig: null,
-    github: null,
-    githubRepos: [],
-    githubLanguages: {},
-    githubLanguagesTotal: 0,
-    githubLanguagesRate: {},
-    githubLanguagesKeys: [],
-    githubOrgs$: new BehaviorSubject([]),
-    publicEvents$: new BehaviorSubject<IGithubUserPublicEvent<unknown>[]>([]),
-  };
+  public githubOrgs$ = this.user.githubOrgs$;
+
+  /**
+   * Public events.
+   */
+  public publicEvents$ = this.user.publicEvents$;
 
   /**
    * Images 'show' state.
@@ -143,11 +109,19 @@ export class AppIndexComponent {
    */
   constructor(
     private readonly dialog: MatDialog,
-    private readonly userConfigService: UserConfigService,
-    private readonly githubService: GithubService,
     private readonly domSanitizer: DomSanitizer,
+    private readonly user: UserService,
     @Inject(WINDOW) private readonly win: Window,
-  ) {}
+  ) {
+    void this.user
+      .getUserData()
+      .pipe(
+        tap(data => {
+          this.updateTreeData(data.userConfig);
+        }),
+      )
+      .subscribe();
+  }
 
   /**
    * Resolves if tree node has a child.
@@ -211,17 +185,28 @@ export class AppIndexComponent {
   /**
    * Returns language icon.
    */
-  public languageIcon(languageName: string): SafeResourceUrl {
-    const icon = this.data.userConfig.languageIcons?.find(item => item.name === languageName)?.icon;
-    const imageUrl = Boolean(icon) ? icon : '';
-    const url = this.domSanitizer.bypassSecurityTrustUrl(imageUrl);
-    return url;
+  public languageIcon$(
+    githubLangKeys: string[],
+  ): Observable<{ url: SafeResourceUrl; key: string }[]> {
+    return this.user.languageIcons$.pipe(
+      map(languageIcons => {
+        const result: { url: SafeResourceUrl; key: string }[] = [];
+        for (const key of githubLangKeys) {
+          const icon = languageIcons?.find(item => item.name === key)?.icon;
+          const imageUrl = Boolean(icon) ? icon : '';
+          const url = this.domSanitizer.bypassSecurityTrustUrl(imageUrl);
+          const obj = { key, url };
+          result.push(obj);
+        }
+        return result;
+      }),
+    );
   }
 
   /**
    * Updates tree data with new values.
    */
-  private updateTreeData(): void {
+  private updateTreeData(userConfig: IUserConfig): void {
     const TREE_DATA: ITreeNode[] = [
       {
         name: 'Applications',
@@ -229,131 +214,21 @@ export class AppIndexComponent {
           {
             name: 'AngularJS',
             children:
-              'apps' in this.data.userConfig
-                ? this.data.userConfig.apps.filter(item => item.tag === 'angularjs')
-                : [],
+              'apps' in userConfig ? userConfig.apps.filter(item => item.tag === 'angularjs') : [],
           },
           {
             name: 'Angular',
             children:
-              'apps' in this.data.userConfig
-                ? this.data.userConfig.apps.filter(item => item.tag === 'angular')
-                : [],
+              'apps' in userConfig ? userConfig.apps.filter(item => item.tag === 'angular') : [],
           },
           {
             name: 'Other',
             children:
-              'apps' in this.data.userConfig
-                ? this.data.userConfig.apps.filter(item => item.tag === 'other')
-                : [],
+              'apps' in userConfig ? userConfig.apps.filter(item => item.tag === 'other') : [],
           },
         ],
       },
     ];
     this.treeDataSource.data = TREE_DATA;
-  }
-
-  /**
-   * Gets user config.
-   */
-  private getUserConfig() {
-    return this.userConfigService.getUserConfig().pipe(
-      tap((data: IUserConfig) => {
-        this.data.userConfig = data;
-        this.data.profiles = data.profiles;
-        this.updateTreeData();
-      }),
-    );
-  }
-
-  /**
-   * Gets user Github profile.
-   */
-  private getGithubProfile() {
-    return this.githubService.getProfile(this.data.userConfig.username.github).pipe(
-      tap((data: IGuthubUser) => {
-        this.data.github = data;
-      }),
-    );
-  }
-
-  /**
-   * Gets user Github repos.
-   */
-  private getGithubRepos() {
-    return this.githubService.getRepos(this.data.userConfig.username.github).pipe(
-      concatMap((data: IGithubUserRepo[]) => {
-        this.data.githubRepos = data;
-        const languageObservables: Observable<IGithubRepoLanguages>[] = [];
-        for (let i = 0, max = this.data.githubRepos.length; i < max; i = i + 1) {
-          languageObservables.push(this.getGithubRepoLanguages(this.data.githubRepos[i].name));
-        }
-        return combineLatest(languageObservables);
-      }),
-    );
-  }
-
-  /**
-   * Gets user Github repo languages.
-   */
-  private getGithubRepoLanguages(repoName: string) {
-    return this.githubService.getRepoLanguages(this.data.userConfig.username.github, repoName).pipe(
-      tap((data: IGithubRepoLanguages) => {
-        loop: for (const lang of Object.keys(data)) {
-          if (lang.includes('$')) {
-            // Don't copy object properties other than languages
-            break loop;
-          }
-          this.data.githubLanguagesTotal += data[lang];
-          if (this.data.githubLanguages[lang]) {
-            this.data.githubLanguages[lang] += data[lang];
-          } else {
-            this.data.githubLanguages[lang] = data[lang];
-          }
-          this.data.githubLanguagesKeys = Object.keys(this.data.githubLanguages);
-
-          const languageIconsInitialValue: { [key: string]: boolean } = {};
-          this.imgShow.languageIcons = this.data.githubLanguagesKeys.reduce((accumulator, key) => {
-            accumulator[key] = true;
-            return accumulator;
-          }, languageIconsInitialValue);
-
-          const percentMultiplier = 100;
-          const fixedFactor = 2;
-          this.data.githubLanguagesRate[lang] = (
-            (this.data.githubLanguages[lang] * percentMultiplier) /
-            this.data.githubLanguagesTotal
-          ).toFixed(fixedFactor);
-        }
-      }),
-    );
-  }
-
-  /**
-   * Gets Github user organizations.
-   */
-  private getGithubUserOrganizations() {
-    return this.githubService.getUserOrganizations(this.data.userConfig.username.github).pipe(
-      tap((data: IGithubUserOrganization[]) => {
-        this.data.githubOrgs$.next(data);
-      }),
-    );
-  }
-
-  /**
-   * Gets GitHub public events.
-   */
-  private getGithubUserPublicEvents(username: string) {
-    return this.githubService.getPublicEvents(username).pipe(
-      tap((publicEventsData: IGithubUserPublicEvent<unknown>[]) => {
-        void timer(0)
-          .pipe(
-            tap(() => {
-              this.data.publicEvents$.next(publicEventsData.reverse());
-            }),
-          )
-          .subscribe();
-      }),
-    );
   }
 }

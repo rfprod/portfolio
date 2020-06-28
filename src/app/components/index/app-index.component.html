@@ -1,6 +1,6 @@
-<div fxFlex="100" fxLayout="row" fxLayoutAlign="stretch" *ngIf="loadData$ | async">
+<div fxFlex="100" fxLayout="row" fxLayoutAlign="stretch" *ngIf="data$ | async as data">
   <div fxFlex="1 1 auto" fxFlex.xs="100" fxLayout="row wrap">
-    <mat-card fxFlex="100" class="marged">
+    <mat-card fxFlex="100" class="marged" *ngIf="data.github">
       <mat-card-header>
         <div mat-card-avatar>
           <img
@@ -49,7 +49,7 @@
             fxLayout="row"
             fxLayoutAlign="start center"
             fxLayoutGap="15px"
-            *ngIf="data.githubOrgs$ | async as orgs"
+            *ngIf="githubOrgs$ | async as orgs"
           >
             <a
               *ngFor="let org of orgs"
@@ -101,29 +101,30 @@
               fxHide
               fxShow.gt-xs="true"
               fxFlex="100"
+              *ngIf="languageIcon$(data.githubLanguagesKeys) | async as githubLangs"
               [cols]="data.githubLanguagesKeys.length"
               rowHeight="1:1"
             >
-              <mat-grid-tile *ngFor="let lang of data.githubLanguagesKeys" [matTooltip]="lang">
+              <mat-grid-tile *ngFor="let githubLang of githubLangs" [matTooltip]="githubLang.key">
                 <img
-                  [src]="languageIcon(lang)"
+                  [src]="githubLang.url"
                   [ngStyle]="{
                     'max-height': '100%',
                     'max-width': '100%',
                     height: 'auto!important',
                     width: 'auto!important'
                   }"
-                  (load)="imgLoaded(lang, true)"
-                  (error)="imgError(lang, true)"
-                  (showImage)="showImage(lang, true)"
+                  (load)="imgLoaded(githubLang.key, true)"
+                  (error)="imgError(githubLang.key, true)"
+                  (showImage)="showImage(githubLang.key, true)"
                 />
                 <mat-grid-tile-footer>
                   <span
                     [ngStyle]="{ width: '100%', 'text-align': 'center', 'font-weight': 'bold' }"
                   >
-                    {{ data.githubLanguages[lang] }}
+                    {{ data.githubLanguages[githubLang.key] }}
                     <br />
-                    {{ data.githubLanguagesRate[lang] }}%
+                    {{ data.githubLanguagesRate[githubLang.key] }}%
                   </span>
                 </mat-grid-tile-footer>
               </mat-grid-tile>
@@ -151,7 +152,7 @@
           <div fxFlex="100" fxLayout="row wrap" class="scrollable" appAutoscroll>
             <small
               fxFlex="100"
-              *ngFor="let event of data.publicEvents$ | async"
+              *ngFor="let event of publicEvents$ | async"
               fxLayout="row wrap"
               fxLayoutAlign="start center"
             >

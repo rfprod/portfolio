@@ -30,15 +30,6 @@ function setupWindowResizeToMock() {
   });
 }
 
-function setupWindowCustomElementsMock() {
-  Object.defineProperty(window, 'customElements', {
-    value: {
-      define: jest.fn(),
-    },
-    writable: false,
-  });
-}
-
 function setupWindowGetComputedStyleMock() {
   Object.defineProperty(window, 'getComputedStyle', {
     value: () => {
@@ -69,7 +60,6 @@ export function setupJsdomWindowMocks() {
   setupLocalStorageMock();
   setupWindowMatchMediaMock();
   setupWindowResizeToMock();
-  setupWindowCustomElementsMock();
   setupWindowGetComputedStyleMock();
   setupWindowCreateObjectUrlMock();
   setupWindowYamapsMock();

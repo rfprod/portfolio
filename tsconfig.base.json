@@ -18,7 +18,7 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": false,
     "lib": ["es2018", "dom", "esnext.asynciterable"],
-    "module": "esnext",
+    "module": "es2020",
     "moduleResolution": "node",
     "noUnusedLocals": true,
     "declaration": false,

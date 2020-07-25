@@ -1,10 +1,10 @@
 {
-  "extends": "../tsconfig.base.json",
   "compilerOptions": {
     "allowJs": true,
     "module": "commonjs",
     "outDir": "../dist/out-tsc/spec"
   },
+  "extends": "../tsconfig.base.json",
   "files": ["test-setup.ts"],
   "include": ["**/*.spec.ts", "**/*.d.ts"]
 }

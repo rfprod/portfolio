@@ -131,21 +131,24 @@ export class UserService implements IUserService {
         this.store.selectOnce(USER_STATE_TOKEN).pipe(map(state => ({ state, data }))),
       ),
       map(({ state, data }) => {
+        const githubLanguages = { ...state.githubLanguages };
+        const githubLanguagesRate = { ...state.githubLanguagesRate };
+        const imgShow = { ...state.imgShow };
+        let githubLanguagesKeys = Object.keys(githubLanguages);
+        let githubLanguagesTotal = state.githubLanguagesTotal;
         // eslint-disable-next-line no-labels
         loop: for (const lang of Object.keys(data)) {
           if (lang.includes('$')) {
             // eslint-disable-next-line no-labels
             break loop;
           }
-          const githubLanguagesTotal = state.githubLanguagesTotal + data[lang];
-          const githubLanguages = { ...state.githubLanguages };
+          githubLanguagesTotal += data[lang];
           githubLanguages[lang] = githubLanguages[lang]
             ? githubLanguages[lang] + data[lang]
             : data[lang];
 
-          const githubLanguagesKeys = Object.keys(githubLanguages);
+          githubLanguagesKeys = Object.keys(githubLanguages);
 
-          const imgShow = { ...state.imgShow };
           imgShow.languageIcons = githubLanguagesKeys.reduce((accumulator, key: string) => {
             accumulator[key] = true;
             return accumulator;
@@ -154,22 +157,20 @@ export class UserService implements IUserService {
           const multiplier = 100;
           const fixed = 2;
 
-          const githubLanguagesRate = { ...state.githubLanguagesRate };
           githubLanguagesRate[lang] = (
             (githubLanguages[lang] * multiplier) /
             githubLanguagesTotal
           ).toFixed(fixed);
-
-          void this.store.dispatch(
-            new userActions.setUserState({
-              githubLanguagesTotal,
-              githubLanguages,
-              imgShow,
-              githubLanguagesKeys,
-              githubLanguagesRate,
-            }),
-          );
         }
+        void this.store.dispatch(
+          new userActions.setUserState({
+            githubLanguagesTotal,
+            githubLanguages,
+            imgShow,
+            githubLanguagesKeys,
+            githubLanguagesRate,
+          }),
+        );
         return data;
       }),
     );

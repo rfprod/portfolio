@@ -41,16 +41,6 @@
       }
     },
     {
-      "imgRef": "assets/angular-logo.svg",
-      "name": "Password manager",
-      "tag": "angular",
-      "urls": {
-        "android": "",
-        "repo": "https://github.com/rfprod/password-manager",
-        "web": "https://rfprod.github.io/password-manager"
-      }
-    },
-    {
       "imgRef": "assets/heroku-logo.svg",
       "name": "WhoAmI microservice",
       "tag": "angularjs",

@@ -89,7 +89,7 @@ const CUSTOM_DATE_FORMATS = {
 /**
  * Custom Material Module providers.
  */
-export const customMaterialModuleProviders: Provider[] = [
+export const appMaterialModuleProviders: Provider[] = [
   MatIconRegistry,
   {
     provide: MAT_TOOLTIP_DEFAULT_OPTIONS,
@@ -220,14 +220,14 @@ export const customMaterialModuleProviders: Provider[] = [
     ScrollingModule,
   ],
 })
-export class CustomMaterialModule {
+export class AppMaterialModule {
   /**
    * Provides services.
    */
-  public static forRoot(): ModuleWithProviders<CustomMaterialModule> {
+  public static forRoot(): ModuleWithProviders<AppMaterialModule> {
     return {
-      ngModule: CustomMaterialModule,
-      providers: customMaterialModuleProviders,
+      ngModule: AppMaterialModule,
+      providers: appMaterialModuleProviders,
     };
   }
 }

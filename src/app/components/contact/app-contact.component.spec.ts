@@ -16,7 +16,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { DialogRefMock } from 'src/mocks/utils/refs/dialog-ref.mock';
 
 import { DummyComponent } from '../../../mocks/components/dummy.component.mock';
-import { CustomMaterialModule } from '../../modules/material/custom-material.module';
+import { AppMaterialModule } from '../../modules/material/material.module';
 import { HttpHandlersService } from '../../services/http-handlers/http-handlers.service';
 import { WINDOW } from '../../services/providers.config';
 import { SendEmailService } from '../../services/send-email/send-email.service';
@@ -38,7 +38,7 @@ describe('AppContactComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         HttpClientTestingModule,
-        CustomMaterialModule,
+        AppMaterialModule,
         FlexLayoutModule,
         RouterTestingModule.withRoutes([{ path: '', component: DummyComponent }]),
       ],

@@ -7,7 +7,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { DummyComponent } from '../../../mocks/components/dummy.component.mock';
-import { CustomMaterialModule } from '../../modules/material/custom-material.module';
+import { AppMaterialModule } from '../../modules/material/material.module';
 import { HttpHandlersService } from '../../services/http-handlers/http-handlers.service';
 import { WINDOW } from '../../services/providers.config';
 import { AppComponent } from './app.component';
@@ -22,7 +22,7 @@ describe('AppComponent', () => {
       imports: [
         BrowserDynamicTestingModule,
         NoopAnimationsModule,
-        CustomMaterialModule.forRoot(),
+        AppMaterialModule.forRoot(),
         FlexLayoutModule,
         RouterTestingModule.withRoutes([{ path: '', component: DummyComponent }]),
       ],

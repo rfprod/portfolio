@@ -8,15 +8,15 @@ import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 import { NgxsModule } from '@ngxs/store';
-import { environment } from 'src/environments/environment';
 
+import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './components/app/app.component';
 import { AppContactComponent } from './components/contact/app-contact.component';
 import { AppIndexComponent } from './components/index/app-index.component';
 import { AutofocusDirective } from './directives/autofocus/autofocus.directive';
 import { AutoscrollDirective } from './directives/autoscroll/autoscroll.directive';
-import { CustomMaterialModule } from './modules/material/custom-material.module';
+import { AppMaterialModule } from './modules/material/material.module';
 import { UserStoreModule } from './modules/state/user/user.module';
 import { AppServicesModule } from './services/app-services.module';
 
@@ -24,14 +24,6 @@ import { AppServicesModule } from './services/app-services.module';
  * Root application module.
  */
 @NgModule({
-  declarations: [
-    AppComponent,
-    AppIndexComponent,
-    AppContactComponent,
-    AutofocusDirective,
-    AutoscrollDirective,
-  ],
-  entryComponents: [AppContactComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -42,12 +34,20 @@ import { AppServicesModule } from './services/app-services.module';
     NgxsModule.forRoot([], { developmentMode: !environment.production }),
     NgxsRouterPluginModule.forRoot(),
     NgxsFormPluginModule.forRoot(),
-    environment.production ? null : NgxsLoggerPluginModule.forRoot(),
+    environment.production ? [] : NgxsLoggerPluginModule.forRoot(),
     UserStoreModule,
-    CustomMaterialModule.forRoot(),
+    AppMaterialModule.forRoot(),
     AppServicesModule.forRoot(),
     AppRoutingModule,
   ],
+  declarations: [
+    AppComponent,
+    AppIndexComponent,
+    AppContactComponent,
+    AutofocusDirective,
+    AutoscrollDirective,
+  ],
+  entryComponents: [AppContactComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],
 })

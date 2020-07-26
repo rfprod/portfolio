@@ -16,7 +16,7 @@ import { UserService } from 'src/app/modules/state/user/user.service';
 import { UserState } from 'src/app/modules/state/user/user.store';
 
 import { DummyComponent } from '../../../mocks/components/dummy.component.mock';
-import { CustomMaterialModule } from '../../modules/material/custom-material.module';
+import { AppMaterialModule } from '../../modules/material/material.module';
 import { GithubService } from '../../services/github/github.service';
 import { HttpHandlersService } from '../../services/http-handlers/http-handlers.service';
 import { WINDOW } from '../../services/providers.config';
@@ -35,7 +35,7 @@ describe('AppIndexComponent', () => {
         BrowserDynamicTestingModule,
         NoopAnimationsModule,
         HttpClientTestingModule,
-        CustomMaterialModule,
+        AppMaterialModule,
         FlexLayoutModule,
         NgxsModule.forRoot([UserState]),
         RouterTestingModule.withRoutes([{ path: '', component: DummyComponent }]),

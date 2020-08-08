@@ -107,7 +107,8 @@
     { "name": "Shell", "icon": "assets/bash-logo.svg" },
     { "name": "HTML", "icon": "assets/html-logo.svg" },
     { "name": "CSS", "icon": "assets/css-logo.svg" },
-    { "name": "Dockerfile", "icon": "assets/docker-logo.svg" }
+    { "name": "Dockerfile", "icon": "assets/docker-logo.svg" },
+    { "name": "Java", "icon": "assets/java-logo.svg" }
   ],
   "profiles": [
     {

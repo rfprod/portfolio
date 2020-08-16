@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
 
-import { AppIndexComponent } from './components/index/app-index.component';
+import { AppIndexComponent } from './components/index/index.component';
 
 /**
  * Application routes config.

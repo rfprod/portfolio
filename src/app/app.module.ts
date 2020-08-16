@@ -11,9 +11,9 @@ import { NgxsModule } from '@ngxs/store';
 
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './components/app/app.component';
-import { AppContactComponent } from './components/contact/app-contact.component';
-import { AppIndexComponent } from './components/index/app-index.component';
+import { AppContactComponent } from './components/contact/contact.component';
+import { AppIndexComponent } from './components/index/index.component';
+import { AppRootComponent } from './components/root/root.component';
 import { AutofocusDirective } from './directives/autofocus/autofocus.directive';
 import { AutoscrollDirective } from './directives/autoscroll/autoscroll.directive';
 import { AppMaterialModule } from './modules/material/material.module';
@@ -41,7 +41,7 @@ import { AppServicesModule } from './services/app-services.module';
     AppRoutingModule,
   ],
   declarations: [
-    AppComponent,
+    AppRootComponent,
     AppIndexComponent,
     AppContactComponent,
     AutofocusDirective,
@@ -49,6 +49,6 @@ import { AppServicesModule } from './services/app-services.module';
   ],
   entryComponents: [AppContactComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  bootstrap: [AppComponent],
+  bootstrap: [AppRootComponent],
 })
 export class AppModule {}

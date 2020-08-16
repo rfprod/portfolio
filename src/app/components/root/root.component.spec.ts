@@ -10,15 +10,15 @@ import { DummyComponent } from '../../../mocks/components/dummy.component.mock';
 import { AppMaterialModule } from '../../modules/material/material.module';
 import { HttpHandlersService } from '../../services/http-handlers/http-handlers.service';
 import { WINDOW } from '../../services/providers.config';
-import { AppComponent } from './app.component';
+import { AppRootComponent } from './root.component';
 
-describe('AppComponent', () => {
-  let fixture: ComponentFixture<AppComponent>;
-  let component: AppComponent;
+describe('AppRootComponent', () => {
+  let fixture: ComponentFixture<AppRootComponent>;
+  let component: AppRootComponent;
 
   beforeEach(async(() => {
     void TestBed.configureTestingModule({
-      declarations: [AppComponent, DummyComponent],
+      declarations: [AppRootComponent, DummyComponent],
       imports: [
         BrowserDynamicTestingModule,
         NoopAnimationsModule,
@@ -44,7 +44,7 @@ describe('AppComponent', () => {
     })
       .compileComponents()
       .then(() => {
-        fixture = TestBed.createComponent(AppComponent);
+        fixture = TestBed.createComponent(AppRootComponent);
         component = fixture.componentInstance;
       });
   }));

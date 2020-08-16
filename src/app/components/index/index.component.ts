@@ -6,7 +6,7 @@ import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree'
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { AppContactComponent } from 'src/app/components/contact/app-contact.component';
+import { AppContactComponent } from 'src/app/components/contact/contact.component';
 import { IFlatNode, ITreeNode, IUserConfig } from 'src/app/interfaces';
 import { WINDOW } from 'src/app/services/providers.config';
 
@@ -32,8 +32,8 @@ function transformer(node: ITreeNode, level: number) {
  */
 @Component({
   selector: 'app-index',
-  templateUrl: './app-index.component.html',
-  styleUrls: ['./app-index.component.scss'],
+  templateUrl: './index.component.html',
+  styleUrls: ['./index.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppIndexComponent {

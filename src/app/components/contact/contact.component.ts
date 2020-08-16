@@ -10,7 +10,7 @@ import { SendEmailService } from 'src/app/services/send-email/send-email.service
  */
 @Component({
   selector: 'app-contact',
-  templateUrl: './app-contact.component.html',
+  templateUrl: './contact.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppContactComponent {

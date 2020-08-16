@@ -20,7 +20,7 @@ import { AppMaterialModule } from '../../modules/material/material.module';
 import { HttpHandlersService } from '../../services/http-handlers/http-handlers.service';
 import { WINDOW } from '../../services/providers.config';
 import { SendEmailService } from '../../services/send-email/send-email.service';
-import { AppContactComponent } from './app-contact.component';
+import { AppContactComponent } from './contact.component';
 
 describe('AppContactComponent', () => {
   const MOCKED_MODAL_DATA: Record<string, unknown> = {};

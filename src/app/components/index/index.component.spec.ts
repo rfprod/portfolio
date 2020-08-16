@@ -21,7 +21,7 @@ import { GithubService } from '../../services/github/github.service';
 import { HttpHandlersService } from '../../services/http-handlers/http-handlers.service';
 import { WINDOW } from '../../services/providers.config';
 import { UserConfigService } from '../../services/user-config/user-config.service';
-import { AppIndexComponent } from './app-index.component';
+import { AppIndexComponent } from './index.component';
 
 describe('AppIndexComponent', () => {
   let fixture: ComponentFixture<AppIndexComponent>;

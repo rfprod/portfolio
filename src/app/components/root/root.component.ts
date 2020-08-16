@@ -9,11 +9,11 @@ import { HttpHandlersService } from '../../services/http-handlers/http-handlers.
  */
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  templateUrl: './root.component.html',
+  styleUrls: ['./root.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent implements OnInit {
+export class AppRootComponent implements OnInit {
   public readonly showSpinner$ = this.handlers.httpProgress$.pipe(
     filter(progress => typeof progress.loading === 'boolean'),
     map(progress => progress.loading),

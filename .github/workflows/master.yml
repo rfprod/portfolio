@@ -7,6 +7,10 @@ on:
   push:
     branches: [master]
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   build-test:
     runs-on: ubuntu-latest
@@ -48,8 +52,36 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm i -g typescript @angular/cli
-      - run: yarn install --frozen-lockfile
-      - run: ng lint
-      - run: ng test --passWithNoTests --coverage=false --watch=false --maxWorkers=2 --ci --updateSnapshot
-      - run: ng build
+
+      - name: Install global dependencies
+        run: npm i -g typescript @angular/cli firebase-tools @compodoc/ngd-cli
+
+      - name: Install project dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Lint
+        run: ng lint
+
+      - name: Unit test
+        run: ng test --passWithNoTests --coverage=false --watch=false --maxWorkers=2 --ci --updateSnapshot
+
+      - name: Set environment variables
+        run: bash shell/set-env.sh $GITHUB_ACCESS_TOKEN $MAILER_HOST $MAILER_PORT $MAILER_EMAIL $MAILER_CLIENT_ID $MAILER_CLIENT_SECRET $MAILER_REFRESH_TOKEN $MAILER_ACCESS_TOKEN $MAILER_RECIPIENT_EMAIL
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+          MAILER_HOST: ${{ secrets.MAILER_HOST }}
+          MAILER_PORT: ${{ secrets.MAILER_PORT }}
+          MAILER_EMAIL: ${{ secrets.MAILER_EMAIL }}
+          MAILER_CLIENT_ID: ${{ secrets.MAILER_CLIENT_ID }}
+          MAILER_CLIENT_SECRET: ${{ secrets.MAILER_CLIENT_SECRET }}
+          MAILER_REFRESH_TOKEN: ${{ secrets.MAILER_REFRESH_TOKEN }}
+          MAILER_ACCESS_TOKEN: ${{ secrets.MAILER_ACCESS_TOKEN }}
+          MAILER_RECIPIENT_EMAIL: ${{ secrets.MAILER_RECIPIENT_EMAIL }}
+
+      - name: Buld
+        run: ng build --prod
+
+      - name: Deploy
+        run: firebase deploy --only hosting --token "$FIREBASE_DEPLOY_TOKEN" || exit 1
+        env:
+          FIREBASE_DEPLOY_TOKEN: ${{ secrets.FIREBASE_DEPLOY_TOKEN }}

@@ -1,7 +1,6 @@
 # Portfolio
 
 ![PR validation](https://github.com/rfprod/portfolio/workflows/PR%20validation/badge.svg)
-
 ![Master](https://github.com/rfprod/portfolio/workflows/Master/badge.svg)
 
 ## Requirements

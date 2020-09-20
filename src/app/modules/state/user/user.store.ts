@@ -14,12 +14,12 @@ export const USER_STATE_TOKEN = new StateToken<IUserState>('user');
   name: USER_STATE_TOKEN,
   defaults: {
     profiles: [],
-    userConfig: null,
-    github: null,
+    userConfig: void 0,
+    github: void 0,
     githubRepos: [],
-    githubLanguages: null,
+    githubLanguages: void 0,
     githubLanguagesTotal: 0,
-    githubLanguagesRate: null,
+    githubLanguagesRate: void 0,
     githubLanguagesKeys: [],
     imgShow: {
       github: true,

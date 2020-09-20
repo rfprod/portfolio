@@ -15,7 +15,7 @@
         matInput
         type="text"
         name="name"
-        [formControl]="contactForm.controls.name"
+        formControlName="name"
         placeholder="Your name"
         [autofocus]="true"
         appAutofocus
@@ -30,7 +30,7 @@
         matInput
         type="text"
         name="email"
-        [formControl]="contactForm.controls.email"
+        formControlName="email"
         placeholder="Your email address"
       />
       <mat-error *ngIf="contactForm.controls.email.invalid" class="mat-body-1">
@@ -43,7 +43,7 @@
         matInput
         type="text"
         name="header"
-        [formControl]="contactForm.controls.header"
+        formControlName="header"
         placeholder="Email header"
       />
       <mat-error *ngIf="contactForm.controls.header.invalid" class="mat-body-1">
@@ -56,7 +56,7 @@
         matInput
         type="text"
         name="message"
-        [formControl]="contactForm.controls.message"
+        formControlName="message"
         placeholder="Email message text"
       ></textarea>
       <mat-error *ngIf="contactForm.controls.message.invalid" class="mat-body-1">

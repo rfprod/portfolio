@@ -21,18 +21,6 @@
             },
             "production": {
               "aot": true,
-              "budgets": [
-                {
-                  "maximumError": "12mb",
-                  "maximumWarning": "8mb",
-                  "type": "initial"
-                },
-                {
-                  "maximumError": "10kb",
-                  "maximumWarning": "6kb",
-                  "type": "anyComponentStyle"
-                }
-              ],
               "buildOptimizer": true,
               "extractCss": true,
               "extractLicenses": true,
@@ -129,8 +117,7 @@
           "builder": "@angular-eslint/builder:lint",
           "options": {
             "eslintConfig": "src/.eslintrc",
-            "exclude": ["**/node_modules/**", "!src/**"],
-            "tsConfig": ["src/tsconfig.app.json", "src/tsconfig.spec.json"]
+            "lintFilePatterns": ["src/**/*.ts"]
           }
         },
         "serve": {

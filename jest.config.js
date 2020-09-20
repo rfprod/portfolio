@@ -19,4 +19,5 @@ module.exports = {
   coverageReporters: ['html'],
   collectCoverage: true,
   cacheDirectory: '/tmp/jest_rs/portfolio',
+  noStackTrace: true,
 };

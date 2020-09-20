@@ -45,7 +45,7 @@ describe('AppIndexComponent', () => {
         {
           provide: MatSnackBar,
           useValue: {
-            open: (): void => null,
+            open: (): null => null,
           },
         },
         {

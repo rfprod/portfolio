@@ -31,7 +31,7 @@ describe('AutoscrollDirective', () => {
 
   it('autoscroll should work correctly', async(() => {
     const testingElement: HTMLElement = debugElement.nativeElement;
-    const inputHeight = testingElement.querySelector('input').clientHeight;
+    const inputHeight = testingElement.querySelector('input')?.clientHeight ?? 0;
     const testingElementHeight = testingElement.clientHeight;
     const interval = 500;
     const elementsCount = 10;

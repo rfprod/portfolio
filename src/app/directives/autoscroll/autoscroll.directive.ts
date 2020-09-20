@@ -22,9 +22,9 @@ export class AutoscrollDirective implements AfterContentInit, OnDestroy {
 
   private lockAutoscroll = false;
 
-  private mutationObserver: MutationObserver;
+  private mutationObserver?: MutationObserver;
 
-  private nativeElement: HTMLElement;
+  private nativeElement?: HTMLElement;
 
   /**
    * Constructor.
@@ -44,23 +44,25 @@ export class AutoscrollDirective implements AfterContentInit, OnDestroy {
    */
   public ngAfterContentInit(): void {
     this.nativeElement = this.el.nativeElement;
-    this.mutationObserver = new MutationObserver(() => {
-      if (!this.lockAutoscroll) {
-        this.scrollDown();
-      }
-    });
-    this.mutationObserver.observe(this.nativeElement, {
-      childList: true,
-      subtree: true,
-      attributes: this.getObserveAttributes(),
-    });
+    if (typeof this.nativeElement !== 'undefined') {
+      this.mutationObserver = new MutationObserver(() => {
+        if (!this.lockAutoscroll) {
+          this.scrollDown();
+        }
+      });
+      this.mutationObserver.observe(this.nativeElement, {
+        childList: true,
+        subtree: true,
+        attributes: this.getObserveAttributes(),
+      });
+    }
   }
 
   /**
    * Lifecycle hook.
    */
   public ngOnDestroy(): void {
-    if (Boolean(this.mutationObserver)) {
+    if (typeof this.mutationObserver !== 'undefined') {
       this.mutationObserver.disconnect();
     }
   }
@@ -77,17 +79,21 @@ export class AutoscrollDirective implements AfterContentInit, OnDestroy {
    */
   @HostListener('scroll')
   public scrollHandler(): void {
-    const scrollFromBottom =
-      this.nativeElement.scrollHeight -
-      this.nativeElement.scrollTop -
-      this.nativeElement.clientHeight;
-    this.lockAutoscroll = scrollFromBottom > this.lockYOffset;
+    if (typeof this.nativeElement !== 'undefined') {
+      const scrollFromBottom =
+        this.nativeElement.scrollHeight -
+        this.nativeElement.scrollTop -
+        this.nativeElement.clientHeight;
+      this.lockAutoscroll = scrollFromBottom > this.lockYOffset;
+    }
   }
 
   /**
    * Forces scroll down.
    */
   private scrollDown(): void {
-    this.nativeElement.scrollTop = this.nativeElement.scrollHeight;
+    if (typeof this.nativeElement !== 'undefined') {
+      this.nativeElement.scrollTop = this.nativeElement.scrollHeight;
+    }
   }
 }

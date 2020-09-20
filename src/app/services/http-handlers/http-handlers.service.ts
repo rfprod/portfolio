@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, throwError } from 'rxjs';
 
 /**
  * Http progress interface.
@@ -69,7 +69,7 @@ export class HttpHandlersService {
    * Handles http error response.
    * @param error http error response.
    */
-  public handleError(error: HttpErrorResponse): Observable<string> {
+  public handleError(error: HttpErrorResponse) {
     const errorMessage = this.getErrorMessage(error);
     this.displayErrorToast(errorMessage);
     return throwError(errorMessage);
@@ -80,7 +80,7 @@ export class HttpHandlersService {
    */
   private displayErrorToast(error: string): void {
     const duration = 2000;
-    this.snackBar.open(error, null, {
+    this.snackBar.open(error, void 0, {
       duration,
     });
   }

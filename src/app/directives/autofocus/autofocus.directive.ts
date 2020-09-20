@@ -12,7 +12,7 @@ export class AutofocusDirective implements OnInit, OnChanges {
    */
   private autofocusState = false;
 
-  private nativeElement: HTMLElement;
+  private nativeElement?: HTMLElement;
 
   /**
    * Constructor.
@@ -33,7 +33,7 @@ export class AutofocusDirective implements OnInit, OnChanges {
    */
   public ngOnInit(): void {
     this.nativeElement = this.el.nativeElement;
-    if (this.autofocusState || typeof this.autofocusState === 'undefined') {
+    if (typeof this.nativeElement !== 'undefined' && this.autofocusState) {
       this.nativeElement.focus();
     }
   }
@@ -42,7 +42,7 @@ export class AutofocusDirective implements OnInit, OnChanges {
    * Lifecycle hook called on input change.
    */
   public ngOnChanges(changes: SimpleChanges): void {
-    if (this.autofocusState) {
+    if (typeof this.nativeElement !== 'undefined' && this.autofocusState) {
       this.nativeElement.focus();
     }
   }

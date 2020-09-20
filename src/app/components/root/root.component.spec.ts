@@ -31,7 +31,7 @@ describe('AppRootComponent', () => {
         {
           provide: MatSnackBar,
           useValue: {
-            open: (): void => null,
+            open: (): null => null,
           },
         },
         {

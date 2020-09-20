@@ -6,7 +6,8 @@
     "fullTemplateTypeCheck": true,
     "skipTemplateCodegen": true,
     "strictInjectionParameters": true,
-    "strictMetadataEmit": true
+    "strictMetadataEmit": true,
+    "strictTemplates": true
   },
   "compileOnSave": false,
   "compilerOptions": {
@@ -32,6 +33,8 @@
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "sourceMap": true,
+    "strict": true,
+    "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "target": "es6",
     "typeRoots": ["node_modules/@types"]

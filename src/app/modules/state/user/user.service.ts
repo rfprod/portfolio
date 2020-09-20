@@ -20,7 +20,7 @@ import { USER_STATE_TOKEN, userActions, UserState } from './user.store';
   providedIn: 'root',
 })
 export class UserService implements IUserService {
-  private readonly githubOrgs = new BehaviorSubject([]);
+  private readonly githubOrgs = new BehaviorSubject<IGithubUserOrganization[]>([]);
 
   public readonly githubOrgs$ = this.githubOrgs.asObservable();
 
@@ -31,8 +31,8 @@ export class UserService implements IUserService {
   public readonly userData$ = this.store.select(UserState.getState);
 
   public readonly languageIcons$ = this.store.select(UserState.getState).pipe(
-    filter(state => Boolean(state?.userConfig?.languageIcons)),
-    map(state => state.userConfig.languageIcons),
+    filter(state => typeof state.userConfig?.languageIcons !== 'undefined'),
+    map(state => state.userConfig?.languageIcons),
   );
 
   /**
@@ -131,7 +131,7 @@ export class UserService implements IUserService {
         this.store.selectOnce(USER_STATE_TOKEN).pipe(map(state => ({ state, data }))),
       ),
       map(({ state, data }) => {
-        const githubLanguages = { ...state.githubLanguages };
+        const githubLanguages: IGithubRepoLanguages = { ...state.githubLanguages };
         const githubLanguagesRate = { ...state.githubLanguagesRate };
         const imgShow = { ...state.imgShow };
         let githubLanguagesKeys = Object.keys(githubLanguages);

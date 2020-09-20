@@ -13,12 +13,12 @@ import { IActionPayload } from '../../../utils/ngxs.util';
 
 export interface IUserState {
   profiles: IUserConfigProfile[];
-  userConfig: IUserConfig;
-  github: IGuthubUser;
+  userConfig?: IUserConfig;
+  github?: IGuthubUser;
   githubRepos: IGithubUserRepo[];
-  githubLanguages: IGithubRepoLanguages;
+  githubLanguages?: IGithubRepoLanguages;
   githubLanguagesTotal: number;
-  githubLanguagesRate: IGithubRepoLanguagesRate;
+  githubLanguagesRate?: IGithubRepoLanguagesRate;
   githubLanguagesKeys: string[];
   imgShow: {
     github: boolean;
@@ -37,6 +37,6 @@ export type TUserPayload = IActionPayload<Partial<IUserState>>;
 
 export interface IUserService {
   getUserData(): void;
-  readonly githubOrgs$: Observable<Record<string, unknown>[]>;
+  readonly githubOrgs$: Observable<IGithubUserOrganization[]>;
   readonly publicEvents$: Observable<IGithubUserPublicEvent<unknown>[]>;
 }

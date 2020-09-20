@@ -10,13 +10,9 @@
         </div>
         <mat-card-title> {{ data.github.login }}</mat-card-title>
         <mat-card-subtitle matTooltip="Current hireable status">
-          <div *ngIf="data.github.hireable">
-            HIREABLE
-          </div>
+          <div *ngIf="data.github.hireable">HIREABLE</div>
 
-          <span *ngIf="!data.github.hireable">
-            NOT HIREABLE
-          </span>
+          <span *ngIf="!data.github.hireable"> NOT HIREABLE </span>
         </mat-card-subtitle>
       </mat-card-header>
 
@@ -122,9 +118,9 @@
                   <span
                     [ngStyle]="{ width: '100%', 'text-align': 'center', 'font-weight': 'bold' }"
                   >
-                    {{ data.githubLanguages[githubLang.key] }}
+                    {{ $any(data.githubLanguages)[githubLang.key] }}
                     <br />
-                    {{ data.githubLanguagesRate[githubLang.key] }}%
+                    {{ $any(data.githubLanguagesRate)[githubLang.key] }}%
                   </span>
                 </mat-grid-tile-footer>
               </mat-grid-tile>
@@ -139,25 +135,10 @@
             >
               {{ lang }}
               <br />
-              {{ data.githubLanguages[lang] }}
+              {{ $any(data.githubLanguages)[lang] }}
               <br />
-              {{ data.githubLanguagesRate[lang] }}%
+              {{ $any(data.githubLanguagesRate)[lang] }}%
             </span>
-          </div>
-        </div>
-
-        <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start center">
-          <h4 fxFlex="100">Activity</h4>
-
-          <div fxFlex="100" fxLayout="row wrap" class="scrollable" appAutoscroll>
-            <small
-              fxFlex="100"
-              *ngFor="let event of publicEvents$ | async"
-              fxLayout="row wrap"
-              fxLayoutAlign="start center"
-            >
-              <mat-icon>event_note</mat-icon> {{ event.type }} - {{ event.created_at | date }}
-            </small>
           </div>
         </div>
       </mat-card-content>
@@ -176,7 +157,22 @@
     </mat-card>
   </div>
 
-  <div class="marged" fxFlex="400px" fxShow fxHide.lt-md *ngIf="data.github">
+  <div class="marged" fxFlex="400px" fxLayout="column" fxShow fxHide.lt-md *ngIf="data.github">
+    <div fxFlex="0 1 auto" fxLayout="row wrap" fxLayoutAlign="start center">
+      <h4 fxFlex="100">Activity</h4>
+
+      <div fxFlex="100" fxLayout="row wrap" class="scrollable" appAutoscroll>
+        <small
+          fxFlex="100"
+          *ngFor="let event of publicEvents$ | async"
+          fxLayout="row wrap"
+          fxLayoutAlign="start center"
+        >
+          <mat-icon>event_note</mat-icon> {{ event.type }} - {{ event.created_at | date }}
+        </small>
+      </div>
+    </div>
+
     <mat-tree [dataSource]="treeDataSource" [treeControl]="treeControl">
       <!-- This is the tree node template for leaf nodes -->
       <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>

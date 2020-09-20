@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { catchError, finalize, map } from 'rxjs/operators';
+import { catchError, finalize } from 'rxjs/operators';
 import { IMailerResponse } from 'src/app/interfaces';
 
 import {
@@ -36,9 +36,8 @@ export class SendEmailService {
    */
   public sendEmail(formData: unknown): Observable<IMailerResponse> {
     this.handlers.toggleHttpProgress(HTTP_PROGRESS_MODIFIER.START);
-    return this.http.post(this.url, formData).pipe(
+    return this.http.post<IMailerResponse>(this.url, formData).pipe(
       catchError((error: HttpErrorResponse) => this.handlers.handleError(error)),
-      map((res: IMailerResponse) => res),
       finalize(() => {
         this.handlers.toggleHttpProgress(HTTP_PROGRESS_MODIFIER.STOP);
       }),

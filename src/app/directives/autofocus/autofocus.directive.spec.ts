@@ -38,12 +38,15 @@ describe('AutofocusDirective', () => {
   it('ngOnInit should call directive renderer invokeElementMethod if autofocus condition is met', () => {
     spyOn(directive.el.nativeElement, 'focus');
 
-    directive.autofocusState = null;
+    directive.autofocusState = false;
     directive.ngOnInit();
     expect(directive.el.nativeElement.focus).not.toHaveBeenCalled();
 
-    // eslint-disable-next-line no-undefined
-    directive.autofocusState = undefined;
+    directive.autofocusState = void 0;
+    directive.ngOnInit();
+    expect(directive.el.nativeElement.focus).not.toHaveBeenCalled();
+
+    directive.autofocusState = true;
     directive.ngOnInit();
     expect(directive.el.nativeElement.focus).toHaveBeenCalled();
   });

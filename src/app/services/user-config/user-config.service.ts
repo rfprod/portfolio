@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { catchError, finalize, map } from 'rxjs/operators';
+import { catchError, finalize } from 'rxjs/operators';
 import { IUserConfig } from 'src/app/interfaces';
 
 import {
@@ -36,9 +36,8 @@ export class UserConfigService {
    */
   public getUserConfig(): Observable<IUserConfig> {
     this.handlers.toggleHttpProgress(HTTP_PROGRESS_MODIFIER.START);
-    return this.http.get(this.url).pipe(
+    return this.http.get<IUserConfig>(this.url).pipe(
       catchError((error: HttpErrorResponse) => this.handlers.handleError(error)),
-      map((res: IUserConfig) => res),
       finalize(() => {
         this.handlers.toggleHttpProgress(HTTP_PROGRESS_MODIFIER.STOP);
       }),

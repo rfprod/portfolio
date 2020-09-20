@@ -17,12 +17,16 @@ import { UserService } from '../../modules/state/user/user.service';
  */
 function transformer(node: ITreeNode, level: number) {
   return {
-    expandable: Boolean(node.children) && node.children.length > 0,
+    expandable: (node?.children?.length ?? 0) > 0,
     name: node.name,
-    link: node.link,
-    imgRef: node.imgRef,
-    urls: node.urls,
-    tag: node.tag,
+    link: node.link ?? '',
+    imgRef: node.imgRef ?? '',
+    urls: node.urls ?? {
+      repo: '',
+      web: '',
+      android: '',
+    },
+    tag: node.tag ?? '',
     level,
   };
 }
@@ -74,17 +78,17 @@ export class AppIndexComponent {
   /**
    * Material dialog instance.
    */
-  private dialogInstance: MatDialogRef<AppContactComponent>;
+  private dialogInstance?: MatDialogRef<AppContactComponent>;
 
   /**
    * Material dialog subscription.
    */
-  private dialogSub: Subscription;
+  private dialogSub?: Subscription;
 
   /**
    * Tree flattener.
    */
-  private readonly treeFlattener = new MatTreeFlattener(
+  private readonly treeFlattener = new MatTreeFlattener<ITreeNode, IFlatNode>(
     transformer,
     node => node.level,
     node => node.expandable,
@@ -146,8 +150,8 @@ export class AppIndexComponent {
     });
     this.dialogSub = this.dialogInstance.afterClosed().subscribe(
       () => {
-        this.dialogSub.unsubscribe();
-        this.dialogInstance = null;
+        this.dialogSub?.unsubscribe();
+        this.dialogInstance = void 0;
       },
       () => null,
     );
@@ -192,9 +196,8 @@ export class AppIndexComponent {
       map(languageIcons => {
         const result: { url: SafeResourceUrl; key: string }[] = [];
         for (const key of githubLangKeys) {
-          const icon = languageIcons?.find(item => item.name === key)?.icon;
-          const imageUrl = Boolean(icon) ? icon : '';
-          const url = this.domSanitizer.bypassSecurityTrustUrl(imageUrl);
+          const icon = languageIcons?.find(item => item.name === key)?.icon ?? '';
+          const url = this.domSanitizer.bypassSecurityTrustUrl(icon);
           const obj = { key, url };
           result.push(obj);
         }

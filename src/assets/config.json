@@ -108,7 +108,8 @@
     { "name": "HTML", "icon": "assets/html-logo.svg" },
     { "name": "CSS", "icon": "assets/css-logo.svg" },
     { "name": "Dockerfile", "icon": "assets/docker-logo.svg" },
-    { "name": "Java", "icon": "assets/java-logo.svg" }
+    { "name": "Java", "icon": "assets/java-logo.svg" },
+    { "name": "SCSS", "icon": "assets/sass-logo.svg" }
   ],
   "profiles": [
     {

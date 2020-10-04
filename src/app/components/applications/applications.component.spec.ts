@@ -7,44 +7,37 @@ import {
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed, TestModuleMetadata } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { DialogRefMock } from 'src/mocks/utils/refs/dialog-ref.mock';
+import { NgxsModule, Store } from '@ngxs/store';
+import { UiState } from 'src/app/modules/state/ui/ui.store';
+import { UserService } from 'src/app/modules/state/user/user.service';
+import { UserState } from 'src/app/modules/state/user/user.store';
 
 import { DummyComponent } from '../../../mocks/components/dummy.component.mock';
 import { AppMaterialModule } from '../../modules/material/material.module';
+import { GithubService } from '../../services/github/github.service';
 import { HttpHandlersService } from '../../services/http-handlers/http-handlers.service';
 import { WINDOW } from '../../services/providers.config';
-import { SendEmailService } from '../../services/send-email/send-email.service';
-import { AppContactComponent } from './contact.component';
+import { UserConfigService } from '../../services/user-config/user-config.service';
+import { AppApplicationsComponent } from './applications.component';
 
-describe('AppContactComponent', () => {
-  const MOCKED_MODAL_DATA: Record<string, unknown> = {};
-
+describe('AppApplicationsComponent', () => {
   const testBedConfig: TestModuleMetadata = {
-    declarations: [AppContactComponent, DummyComponent],
+    declarations: [AppApplicationsComponent, DummyComponent],
     imports: [
       BrowserDynamicTestingModule,
       NoopAnimationsModule,
-      FormsModule,
-      ReactiveFormsModule,
       HttpClientTestingModule,
       AppMaterialModule,
       FlexLayoutModule,
+      NgxsModule.forRoot([UserState, UiState]),
       RouterTestingModule.withRoutes([{ path: '', component: DummyComponent }]),
     ],
     providers: [
       { provide: WINDOW, useValue: window },
-      { provide: MAT_DIALOG_DATA, useValue: MOCKED_MODAL_DATA },
-      {
-        provide: MatDialogRef,
-        useFactory: () => new DialogRefMock(),
-        deps: [],
-      },
       {
         provide: MatSnackBar,
         useValue: {
@@ -57,26 +50,44 @@ describe('AppContactComponent', () => {
         deps: [MatSnackBar],
       },
       {
-        provide: SendEmailService,
+        provide: UserConfigService,
         useFactory: (http: HttpClient, handlers: HttpHandlersService, window: Window) =>
-          new SendEmailService(http, handlers, window),
+          new UserConfigService(http, handlers, window),
         deps: [HttpClient, HttpHandlersService, WINDOW],
+      },
+      {
+        provide: GithubService,
+        useFactory: (http: HttpClient, handlers: HttpHandlersService, window: Window) =>
+          new GithubService(http, handlers, window),
+        deps: [HttpClient, HttpHandlersService, WINDOW],
+      },
+      {
+        provide: UserService,
+        useFactory: (store: Store, userConfig: UserConfigService, github: GithubService) =>
+          new UserService(store, userConfig, github),
+        deps: [Store, UserConfigService, GithubService],
       },
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
   };
 
-  let fixture: ComponentFixture<AppContactComponent>;
-  let component: AppContactComponent;
+  let fixture: ComponentFixture<AppApplicationsComponent>;
+  let component: AppApplicationsComponent;
   let httpController: HttpTestingController;
 
   beforeEach(async(() => {
     void TestBed.configureTestingModule(testBedConfig)
       .compileComponents()
       .then(() => {
-        fixture = TestBed.createComponent(AppContactComponent);
+        fixture = TestBed.createComponent(AppApplicationsComponent);
         component = fixture.componentInstance;
         httpController = TestBed.inject(HttpTestingController);
+        httpController
+          .match((req: HttpRequest<unknown>): boolean => true)
+          .forEach((req: TestRequest) => {
+            req.flush({});
+          });
+        fixture.detectChanges();
       });
   }));
 

@@ -11,12 +11,14 @@ import { NgxsModule } from '@ngxs/store';
 
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
+import { AppApplicationsComponent } from './components/applications/applications.component';
 import { AppContactComponent } from './components/contact/contact.component';
 import { AppIndexComponent } from './components/index/index.component';
 import { AppRootComponent } from './components/root/root.component';
 import { AutofocusDirective } from './directives/autofocus/autofocus.directive';
 import { AutoscrollDirective } from './directives/autoscroll/autoscroll.directive';
 import { AppMaterialModule } from './modules/material/material.module';
+import { UiStoreModule } from './modules/state/ui/ui.module';
 import { UserStoreModule } from './modules/state/user/user.module';
 import { AppServicesModule } from './services/app-services.module';
 
@@ -34,8 +36,9 @@ import { AppServicesModule } from './services/app-services.module';
     NgxsModule.forRoot([], { developmentMode: !environment.production }),
     NgxsRouterPluginModule.forRoot(),
     NgxsFormPluginModule.forRoot(),
-    environment.production ? [] : NgxsLoggerPluginModule.forRoot(),
+    NgxsLoggerPluginModule.forRoot({ disabled: environment.production, collapsed: true }),
     UserStoreModule,
+    UiStoreModule,
     AppMaterialModule.forRoot(),
     AppServicesModule.forRoot(),
     AppRoutingModule,
@@ -46,6 +49,7 @@ import { AppServicesModule } from './services/app-services.module';
     AppContactComponent,
     AutofocusDirective,
     AutoscrollDirective,
+    AppApplicationsComponent,
   ],
   entryComponents: [AppContactComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

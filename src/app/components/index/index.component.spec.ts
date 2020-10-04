@@ -5,13 +5,14 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, TestModuleMetadata } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule, Store } from '@ngxs/store';
+import { UiState } from 'src/app/modules/state/ui/ui.store';
 import { UserService } from 'src/app/modules/state/user/user.service';
 import { UserState } from 'src/app/modules/state/user/user.store';
 
@@ -24,56 +25,58 @@ import { UserConfigService } from '../../services/user-config/user-config.servic
 import { AppIndexComponent } from './index.component';
 
 describe('AppIndexComponent', () => {
+  const testBedConfig: TestModuleMetadata = {
+    declarations: [AppIndexComponent, DummyComponent],
+    imports: [
+      BrowserDynamicTestingModule,
+      NoopAnimationsModule,
+      HttpClientTestingModule,
+      AppMaterialModule,
+      FlexLayoutModule,
+      NgxsModule.forRoot([UserState, UiState]),
+      RouterTestingModule.withRoutes([{ path: '', component: DummyComponent }]),
+    ],
+    providers: [
+      { provide: WINDOW, useValue: window },
+      {
+        provide: MatSnackBar,
+        useValue: {
+          open: (): null => null,
+        },
+      },
+      {
+        provide: HttpHandlersService,
+        useFactory: (snackBar: MatSnackBar) => new HttpHandlersService(snackBar),
+        deps: [MatSnackBar],
+      },
+      {
+        provide: UserConfigService,
+        useFactory: (http: HttpClient, handlers: HttpHandlersService, window: Window) =>
+          new UserConfigService(http, handlers, window),
+        deps: [HttpClient, HttpHandlersService, WINDOW],
+      },
+      {
+        provide: GithubService,
+        useFactory: (http: HttpClient, handlers: HttpHandlersService, window: Window) =>
+          new GithubService(http, handlers, window),
+        deps: [HttpClient, HttpHandlersService, WINDOW],
+      },
+      {
+        provide: UserService,
+        useFactory: (store: Store, userConfig: UserConfigService, github: GithubService) =>
+          new UserService(store, userConfig, github),
+        deps: [Store, UserConfigService, GithubService],
+      },
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  };
+
   let fixture: ComponentFixture<AppIndexComponent>;
   let component: AppIndexComponent;
   let httpController: HttpTestingController;
 
   beforeEach(async(() => {
-    void TestBed.configureTestingModule({
-      declarations: [AppIndexComponent, DummyComponent],
-      imports: [
-        BrowserDynamicTestingModule,
-        NoopAnimationsModule,
-        HttpClientTestingModule,
-        AppMaterialModule,
-        FlexLayoutModule,
-        NgxsModule.forRoot([UserState]),
-        RouterTestingModule.withRoutes([{ path: '', component: DummyComponent }]),
-      ],
-      providers: [
-        { provide: WINDOW, useValue: window },
-        {
-          provide: MatSnackBar,
-          useValue: {
-            open: (): null => null,
-          },
-        },
-        {
-          provide: HttpHandlersService,
-          useFactory: (snackBar: MatSnackBar) => new HttpHandlersService(snackBar),
-          deps: [MatSnackBar],
-        },
-        {
-          provide: UserConfigService,
-          useFactory: (http: HttpClient, handlers: HttpHandlersService, window: Window) =>
-            new UserConfigService(http, handlers, window),
-          deps: [HttpClient, HttpHandlersService, WINDOW],
-        },
-        {
-          provide: GithubService,
-          useFactory: (http: HttpClient, handlers: HttpHandlersService, window: Window) =>
-            new GithubService(http, handlers, window),
-          deps: [HttpClient, HttpHandlersService, WINDOW],
-        },
-        {
-          provide: UserService,
-          useFactory: (store: Store, userConfig: UserConfigService, github: GithubService) =>
-            new UserService(store, userConfig, github),
-          deps: [Store, UserConfigService, GithubService],
-        },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
+    void TestBed.configureTestingModule(testBedConfig)
       .compileComponents()
       .then(() => {
         fixture = TestBed.createComponent(AppIndexComponent);

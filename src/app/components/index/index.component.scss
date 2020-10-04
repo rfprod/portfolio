@@ -1,19 +1,10 @@
 :host {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: no-wrap;
-  align-items: stretch;
-  justify-content: center;
+  display: block;
   width: 100%;
-  max-width: 100vw;
-  height: auto !important;
+  height: 100%;
 }
 
 .scrollable {
   max-height: 250px;
   overflow-y: scroll;
-}
-
-.marged {
-  margin: 0.5em;
 }

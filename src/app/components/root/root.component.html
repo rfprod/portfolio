@@ -1,7 +1,32 @@
-<div id="progress" *ngIf="showSpinner$ | async">
-  <mat-progress-bar mode="indeterminate" aria-label="Application progress bar"> </mat-progress-bar>
-</div>
+<mat-sidenav-container [ngStyle]="{ 'min-height': '100vh', height: '100%', width: '100%' }">
+  <mat-sidenav
+    #appSidenav
+    mode="over"
+    [opened]="sidenavOpened$ | async"
+    (closedStart)="sidebarCloseHandler()"
+  >
+    <app-applications></app-applications>
+  </mat-sidenav>
 
-<div class="content">
-  <router-outlet></router-outlet>
-</div>
+  <mat-sidenav-content [ngStyle]="{ overflow: 'hidden', height: '100%', width: '100%' }">
+    <div id="progress" *ngIf="showSpinner$ | async">
+      <mat-progress-bar mode="indeterminate" aria-label="Application progress bar">
+      </mat-progress-bar>
+    </div>
+
+    <router-outlet></router-outlet>
+
+    <div class="sidenav-toggler">
+      <button
+        mat-fab
+        color="accent"
+        (click)="toggleSidenav()"
+        matTooltip="Toggle applications sidebar"
+      >
+        <mat-icon>apps</mat-icon>
+      </button>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<ng-container *ngIf="sidenavOpened$ | async"></ng-container>

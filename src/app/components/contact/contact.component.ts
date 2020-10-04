@@ -11,6 +11,7 @@ import { SendEmailService } from 'src/app/services/send-email/send-email.service
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
+  styleUrls: ['./contact.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppContactComponent {

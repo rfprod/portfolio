@@ -1,35 +1,12 @@
-/* eslint-disable no-labels */
-import { FlatTreeControl } from '@angular/cdk/tree';
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Observable, Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { AppContactComponent } from 'src/app/components/contact/contact.component';
-import { IFlatNode, ITreeNode, IUserConfig } from 'src/app/interfaces';
 import { WINDOW } from 'src/app/services/providers.config';
 
 import { UserService } from '../../modules/state/user/user.service';
-
-/**
- * Tree transformer.
- */
-function transformer(node: ITreeNode, level: number) {
-  return {
-    expandable: (node?.children?.length ?? 0) > 0,
-    name: node.name,
-    link: node.link ?? '',
-    imgRef: node.imgRef ?? '',
-    urls: node.urls ?? {
-      repo: '',
-      web: '',
-      android: '',
-    },
-    tag: node.tag ?? '',
-    level,
-  };
-}
 
 /**
  * Application index component.
@@ -86,29 +63,6 @@ export class AppIndexComponent {
   private dialogSub?: Subscription;
 
   /**
-   * Tree flattener.
-   */
-  private readonly treeFlattener = new MatTreeFlattener<ITreeNode, IFlatNode>(
-    transformer,
-    node => node.level,
-    node => node.expandable,
-    node => node.children,
-  );
-
-  /**
-   * Tree control.
-   */
-  public treeControl = new FlatTreeControl<IFlatNode>(
-    node => node.level,
-    node => node.expandable,
-  );
-
-  /**
-   * Tree data source.
-   */
-  public treeDataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-
-  /**
    * Constructor.
    */
   constructor(
@@ -117,21 +71,7 @@ export class AppIndexComponent {
     private readonly user: UserService,
     @Inject(WINDOW) private readonly win: Window,
   ) {
-    void this.user
-      .getUserData()
-      .pipe(
-        tap(data => {
-          this.updateTreeData(data.userConfig);
-        }),
-      )
-      .subscribe();
-  }
-
-  /**
-   * Resolves if tree node has a child.
-   */
-  public hasChild(index: number, node: IFlatNode): boolean {
-    return node.expandable;
+    void this.user.getUserData().subscribe();
   }
 
   /**
@@ -148,13 +88,10 @@ export class AppIndexComponent {
         domain: this.win.location.origin,
       },
     });
-    this.dialogSub = this.dialogInstance.afterClosed().subscribe(
-      () => {
-        this.dialogSub?.unsubscribe();
-        this.dialogInstance = void 0;
-      },
-      () => null,
-    );
+    this.dialogSub = this.dialogInstance.afterClosed().subscribe(() => {
+      this.dialogSub?.unsubscribe();
+      this.dialogInstance = void 0;
+    });
   }
 
   /**
@@ -204,34 +141,5 @@ export class AppIndexComponent {
         return result;
       }),
     );
-  }
-
-  /**
-   * Updates tree data with new values.
-   */
-  private updateTreeData(userConfig: IUserConfig): void {
-    const TREE_DATA: ITreeNode[] = [
-      {
-        name: 'Applications',
-        children: [
-          {
-            name: 'AngularJS',
-            children:
-              'apps' in userConfig ? userConfig.apps.filter(item => item.tag === 'angularjs') : [],
-          },
-          {
-            name: 'Angular',
-            children:
-              'apps' in userConfig ? userConfig.apps.filter(item => item.tag === 'angular') : [],
-          },
-          {
-            name: 'Other',
-            children:
-              'apps' in userConfig ? userConfig.apps.filter(item => item.tag === 'other') : [],
-          },
-        ],
-      },
-    ];
-    this.treeDataSource.data = TREE_DATA;
   }
 }

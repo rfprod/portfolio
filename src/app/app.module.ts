@@ -11,6 +11,7 @@ import { NgxsModule } from '@ngxs/store';
 
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
+import { AppActivityComponent } from './components/activity/activity.component';
 import { AppApplicationsComponent } from './components/applications/applications.component';
 import { AppContactComponent } from './components/contact/contact.component';
 import { AppIndexComponent } from './components/index/index.component';
@@ -50,6 +51,7 @@ import { AppServicesModule } from './services/app-services.module';
     AutofocusDirective,
     AutoscrollDirective,
     AppApplicationsComponent,
+    AppActivityComponent,
   ],
   entryComponents: [AppContactComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

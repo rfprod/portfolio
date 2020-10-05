@@ -104,7 +104,7 @@
     "express": "4.17.1",
     "http-server": "0.12.3",
     "husky": "4.3.0",
-    "jest": "26.4.2",
+    "jest": "26.5.0",
     "jest-preset-angular": "8.3.1",
     "prettier": "2.1.2",
     "prettier-stylelint": "0.4.2",

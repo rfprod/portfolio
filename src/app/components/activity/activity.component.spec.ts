@@ -5,7 +5,7 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed, TestModuleMetadata } from '@angular/core/testing';
+import { ComponentFixture, TestBed, TestModuleMetadata, waitForAsync } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
@@ -75,21 +75,23 @@ describe('AppActivityComponent', () => {
   let component: AppActivityComponent;
   let httpController: HttpTestingController;
 
-  beforeEach(async(() => {
-    void TestBed.configureTestingModule(testBedConfig)
-      .compileComponents()
-      .then(() => {
-        fixture = TestBed.createComponent(AppActivityComponent);
-        component = fixture.componentInstance;
-        httpController = TestBed.inject(HttpTestingController);
-        httpController
-          .match((req: HttpRequest<unknown>): boolean => true)
-          .forEach((req: TestRequest) => {
-            req.flush({});
-          });
-        fixture.detectChanges();
-      });
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule(testBedConfig)
+        .compileComponents()
+        .then(() => {
+          fixture = TestBed.createComponent(AppActivityComponent);
+          component = fixture.componentInstance;
+          httpController = TestBed.inject(HttpTestingController);
+          httpController
+            .match((req: HttpRequest<unknown>): boolean => true)
+            .forEach((req: TestRequest) => {
+              req.flush({});
+            });
+          fixture.detectChanges();
+        });
+    }),
+  );
 
   afterEach(() => {
     httpController

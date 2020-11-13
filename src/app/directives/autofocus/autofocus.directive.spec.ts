@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { DummyComponent } from '../../../mocks/components/dummy.component.mock';
@@ -12,17 +12,19 @@ describe('AutofocusDirective', () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let directive: AutofocusDirective | any;
 
-  beforeEach(async(() => {
-    void TestBed.configureTestingModule({
-      declarations: [DummyComponent, AutofocusDirective],
-    })
-      .compileComponents()
-      .then(() => {
-        fixture = TestBed.createComponent(DummyComponent);
-        debugElement = fixture.debugElement.query(By.directive(AutofocusDirective));
-        directive = debugElement.injector.get(AutofocusDirective);
-      });
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      void TestBed.configureTestingModule({
+        declarations: [DummyComponent, AutofocusDirective],
+      })
+        .compileComponents()
+        .then(() => {
+          fixture = TestBed.createComponent(DummyComponent);
+          debugElement = fixture.debugElement.query(By.directive(AutofocusDirective));
+          directive = debugElement.injector.get(AutofocusDirective);
+        });
+    }),
+  );
 
   it('dummy component should compile successfully', () => {
     expect(directive).toBeDefined();

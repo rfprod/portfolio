@@ -9,7 +9,7 @@
     "**/*.mock.ts",
     "**/*.patch.ts"
   ],
-  "extends": "../tsconfig.base.json",
+  "extends": "../tsconfig.json",
   "files": ["./main.ts", "./polyfills.ts"],
   "include": [".app/**/*.ts"]
 }

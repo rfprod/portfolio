@@ -91,11 +91,6 @@ export class AppApplicationsComponent {
           name: 'Applications',
           children: [
             {
-              name: 'AngularJS',
-              children:
-                'apps' in config ? config.apps.filter(item => item.tag === 'angularjs') : [],
-            },
-            {
               name: 'Angular',
               children: 'apps' in config ? config.apps.filter(item => item.tag === 'angular') : [],
             },

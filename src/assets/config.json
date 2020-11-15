@@ -41,16 +41,6 @@
       }
     },
     {
-      "imgRef": "assets/heroku-logo.svg",
-      "name": "WhoAmI microservice",
-      "tag": "angularjs",
-      "urls": {
-        "android": "",
-        "repo": "https://github.com/rfprod/whoami",
-        "web": "https://whoami-microsrvc.herokuapp.com"
-      }
-    },
-    {
       "imgRef": "assets/swagger-logo.svg",
       "name": "Sample Swagger API Documentation",
       "tag": "other",

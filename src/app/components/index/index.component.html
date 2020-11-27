@@ -14,7 +14,7 @@
       <mat-card-header>
         <div mat-card-avatar>
           <img
-            [ngStyle]="{ height: '50px', width: 'auto!important' }"
+            [ngStyle]="{ height: '50px', width: 'auto!important', 'border-radius': '5px' }"
             [src]="data.github?.avatar_url"
           />
         </div>
@@ -173,17 +173,20 @@
                   [ngStyle]="{
                     'max-height': '90px',
                     height: 'auto!important',
-                    width: '100%'
+                    width: '100%',
+                    'border-radius': '5px'
                   }"
                   [ngStyle.lt-md]="{
                     'max-height': '45px',
                     height: 'auto!important',
-                    width: '100%'
+                    width: '100%',
+                    'border-radius': '5px'
                   }"
                   [ngStyle.xs]="{
                     'max-height': '35px',
                     height: 'auto!important',
-                    width: '100%'
+                    width: '100%',
+                    'border-radius': '5px'
                   }"
                   (load)="imgLoaded(githubLang.key, true)"
                   (error)="imgError(githubLang.key, true)"

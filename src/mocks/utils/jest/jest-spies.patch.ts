@@ -52,7 +52,7 @@ export function setupJestSpiesFor<T>(
 ): TComponentSpiesObject<T> {
   const spiesObject: TComponentSpiesObject<T> = Object.keys(component).reduce(
     (accumulator: TComponentSpiesObject<T>, key: string) => {
-      let spy: TComponentSpy = null;
+      let spy: TComponentSpy | null = null;
       const classMember = (component as T)[key];
       /**
        * Spy on component functions.

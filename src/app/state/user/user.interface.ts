@@ -7,9 +7,9 @@ import {
   IGithubUserPublicEvent,
   IGithubUserRepo,
   IGuthubUser,
-} from '../../../interfaces/github-api.interface';
-import { IUserConfig, IUserConfigProfile } from '../../../interfaces/user-config.interface';
-import { IActionPayload } from '../../../utils/ngxs.util';
+} from '../../interfaces/github-api.interface';
+import { IUserConfig, IUserConfigProfile } from '../../interfaces/user-config.interface';
+import { IActionPayload } from '../../utils/ngxs.util';
 
 export interface IUserState {
   profiles: IUserConfigProfile[];

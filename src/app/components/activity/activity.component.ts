@@ -11,7 +11,7 @@ import {
 import { arc, pie, PieArcDatum } from 'd3-shape';
 import { ARC_CHART_CONFIG, IChartDataNode, IGithubUserPublicEvent } from 'src/app/interfaces';
 
-import { getRandomColor, ITypedSimpleChange } from '../../utils/index';
+import { getRandomColor, ITypedSimpleChange } from '../../utils/ui.utils';
 
 interface IInputChanges extends SimpleChanges {
   publicEvents: ITypedSimpleChange<IGithubUserPublicEvent<unknown>[]>;

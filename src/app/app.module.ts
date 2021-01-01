@@ -19,9 +19,10 @@ import { AppRootComponent } from './components/root/root.component';
 import { AutofocusDirective } from './directives/autofocus/autofocus.directive';
 import { AutoscrollDirective } from './directives/autoscroll/autoscroll.directive';
 import { AppMaterialModule } from './modules/material/material.module';
-import { UiStoreModule } from './modules/state/ui/ui.module';
-import { UserStoreModule } from './modules/state/user/user.module';
 import { AppServicesModule } from './services/app-services.module';
+import { AppThemeStoreModule } from './state/theme/theme.module';
+import { UiStoreModule } from './state/ui/ui.module';
+import { UserStoreModule } from './state/user/user.module';
 
 /**
  * Root application module.
@@ -38,6 +39,7 @@ import { AppServicesModule } from './services/app-services.module';
     NgxsRouterPluginModule.forRoot(),
     NgxsFormPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot({ disabled: environment.production, collapsed: true }),
+    AppThemeStoreModule,
     UserStoreModule,
     UiStoreModule,
     AppMaterialModule.forRoot(),

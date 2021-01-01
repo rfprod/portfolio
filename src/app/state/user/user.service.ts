@@ -9,10 +9,10 @@ import {
   IGithubUserPublicEvent,
   IGithubUserRepo,
   IGuthubUser,
-} from '../../../interfaces/github-api.interface';
-import { IUserConfig } from '../../../interfaces/user-config.interface';
-import { GithubService } from '../../../services/github/github.service';
-import { UserConfigService } from '../../../services/user-config/user-config.service';
+} from '../../interfaces/github-api.interface';
+import { IUserConfig } from '../../interfaces/user-config.interface';
+import { GithubService } from '../../services/github/github.service';
+import { UserConfigService } from '../../services/user-config/user-config.service';
 import { IUserService } from './user.interface';
 import { USER_STATE_TOKEN, userActions, UserState } from './user.store';
 

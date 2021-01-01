@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { AppContactComponent } from 'src/app/components/contact/contact.component';
 import { WINDOW } from 'src/app/services/providers.config';
 
-import { UserService } from '../../modules/state/user/user.service';
+import { UserService } from '../../state/user/user.service';
 
 /**
  * Application index component.

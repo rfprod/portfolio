@@ -5,8 +5,8 @@ import { Store } from '@ngxs/store';
 import { tap } from 'rxjs/operators';
 import { IFlatNode, ITreeNode, IUserConfig } from 'src/app/interfaces';
 
-import { uiActions } from '../../modules/state/ui/ui.store';
-import { UserService } from '../../modules/state/user/user.service';
+import { uiActions } from '../../state/ui/ui.store';
+import { UserService } from '../../state/user/user.service';
 
 /**
  * Tree transformer.

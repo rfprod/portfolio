@@ -1,11 +1,13 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, OnInit } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 
-import { uiActions, UiState } from '../../modules/state/ui/ui.store';
 import { HttpHandlersService } from '../../services/http-handlers/http-handlers.service';
+import { AppThemeService } from '../../state/theme/theme.service';
+import { AppThemeState } from '../../state/theme/theme.store';
+import { uiActions, UiState } from '../../state/ui/ui.store';
 
 /**
  * Application root component.
@@ -17,6 +19,20 @@ import { HttpHandlersService } from '../../services/http-handlers/http-handlers.
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppRootComponent implements OnInit {
+  /**
+   * Defines if UI should use alternative dark material theme.
+   */
+  @HostBinding('class.unicorn-dark-theme') public darkTheme = false;
+
+  /**
+   * Asyncronous material theme state.
+   */
+  public readonly getTheme$ = this.store.select(AppThemeState.getTheme).pipe(
+    tap(theme => {
+      this.darkTheme = theme.darkThemeEnabled;
+    }),
+  );
+
   /**
    * Sidenav opened state.
    */
@@ -35,6 +51,7 @@ export class AppRootComponent implements OnInit {
     private readonly store: Store,
     private readonly dateAdapter: DateAdapter<Date>,
     private readonly handlers: HttpHandlersService,
+    private readonly themeService: AppThemeService,
   ) {}
 
   /**
@@ -52,10 +69,28 @@ export class AppRootComponent implements OnInit {
   }
 
   /**
+   * Sets application theme depending on time.
+   */
+  public setTheme(): void {
+    const hours = new Date().getHours();
+    const morning = 9;
+    const evening = 18;
+    if (hours <= morning || hours >= evening) {
+      void this.themeService.enableDarkTheme().subscribe();
+    } else {
+      void this.themeService.disableDarkTheme().subscribe();
+    }
+  }
+
+  /**
    * Lifecycle hook.
    */
   public ngOnInit(): void {
     this.setDatepickerLocale();
+    /**
+     * @note TODO: set theme
+     */
+    // this.setTheme();
   }
 
   /**

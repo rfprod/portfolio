@@ -1,4 +1,4 @@
-import { getActionCreator } from '../../../utils/ngxs.util';
+import { getActionCreator } from '../../utils/ngxs.util';
 import { TUserPayload } from './user.interface';
 
 const createAction = getActionCreator('User');

@@ -18,7 +18,6 @@ export const uiActions = {
   name: UI_STATE_TOKEN,
   defaults: uiStateInitialValue,
 })
-// eslint-disable-next-line @angular-eslint/use-injectable-provided-in
 @Injectable()
 export class UiState {
   /**

@@ -7,8 +7,7 @@ export interface IActionPayload<T = void> {
  * @param actionScope
  */
 export const getActionCreator = (actionScope: string) => <
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  T extends IActionPayload<any> = { payload: void }
+  T extends IActionPayload<void | unknown> = { payload: void }
 >(
   actionName: string,
 ) =>

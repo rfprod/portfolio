@@ -36,14 +36,14 @@
             }
           },
           "options": {
-            "allowedCommonJsDependencies": ["hammerjs"],
+            "allowedCommonJsDependencies": [],
             "aot": true,
             "assets": ["src/favicon.ico", "src/assets"],
             "baseHref": "/",
             "budgets": [
               {
-                "maximumError": "12mb",
-                "maximumWarning": "8mb",
+                "maximumError": "13mb",
+                "maximumWarning": "10mb",
                 "type": "initial"
               },
               {

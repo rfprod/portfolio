@@ -18,19 +18,36 @@ module.exports = {
     'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
     'plugin:@angular-eslint/recommended',
+    'plugin:eslint-comments/recommended',
   ],
   plugins: [
     'prettier',
     '@typescript-eslint', // https://github.com/typescript-eslint/typescript-eslint
     '@angular-eslint', // https://github.com/angular-eslint/angular-eslint
-    'deprecation', // https://github.com/gund/eslint-plugin-deprecation
     'simple-import-sort', // https://github.com/lydell/eslint-plugin-simple-import-sort
     'rxjs', // https://github.com/cartant/eslint-plugin-rxjs
     'compat', // https://www.npmjs.com/package/eslint-plugin-compat
+    'eslint-comments', // https://mysticatea.github.io/eslint-plugin-eslint-comments/rules/
   ],
   ignorePatterns: ['*.min.js', 'node_modules/'],
 
   rules: {
+    'eslint-comments/no-unused-disable': 'error',
+    'eslint-comments/no-use': [
+      'error',
+      {
+        allow: ['eslint-disable', 'eslint-enable', 'eslint-disable-next-line'],
+      },
+    ],
+    'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: false }],
+    'eslint-comments/require-description': ['error', { ignore: [] }],
+    'eslint-comments/no-restricted-disable': [
+      'error',
+      '*',
+      '!no-console',
+      '!no-labels',
+      '!prettier',
+    ],
     '@typescript-eslint/await-thenable': 'error',
     '@typescript-eslint/ban-ts-comment': 'error',
     '@typescript-eslint/ban-types': [
@@ -65,7 +82,7 @@ module.exports = {
       { default: ['static-field', 'instance-field', 'static-method', 'instance-method'] },
     ],
     '@typescript-eslint/naming-convention': [
-      'error', // TODO: refactor sources and turn on error; rule reference https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/naming-convention.md
+      'error', // rule reference https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/naming-convention.md
       {
         selector: 'default',
         format: ['camelCase'],
@@ -74,13 +91,23 @@ module.exports = {
       },
       {
         selector: 'variable',
-        format: ['camelCase', 'UPPER_CASE', 'PascalCase'],
+        format: ['camelCase', 'UPPER_CASE', 'StrictPascalCase'],
         leadingUnderscore: 'forbid',
         trailingUnderscore: 'forbid',
       },
       {
         selector: 'parameter',
         format: ['camelCase'],
+        leadingUnderscore: 'forbid',
+        trailingUnderscore: 'forbid',
+      },
+      {
+        selector: 'objectLiteralProperty',
+        /**
+         * StrictPascalCase can be used only in cases when camelCase is not applicable, like in http headers, e.g. 'Authorization'.
+         * In all other cases camelCase must be used.
+         */
+        format: ['camelCase', 'StrictPascalCase'],
         leadingUnderscore: 'forbid',
         trailingUnderscore: 'forbid',
       },
@@ -217,7 +244,6 @@ module.exports = {
     'constructor-super': 'error',
     complexity: ['error', 10],
     'default-param-last': 'off', // handled by @typescript-eslint rule
-    'deprecation/deprecation': 'off',
     eqeqeq: 'error',
     'func-name-matching': ['error', 'always'],
     'guard-for-in': 'error',
@@ -347,10 +373,105 @@ module.exports = {
       },
     },
     {
+      files: '**/*.patch.ts',
+      rules: {
+        'compat/compat': 'off',
+      },
+    },
+    {
       files: '**/*.mock.ts',
       rules: {
         'require-jsdoc': 'off',
         'compat/compat': 'off',
+      },
+    },
+    {
+      files: ['**/github-api.interface.ts'],
+      rules: {
+        '@typescript-eslint/naming-convention': [
+          'error', // rule reference https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/naming-convention.md
+          {
+            selector: 'default',
+            format: ['camelCase'],
+            leadingUnderscore: 'forbid',
+            trailingUnderscore: 'forbid',
+          },
+          {
+            selector: 'variable',
+            format: ['camelCase', 'UPPER_CASE', 'StrictPascalCase'],
+            leadingUnderscore: 'forbid',
+            trailingUnderscore: 'forbid',
+          },
+          {
+            selector: 'parameter',
+            format: ['camelCase'],
+            leadingUnderscore: 'forbid',
+            trailingUnderscore: 'forbid',
+          },
+          {
+            selector: 'objectLiteralProperty',
+            format: ['camelCase'],
+            leadingUnderscore: 'forbid',
+            trailingUnderscore: 'forbid',
+          },
+          {
+            selector: 'property',
+            format: ['camelCase', 'snake_case'],
+            leadingUnderscore: 'forbid',
+            trailingUnderscore: 'forbid',
+          },
+          {
+            selector: 'function',
+            format: ['camelCase'],
+            leadingUnderscore: 'forbid',
+            trailingUnderscore: 'forbid',
+          },
+          {
+            selector: 'enum',
+            format: ['UPPER_CASE'],
+            leadingUnderscore: 'forbid',
+            trailingUnderscore: 'forbid',
+          },
+          {
+            selector: 'enumMember',
+            format: ['UPPER_CASE'],
+            leadingUnderscore: 'forbid',
+            trailingUnderscore: 'forbid',
+          },
+          {
+            selector: 'memberLike',
+            modifiers: ['private'],
+            format: ['camelCase'],
+            leadingUnderscore: 'forbid',
+            trailingUnderscore: 'forbid',
+          },
+          {
+            selector: 'typeAlias',
+            prefix: ['T'],
+            format: ['StrictPascalCase'],
+            leadingUnderscore: 'forbid',
+            trailingUnderscore: 'forbid',
+          },
+          {
+            selector: 'typeParameter',
+            format: ['StrictPascalCase'],
+            leadingUnderscore: 'forbid',
+            trailingUnderscore: 'forbid',
+          },
+          {
+            selector: 'interface',
+            prefix: ['I'],
+            format: ['StrictPascalCase'],
+            leadingUnderscore: 'forbid',
+            trailingUnderscore: 'forbid',
+          },
+          {
+            selector: 'class',
+            format: ['StrictPascalCase'],
+            leadingUnderscore: 'forbid',
+            trailingUnderscore: 'forbid',
+          },
+        ],
       },
     },
   ],

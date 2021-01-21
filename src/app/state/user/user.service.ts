@@ -136,10 +136,10 @@ export class UserService implements IUserService {
         const imgShow = { ...state.imgShow };
         let githubLanguagesKeys = Object.keys(githubLanguages);
         let githubLanguagesTotal = state.githubLanguagesTotal;
-        // eslint-disable-next-line no-labels
+        // eslint-disable-next-line no-labels -- label is needed here for performance optimization
         loop: for (const lang of Object.keys(data)) {
           if (lang.includes('$')) {
-            // eslint-disable-next-line no-labels
+            // eslint-disable-next-line no-labels -- label is needed here for performance optimization
             break loop;
           }
           githubLanguagesTotal += data[lang];

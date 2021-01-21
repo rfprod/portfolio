@@ -10,15 +10,15 @@ export class AutofocusDirective implements OnInit, OnChanges {
   /**
    * Autofocus state.
    */
-  private autofocusState = false;
+  public autofocusState = false;
 
-  private nativeElement?: HTMLElement;
+  public nativeElement?: HTMLElement;
 
   /**
    * Constructor.
    * @param el Element reference
    */
-  constructor(private readonly el: ElementRef) {}
+  constructor(public readonly el: ElementRef) {}
 
   /**
    * Autofocus setter.

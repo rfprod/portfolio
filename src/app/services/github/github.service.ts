@@ -190,7 +190,6 @@ export class GithubService {
    * Gets authorization header.
    */
   private getAuthHeaders() {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     return new HttpHeaders({ Authorization: `token ${this.githubAccessToken}` });
   }
 }

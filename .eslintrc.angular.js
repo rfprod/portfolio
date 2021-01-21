@@ -49,10 +49,22 @@ module.exports = {
       },
     },
     {
+      files: '**/*.store.ts',
+      rules: {
+        '@angular-eslint/use-injectable-provided-in': 'off',
+      },
+    },
+    {
       files: '**/*.mock.ts',
       rules: {
         '@angular-eslint/use-injectable-provided-in': 'off',
         '@angular-eslint/prefer-on-push-component-change-detection': 'off',
+      },
+    },
+    {
+      files: ['**/hammerjs-gesture.config.ts'],
+      rules: {
+        '@angular-eslint/use-injectable-provided-in': 'off',
       },
     },
   ],

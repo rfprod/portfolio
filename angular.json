@@ -36,7 +36,7 @@
             }
           },
           "options": {
-            "allowedCommonJsDependencies": [],
+            "allowedCommonJsDependencies": ["hammerjs"],
             "aot": true,
             "assets": ["src/favicon.ico", "src/assets"],
             "baseHref": "/",

@@ -15,6 +15,8 @@ import { AppActivityComponent } from './components/activity/activity.component';
 import { AppApplicationsComponent } from './components/applications/applications.component';
 import { AppContactComponent } from './components/contact/contact.component';
 import { AppIndexComponent } from './components/index/index.component';
+import { AppLanguagesComponent } from './components/languages/languages.component';
+import { AppProfilesComponent } from './components/profiles/profiles.component';
 import { AppRootComponent } from './components/root/root.component';
 import { AutofocusDirective } from './directives/autofocus/autofocus.directive';
 import { AutoscrollDirective } from './directives/autoscroll/autoscroll.directive';
@@ -49,13 +51,15 @@ import { UserStoreModule } from './state/user/user.module';
   declarations: [
     AppRootComponent,
     AppIndexComponent,
+    AppProfilesComponent,
+    AppLanguagesComponent,
     AppContactComponent,
     AutofocusDirective,
     AutoscrollDirective,
     AppApplicationsComponent,
     AppActivityComponent,
   ],
-  entryComponents: [AppContactComponent],
+  entryComponents: [AppProfilesComponent, AppLanguagesComponent, AppContactComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppRootComponent],
 })

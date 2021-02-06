@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { AppContactComponent } from 'src/app/components/contact/contact.component';
 import { WINDOW } from 'src/app/services/providers.config';
 
@@ -34,25 +32,6 @@ export class AppIndexComponent {
   public publicEvents$ = this.user.publicEvents$;
 
   /**
-   * Images 'show' state.
-   */
-  public imgShow: {
-    github: boolean;
-    codepen: boolean;
-    codewars: boolean;
-    hackerrank: boolean;
-    languageIcons: {
-      [key: string]: boolean;
-    };
-  } = {
-    github: true,
-    codepen: true,
-    codewars: true,
-    hackerrank: true,
-    languageIcons: {},
-  };
-
-  /**
    * Material dialog instance.
    */
   private dialogInstance?: MatDialogRef<AppContactComponent>;
@@ -67,7 +46,6 @@ export class AppIndexComponent {
    */
   constructor(
     private readonly dialog: MatDialog,
-    private readonly domSanitizer: DomSanitizer,
     private readonly user: UserService,
     @Inject(WINDOW) private readonly win: Window,
   ) {
@@ -92,54 +70,5 @@ export class AppIndexComponent {
       this.dialogSub?.unsubscribe();
       this.dialogInstance = void 0;
     });
-  }
-
-  /**
-   * Image show event handler.
-   */
-  public showImage(imageKey: string, languageIcon = false): boolean {
-    return languageIcon ? this.imgShow.languageIcons[imageKey] : this.imgShow[imageKey];
-  }
-
-  /**
-   * Image loaded event handler.
-   */
-  public imgLoaded(imageKey: string, languageIcon = false): void {
-    if (languageIcon) {
-      this.imgShow.languageIcons[imageKey] = true;
-    } else {
-      this.imgShow[imageKey] = true;
-    }
-  }
-
-  /**
-   * Image error event handler.
-   */
-  public imgError(imageKey: string, languageIcon = false): void {
-    if (languageIcon) {
-      this.imgShow.languageIcons[imageKey] = false;
-    } else {
-      this.imgShow[imageKey] = false;
-    }
-  }
-
-  /**
-   * Returns language icon.
-   */
-  public languageIcon$(
-    githubLangKeys: string[],
-  ): Observable<{ url: SafeResourceUrl; key: string }[]> {
-    return this.user.languageIcons$.pipe(
-      map(languageIcons => {
-        const result: { url: SafeResourceUrl; key: string }[] = [];
-        for (const key of githubLangKeys) {
-          const icon = languageIcons?.find(item => item.name === key)?.icon ?? '';
-          const url = this.domSanitizer.bypassSecurityTrustUrl(icon);
-          const obj = { key, url };
-          result.push(obj);
-        }
-        return result;
-      }),
-    );
   }
 }

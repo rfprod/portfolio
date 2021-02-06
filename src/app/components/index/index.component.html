@@ -58,23 +58,25 @@
           </mat-chip>
         </mat-chip-list>
 
+        <div fxFlex="100" [ngStyle]="{ margin: '16px 0 0 0' }">
+          <mat-divider></mat-divider>
+        </div>
+
         <div
           fxFlex="100"
           *ngIf="data.github?.company"
           fxLayout="row wrap"
           fxLayoutAlign="start center"
-          fxLayoutGap="15px"
-          [ngStyle]="{ padding: '15px 0 0 0' }"
+          fxLayoutGap="16px"
+          [ngStyle]="{ padding: '16px 0 0 0' }"
         >
-          <h4 fxFlex="100">Organizations</h4>
-
           <div
             fxFlex="100"
             fxLayout="row"
             fxLayoutAlign="start center"
-            fxLayoutGap="15px"
+            fxLayoutGap="16px"
             *ngIf="githubOrgs$ | async as orgs"
-            [ngStyle]="{ padding: '0 15px' }"
+            [ngStyle]="{ padding: '0 16px' }"
           >
             <a
               *ngFor="let org of orgs"
@@ -88,121 +90,35 @@
               />
             </a>
           </div>
+
+          <h3 fxFlex="100" fxLayoutAlign="end">Organizations</h3>
         </div>
 
-        <div
-          fxFlex="100"
-          fxLayout="row wrap"
-          fxLayoutAlign="start center"
-          fxLayoutGap="15px"
-          *ngIf="data.profiles"
-          [ngStyle]="{ padding: '15px 0 0 0' }"
-        >
-          <h4 fxFlex="100">Profiles</h4>
-
-          <div
-            fxFlex="100"
-            fxLayout="row wrap"
-            fxLayoutAlign="start center"
-            fxLayoutGap="15px"
-            [ngStyle]="{ padding: '0 15px' }"
-          >
-            <a
-              *ngFor="let profile of data.profiles"
-              [href]="profile.link"
-              [title]="profile.name"
-              target="_blank"
-            >
-              <img
-                [ngStyle]="{ height: '46px', width: 'auto!important' }"
-                [src]="profile.imgRef"
-                (load)="imgLoaded(profile.name)"
-                (error)="imgError(profile.name)"
-                (showImage)="showImage(profile.name)"
-              />
-            </a>
-          </div>
+        <div fxFlex="100">
+          <mat-divider></mat-divider>
         </div>
 
-        <div
-          fxFlex="100"
-          fxLayout="row wrap"
-          fxLayoutAlign="start center"
-          [ngStyle]="{ padding: '15px 0 0 0' }"
-        >
-          <h4 fxFlex="100">Languages</h4>
-
-          <div
-            fxFlex="100"
-            fxLayout="row wrap"
-            fxLayoutAlign="start denter"
-            fxLayoutGap="15px"
-            [ngStyle]="{ padding: '0 15px' }"
-          >
-            <div
-              fxFlex="0 1 auto"
-              *ngFor="
-                let githubLang of languageIcon$(data.githubLanguagesKeys) | async as githubLangs
-              "
-            >
-              <div
-                fxLayout="row"
-                fxLayoutAlign="center center"
-                [ngStyle]="{
-                  height: '90px',
-                  width: '90px',
-                  opacity: '0.8',
-                  margin: '0 10px 0 0'
-                }"
-                [ngStyle.lt-md]="{
-                  height: '45px',
-                  width: '45px',
-                  opacity: '0.8',
-                  margin: '0 10px 0 0'
-                }"
-                [ngStyle.xs]="{
-                  height: '35px',
-                  width: '35px',
-                  opacity: '0.8',
-                  margin: '0 10px 0 0'
-                }"
-                [matTooltip]="githubLang.key"
-              >
-                <img
-                  [src]="githubLang.url"
-                  [ngStyle]="{
-                    'max-height': '90px',
-                    height: 'auto!important',
-                    width: '100%',
-                    'border-radius': '5px'
-                  }"
-                  [ngStyle.lt-md]="{
-                    'max-height': '45px',
-                    height: 'auto!important',
-                    width: '100%',
-                    'border-radius': '5px'
-                  }"
-                  [ngStyle.xs]="{
-                    'max-height': '35px',
-                    height: 'auto!important',
-                    width: '100%',
-                    'border-radius': '5px'
-                  }"
-                  (load)="imgLoaded(githubLang.key, true)"
-                  (error)="imgError(githubLang.key, true)"
-                  (showImage)="showImage(githubLang.key, true)"
-                />
-              </div>
-
-              <div [ngStyle]="{ width: '100%', 'text-align': 'center', 'font-weight': 'bold' }">
-                <div>{{ $any(data.githubLanguagesRate)[githubLang.key] }}%</div>
-                <div class="mat-caption">{{ $any(data.githubLanguages)[githubLang.key] }}</div>
-              </div>
-            </div>
-          </div>
+        <div fxFlex="100" [ngStyle]="{ padding: '16px 0 0 0' }">
+          <app-profiles [profiles]="data.profiles"></app-profiles>
         </div>
 
-        <div fxFlex="100" [ngStyle]="{ padding: '15px 0 0 0' }">
+        <div fxFlex="100">
+          <mat-divider></mat-divider>
+        </div>
+
+        <div fxFlex="100" [ngStyle]="{ padding: '16px 0 0 0' }">
+          <app-languages
+            [githubLanguages]="data.githubLanguages"
+            [githubLanguagesKeys]="data.githubLanguagesKeys"
+            [githubLanguagesRate]="data.githubLanguagesRate"
+          ></app-languages>
+        </div>
+
+        <div fxFlex="100">
+          <mat-divider></mat-divider>
+        </div>
+
+        <div fxFlex="100" [ngStyle]="{ padding: '16px 0 0 0' }">
           <app-activity [publicEvents]="publicEvents$ | async"></app-activity>
         </div>
       </mat-card-content>

@@ -1,0 +1,76 @@
+<div
+  fxFlex="100"
+  fxLayout="row wrap"
+  fxLayoutAlign="start center"
+  *ngIf="githubLanguages && githubLanguagesKeys && githubLanguagesRate"
+  [ngStyle]="{ padding: '16px 0 0 0' }"
+>
+  <div
+    fxFlex="100"
+    fxLayout="row wrap"
+    fxLayoutAlign="start denter"
+    fxLayoutGap="16px"
+    [ngStyle]="{ padding: '0 16px' }"
+  >
+    <div
+      fxFlex="0 1 auto"
+      *ngFor="let githubLang of languageIcon$(githubLanguagesKeys) | async as githubLangs"
+    >
+      <div
+        fxLayout="row"
+        fxLayoutAlign="center center"
+        [ngStyle]="{
+          height: '90px',
+          width: '90px',
+          opacity: '0.8',
+          margin: '0 10px 0 0'
+        }"
+        [ngStyle.lt-md]="{
+          height: '45px',
+          width: '45px',
+          opacity: '0.8',
+          margin: '0 10px 0 0'
+        }"
+        [ngStyle.xs]="{
+          height: '35px',
+          width: '35px',
+          opacity: '0.8',
+          margin: '0 10px 0 0'
+        }"
+        [matTooltip]="githubLang.key"
+      >
+        <img
+          [src]="githubLang.url"
+          [ngStyle]="{
+            'max-height': '90px',
+            height: 'auto!important',
+            width: '100%',
+            'border-radius': '5px'
+          }"
+          [ngStyle.lt-md]="{
+            'max-height': '45px',
+            height: 'auto!important',
+            width: '100%',
+            'border-radius': '5px'
+          }"
+          [ngStyle.xs]="{
+            'max-height': '35px',
+            height: 'auto!important',
+            width: '100%',
+            'border-radius': '5px'
+          }"
+          (load)="imgLoaded(githubLang.key)"
+          (error)="imgError(githubLang.key)"
+          (showImage)="showImage(githubLang.key)"
+        />
+      </div>
+
+      <div [ngStyle]="{ width: '100%', 'text-align': 'center', 'font-weight': 'bold' }">
+        <div>{{ $any(githubLanguagesRate)[githubLang.key] }}%</div>
+        <div class="mat-caption">{{ $any(githubLanguages)[githubLang.key] }}</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 fxFlex="100" fxLayoutAlign="end">Languages</h3>
+</div>

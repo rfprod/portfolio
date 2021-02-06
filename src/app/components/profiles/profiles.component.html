@@ -1,0 +1,33 @@
+<div
+  fxFlex="100"
+  fxLayout="row wrap"
+  fxLayoutAlign="start center"
+  fxLayoutGap="16px"
+  *ngIf="profiles"
+  [ngStyle]="{ padding: '16px 0 0 0' }"
+>
+  <div
+    fxFlex="100"
+    fxLayout="row wrap"
+    fxLayoutAlign="start center"
+    fxLayoutGap="16px"
+    [ngStyle]="{ padding: '0 16px' }"
+  >
+    <a
+      *ngFor="let profile of profiles"
+      [href]="profile.link"
+      [title]="profile.name"
+      target="_blank"
+    >
+      <img
+        [ngStyle]="{ height: '46px', width: 'auto!important' }"
+        [src]="profile.imgRef"
+        (load)="imgLoaded(profile.name)"
+        (error)="imgError(profile.name)"
+        (showImage)="showImage(profile.name)"
+      />
+    </a>
+  </div>
+
+  <h3 fxFlex="100" fxLayoutAlign="end">Profiles</h3>
+</div>

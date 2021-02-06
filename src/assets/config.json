@@ -22,16 +22,6 @@
     },
     {
       "imgRef": "assets/firebase-logo.svg",
-      "name": "Angular application starter kit",
-      "tag": "angular",
-      "urls": {
-        "android": "",
-        "repo": "https://github.com/rfprod/ng2ns",
-        "web": "https://ngns-cfefa.web.app"
-      }
-    },
-    {
-      "imgRef": "assets/firebase-logo.svg",
       "name": "DNBHUB multimedia concentrator",
       "tag": "angular",
       "urls": {
@@ -58,16 +48,6 @@
         "android": "",
         "repo": "https://github.com/rfprod/protractor-bot",
         "web": "https://rfprod.github.io/protractor-bot"
-      }
-    },
-    {
-      "imgRef": "assets/nx-logo.svg",
-      "name": "Sample Monorepo Architecture",
-      "tag": "other",
-      "urls": {
-        "android": "",
-        "repo": "https://gist.github.com/rfprod/74b25a98ad00f2d4350a3c5f5523cf84",
-        "web": ""
       }
     },
     {

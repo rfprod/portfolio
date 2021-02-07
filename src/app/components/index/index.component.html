@@ -27,71 +27,16 @@
       </mat-card-header>
 
       <mat-card-content fxLayout="row wrap">
-        <mat-chip-list>
-          <mat-chip color="primary" *ngIf="data.github?.location" [selectable]="false" disabled>
-            <mat-icon color="primary">my_location</mat-icon>
-            &nbsp; Location: {{ data.github?.location }}
-          </mat-chip>
-
-          <mat-chip color="primary" *ngIf="data.github?.email" [selectable]="false" disabled>
-            Email: {{ data.github?.email }}
-          </mat-chip>
-
-          <mat-chip color="primary" [selectable]="false" disabled>
-            <mat-icon color="primary">library_books</mat-icon>
-            &nbsp; Gists: {{ data.github?.public_gists }}
-          </mat-chip>
-
-          <mat-chip color="primary" [selectable]="false" disabled>
-            <mat-icon color="primary">code</mat-icon>
-            &nbsp; Repos: {{ data.github?.public_repos }}
-          </mat-chip>
-
-          <mat-chip color="primary" [selectable]="false" disabled>
-            <mat-icon color="primary">date_range</mat-icon>
-            &nbsp; Created: {{ data.github?.created_at | date }}
-          </mat-chip>
-
-          <mat-chip color="primary" [selectable]="false" disabled>
-            <mat-icon color="primary">update</mat-icon>
-            &nbsp; Updated: {{ data.github?.updated_at | date }}
-          </mat-chip>
-        </mat-chip-list>
+        <div fxFlex="100" [ngStyle]="{ padding: '16px 0 0 0' }">
+          <app-status-badges [github]="data.github"></app-status-badges>
+        </div>
 
         <div fxFlex="100" [ngStyle]="{ margin: '16px 0 0 0' }">
           <mat-divider></mat-divider>
         </div>
 
-        <div
-          fxFlex="100"
-          *ngIf="data.github?.company"
-          fxLayout="row wrap"
-          fxLayoutAlign="start center"
-          fxLayoutGap="16px"
-          [ngStyle]="{ padding: '16px 0 0 0' }"
-        >
-          <div
-            fxFlex="100"
-            fxLayout="row"
-            fxLayoutAlign="start center"
-            fxLayoutGap="16px"
-            *ngIf="githubOrgs$ | async as orgs"
-            [ngStyle]="{ padding: '0 16px' }"
-          >
-            <a
-              *ngFor="let org of orgs"
-              [href]="org.url"
-              target="_blank"
-              matTooltip="{{ org.login }}"
-            >
-              <img
-                [ngStyle]="{ height: '42px', width: 'auto!important', 'border-radius': '5px' }"
-                [src]="org.avatar_url"
-              />
-            </a>
-          </div>
-
-          <h3 fxFlex="100" fxLayoutAlign="end">Organizations</h3>
+        <div fxFlex="100" *ngIf="data.github?.company" [ngStyle]="{ padding: '16px 0 0 0' }">
+          <app-organizations [githubOrgs]="githubOrgs$ | async"></app-organizations>
         </div>
 
         <div fxFlex="100">

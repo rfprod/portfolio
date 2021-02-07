@@ -16,8 +16,10 @@ import { AppApplicationsComponent } from './components/applications/applications
 import { AppContactComponent } from './components/contact/contact.component';
 import { AppIndexComponent } from './components/index/index.component';
 import { AppLanguagesComponent } from './components/languages/languages.component';
+import { AppOrganizationsComponent } from './components/organizations/organizations.component';
 import { AppProfilesComponent } from './components/profiles/profiles.component';
 import { AppRootComponent } from './components/root/root.component';
+import { AppStatusBadgesComponent } from './components/status-badges/status-badges.component';
 import { AutofocusDirective } from './directives/autofocus/autofocus.directive';
 import { AutoscrollDirective } from './directives/autoscroll/autoscroll.directive';
 import { AppMaterialModule } from './modules/material/material.module';
@@ -51,7 +53,9 @@ import { UserStoreModule } from './state/user/user.module';
   declarations: [
     AppRootComponent,
     AppIndexComponent,
+    AppStatusBadgesComponent,
     AppProfilesComponent,
+    AppOrganizationsComponent,
     AppLanguagesComponent,
     AppContactComponent,
     AutofocusDirective,

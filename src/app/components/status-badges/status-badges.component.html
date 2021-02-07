@@ -1,0 +1,30 @@
+<mat-chip-list>
+  <mat-chip color="primary" *ngIf="github?.location" [selectable]="false" disabled>
+    <mat-icon color="primary">my_location</mat-icon>
+    &nbsp; Location: {{ github?.location }}
+  </mat-chip>
+
+  <mat-chip color="primary" *ngIf="github?.email" [selectable]="false" disabled>
+    Email: {{ github?.email }}
+  </mat-chip>
+
+  <mat-chip color="primary" [selectable]="false" disabled>
+    <mat-icon color="primary">library_books</mat-icon>
+    &nbsp; Gists: {{ github?.public_gists }}
+  </mat-chip>
+
+  <mat-chip color="primary" [selectable]="false" disabled>
+    <mat-icon color="primary">code</mat-icon>
+    &nbsp; Repos: {{ github?.public_repos }}
+  </mat-chip>
+
+  <mat-chip color="primary" [selectable]="false" disabled>
+    <mat-icon color="primary">date_range</mat-icon>
+    &nbsp; Created: {{ github?.created_at | date }}
+  </mat-chip>
+
+  <mat-chip color="primary" [selectable]="false" disabled>
+    <mat-icon color="primary">update</mat-icon>
+    &nbsp; Updated: {{ github?.updated_at | date }}
+  </mat-chip>
+</mat-chip-list>

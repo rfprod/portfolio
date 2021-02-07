@@ -7,7 +7,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
  */
 @Component({
   selector: 'app-dummy-component',
-  template: '<span>summy component</span>',
+  template: `
+    <span appAutoscroll>dummy component</span>
+    <input appAutofocus value="input" />
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DummyComponent {}

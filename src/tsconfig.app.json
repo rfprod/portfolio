@@ -3,13 +3,13 @@
     "outDir": "../dist/out-tsc/app"
   },
   "exclude": [
-    "./test-setup.ts",
-    "./mocks/**/*",
+    "**/test-setup.ts",
+    "**/mocks/**/*",
     "./app/**/*.spec.ts",
     "**/*.mock.ts",
     "**/*.patch.ts"
   ],
   "extends": "../tsconfig.json",
   "files": ["./main.ts", "./polyfills.ts"],
-  "include": [".app/**/*.ts"]
+  "include": ["**/*.ts"]
 }

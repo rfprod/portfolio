@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { timer } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
+import { DummyComponent } from 'src/app/mocks/components/dummy.component';
 
-import { DummyComponent } from '../../../mocks/components/dummy.component.mock';
 import { AutoscrollDirective } from './autoscroll.directive';
 
 describe('AutoscrollDirective', () => {

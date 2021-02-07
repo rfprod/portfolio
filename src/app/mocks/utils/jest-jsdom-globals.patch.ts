@@ -105,11 +105,9 @@ function setupGlobalMutationObserverMock() {
   /**
    * Mutation observer.
    */
-  const mutationObserver = (...args: any[]) => ({
-    observe: jest.fn(),
-    takeRecords: jest.fn(),
-    disconnect: jest.fn(),
-  });
+  function mutationObserver(...args: any[]) {
+    return { observe: jest.fn(), takeRecords: jest.fn(), disconnect: jest.fn() };
+  }
 
   Object.defineProperty(global, 'MutationObserver', {
     value: mutationObserver,

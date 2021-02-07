@@ -12,11 +12,11 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule, Store } from '@ngxs/store';
+import { DummyComponent } from 'src/app/mocks/components/dummy.component';
 import { UiState } from 'src/app/state/ui/ui.store';
 import { UserService } from 'src/app/state/user/user.service';
 import { UserState } from 'src/app/state/user/user.store';
 
-import { DummyComponent } from '../../../mocks/components/dummy.component.mock';
 import { AppMaterialModule } from '../../modules/material/material.module';
 import { GithubService } from '../../services/github/github.service';
 import { HttpHandlersService } from '../../services/http-handlers/http-handlers.service';

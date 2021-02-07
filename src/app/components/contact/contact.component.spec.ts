@@ -13,9 +13,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { DialogRefMock } from 'src/mocks/utils/refs/dialog-ref.mock';
 
-import { DummyComponent } from '../../../mocks/components/dummy.component.mock';
+import { DummyComponent } from '../../mocks/components/dummy.component';
+import { DialogRefMock } from '../../mocks/utils/refs/dialog-ref.mock';
 import { AppMaterialModule } from '../../modules/material/material.module';
 import { HttpHandlersService } from '../../services/http-handlers/http-handlers.service';
 import { WINDOW } from '../../services/providers.config';

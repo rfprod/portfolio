@@ -1,84 +1,63 @@
-<div
-  fxLayout="row"
-  [ngStyle]="{ height: '100%' }"
-  fxLayoutAlign="stretch"
-  *ngIf="data$ | async as data"
->
-  <div fxFlex="1 1 auto" fxFlex.xs="100" fxLayout="row wrap">
-    <mat-card
-      fxFlex="100"
-      class="marged"
-      *ngIf="data.github"
-      [ngStyle]="{ 'min-height': '100%', height: 'auto!important', width: '100%' }"
-    >
-      <mat-card-header>
-        <div mat-card-avatar>
-          <img
-            [ngStyle]="{ height: '50px', width: 'auto!important', 'border-radius': '5px' }"
-            [src]="data.github?.avatar_url"
-          />
-        </div>
-        <mat-card-title> {{ data.github?.login }}</mat-card-title>
-        <mat-card-subtitle matTooltip="Current hireable status">
-          <div *ngIf="data.github?.hireable">HIREABLE</div>
+<div class="container" fxLayout="row wrap" fxLayoutAlign="stretch" *ngIf="data$ | async as data">
+  <mat-card fxFlex="100" class="container__content" *ngIf="data.github">
+    <mat-card-header>
+      <div mat-card-avatar>
+        <img class="container__content--avatar" [src]="data.github?.avatar_url" />
+      </div>
+      <mat-card-title> {{ data.github?.login }}</mat-card-title>
+      <mat-card-subtitle matTooltip="Hireability status">
+        <div *ngIf="data.github?.hireable">HIREABLE</div>
 
-          <span *ngIf="!data.github?.hireable"> NOT HIREABLE </span>
-        </mat-card-subtitle>
-      </mat-card-header>
+        <span *ngIf="!data.github?.hireable"> NOT HIREABLE </span>
+      </mat-card-subtitle>
+    </mat-card-header>
 
-      <mat-card-content fxLayout="row wrap">
-        <div fxFlex="100" [ngStyle]="{ padding: '16px 0 0 0' }">
-          <app-status-badges [github]="data.github"></app-status-badges>
-        </div>
+    <mat-card-content fxLayout="row wrap">
+      <div fxFlex="100" class="container__content--marge-top">
+        <app-status-badges [github]="data.github"></app-status-badges>
+      </div>
 
-        <div fxFlex="100" [ngStyle]="{ margin: '16px 0 0 0' }">
-          <mat-divider></mat-divider>
-        </div>
+      <div fxFlex="100" class="container__content--divider">
+        <mat-divider></mat-divider>
+      </div>
 
-        <div fxFlex="100" *ngIf="data.github?.company" [ngStyle]="{ padding: '16px 0 0 0' }">
-          <app-organizations [githubOrgs]="githubOrgs$ | async"></app-organizations>
-        </div>
+      <div fxFlex="100" *ngIf="data.github?.company" class="container__content--marge-top">
+        <app-organizations [githubOrgs]="githubOrgs$ | async"></app-organizations>
+      </div>
 
-        <div fxFlex="100">
-          <mat-divider></mat-divider>
-        </div>
+      <div fxFlex="100" class="container__content--divider">
+        <mat-divider></mat-divider>
+      </div>
 
-        <div fxFlex="100" [ngStyle]="{ padding: '16px 0 0 0' }">
-          <app-profiles [profiles]="data.profiles"></app-profiles>
-        </div>
+      <div fxFlex="100" class="container__content--marge-top">
+        <app-profiles [profiles]="data.profiles"></app-profiles>
+      </div>
 
-        <div fxFlex="100">
-          <mat-divider></mat-divider>
-        </div>
+      <div fxFlex="100" class="container__content--divider">
+        <mat-divider></mat-divider>
+      </div>
 
-        <div fxFlex="100" [ngStyle]="{ padding: '16px 0 0 0' }">
-          <app-languages
-            [githubLanguages]="data.githubLanguages"
-            [githubLanguagesKeys]="data.githubLanguagesKeys"
-            [githubLanguagesRate]="data.githubLanguagesRate"
-          ></app-languages>
-        </div>
+      <div fxFlex="100" class="container__content--marge-top">
+        <app-languages
+          [githubLanguages]="data.githubLanguages"
+          [githubLanguagesKeys]="data.githubLanguagesKeys"
+          [githubLanguagesRate]="data.githubLanguagesRate"
+        ></app-languages>
+      </div>
 
-        <div fxFlex="100">
-          <mat-divider></mat-divider>
-        </div>
+      <div fxFlex="100" class="container__content--divider">
+        <mat-divider></mat-divider>
+      </div>
 
-        <div fxFlex="100" [ngStyle]="{ padding: '16px 0 0 0' }">
-          <app-activity [publicEvents]="publicEvents$ | async"></app-activity>
-        </div>
-      </mat-card-content>
+      <div fxFlex="100" class="container__content--marge-top">
+        <app-activity [publicEvents]="publicEvents$ | async"></app-activity>
+      </div>
+    </mat-card-content>
 
-      <mat-card-actions>
-        <button
-          *ngIf="data.github?.hireable"
-          mat-icon-button
-          (click)="showContactDialog()"
-          color="primary"
-          matTooltip="Send email"
-        >
-          <mat-icon class="material-icons">email</mat-icon>
-        </button>
-      </mat-card-actions>
-    </mat-card>
-  </div>
+    <div class="email-form-toggler" *ngIf="data.github?.hireable">
+      <button mat-fab color="primary" (click)="showContactDialog()" matTooltip="Send email">
+        <mat-icon class="material-icons">email</mat-icon>
+      </button>
+    </div>
+  </mat-card>
 </div>

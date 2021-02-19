@@ -1,5 +1,7 @@
-<div fxLayout="row wrap" fxLayoutAlign="center center" *ngIf="publicEvents">
-  <canvas #canvas></canvas>
+<div fxLayout="row" fxLayoutAlign="start center" *ngIf="publicEvents">
+  <div fxFlex="1 1 auto" [ngStyle]="{ padding: '0 16px' }">
+    <canvas #canvas></canvas>
+  </div>
 
-  <h4 fxFlex="100" fxLayoutAlign="end">Recent Activity</h4>
+  <span fxFlex="0 1 auto" fxLayoutAlign="end"> Recent Activity </span>
 </div>

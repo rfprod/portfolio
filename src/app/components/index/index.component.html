@@ -6,9 +6,7 @@
       </div>
       <mat-card-title> {{ data.github?.login }}</mat-card-title>
       <mat-card-subtitle matTooltip="Hireability status">
-        <div *ngIf="data.github?.hireable">HIREABLE</div>
-
-        <span *ngIf="!data.github?.hireable"> NOT HIREABLE </span>
+        {{ data.github?.bio }}
       </mat-card-subtitle>
     </mat-card-header>
 
